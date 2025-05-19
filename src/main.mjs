@@ -16,13 +16,15 @@ if (/^no[- ]operation\b/.test(commandString)) {
     backfillKdanni();
 } else if (/^backfill[- ]?followed\b/.test(commandString)) {
     backfillFollowed();
-}  else if (/^backfill[- ]?actor\b/.test(commandString)) {
+} else if (/^backfill[- ]?list(ed)?\b/.test(commandString)) {
+    backfillListed();
+} else if (/^backfill[- ]?actor\b/.test(commandString)) {
     backfillActor(commandString);
 } else if (/^kdanni[- ]?bud\b/i.test(commandString)) {
     kdanniBud();
-}  else if (/^kdanni[- ]?photo\b/i.test(commandString)) {
+} else if (/^kdanni[- ]?photo\b/i.test(commandString)) {
     kdanniPhoto();
-}  else if (/^run[- ]?algos?\b/i.test(commandString)) {
+} else if (/^run[- ]?algos?\b/i.test(commandString)) {
     runAlgos();
 } else {
     main();
@@ -104,6 +106,14 @@ async function backfillFollowed() {
     await import('./backfill/backfill-followed.mjs');
     const { backfillFollowed } = await import('./backfill/backfill-followed.mjs');
     await backfillFollowed();
+
+    process.emit('exit_event');
+}
+
+async function backfillListed() {
+    await import('./backfill/backfill-listed.mjs');
+    const { backfillListed } = await import('./backfill/backfill-listed.mjs');
+    await backfillListed();
 
     process.emit('exit_event');
 }

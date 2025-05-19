@@ -5,7 +5,8 @@ import { pool } from './connection/connection.mjs';
 
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 const LIMIT = process.env.ACTOR_FEED_LIMIT || 50;
-const LOOP_LIMIT = process.env.ACTOR_FEED_LOOP_LIMIT || 10;
+const LOOP_LIMIT = process.env.ACTOR_FEED_LOOP_LIMIT || Number.MAX_SAFE_INTEGER;
+const MINUS_DAYS = process.env.MINUS_DAYS || 10;
 
 
 const DEV_ENV = process.env.ENV === 'DEV';
@@ -62,10 +63,9 @@ export async function backfillActor(backfillActor) {
 
         let loop = 0;
         let cursor = null;
-        const minus40days = new Date();
-        minus40days.setDate(minus40days.getDate() - 40);
-        let oldPosts = false;
-
+        const minusXdays = new Date();
+        minusXdays.setDate(minusXdays.getDate() - MINUS_DAYS);
+        
         while (cursor !== undefined && loop < LOOP_LIMIT) {
             loop++;
             let cursorParam = cursor ? `&cursor=${cursor}` : '';
@@ -115,9 +115,8 @@ export async function backfillActor(backfillActor) {
                     DEV_ENV && console.log('[backfillActor] Upserting item:', item?.post?.uri, item?.post?.record?.text, item?.post?.indexedAt);
                     await new Promise((resolve) => { setTimeout( resolve , 100 );});
                  
-                    if (item?.post?.indexedAt && new Date(item?.post?.indexedAt) < minus40days) {
-                        console.log(`[backfillActor] Post is older than 40 days, skipping...`);
-                        oldPosts = true;
+                    if (item?.post?.indexedAt && new Date(item?.post?.indexedAt) < minusXdays) {
+                        console.log(`[backfillActor] Post is older than ${MINUS_DAYS} days, skipping...`);
                         cursor = undefined;
                         allnew = false;
                         break;

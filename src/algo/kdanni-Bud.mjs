@@ -33,7 +33,7 @@ export async function runAlgo() {
             for (const post of posts[0][0] || []) {
                 if(/^image\//.test(`${post.has_image}`)) {
                     if (/#budapest/i.test(post.text) || /#danube/i.test(post.text)) {
-                        DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
+                        // DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
 
                         const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?)`;
                         const params = [

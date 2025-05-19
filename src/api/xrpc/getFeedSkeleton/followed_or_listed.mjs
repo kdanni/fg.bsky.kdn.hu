@@ -16,7 +16,7 @@ export const FEEDGEN_CONFIG = {
       uri: `at://${process.env.FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`,
       id: `${shortname}`,
       displayName: '@kdanni.hu - F + L',
-      description: 'Posts by users on my list. No replies.',
+      description: 'Posts by followed or users on my lists. No replies.',
       avatarFile: 'avatars/kdn.jpg',
     },
   ],

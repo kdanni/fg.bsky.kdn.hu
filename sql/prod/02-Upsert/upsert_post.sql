@@ -15,36 +15,42 @@ CREATE PROCEDURE sp_UPSERT_bsky_post (
 BEGIN
   SET @at_now = now();
 
-  INSERT INTO bsky_post (
-    url,
-    cid,
-    author_did,
-    reply_to_cid,
-    text,
-    facets,
-    embeds,
-    has_image,
-    posted_at
-  ) VALUES (
-    url,
-    cid,
-    author_did,
-    reply_to_cid,
-    text,
-    facets,
-    embeds,
-    has_image,
-    posted_at
-  )
-  ON DUPLICATE KEY UPDATE  
-    cid = cid,
-    author_did = author_did,
-    reply_to_cid = reply_to_cid,
-    text = text,
-    facets = facets,
-    embeds = embeds,
-    has_image = has_image,
-    posted_at = posted_at,
-    updated_at = @at_now;
+  IF (reply_to_cid IS NULL OR reply_to_cid = '') THEN
+    SET reply_to_cid = NULL;
+  END IF;
+  -- Replies wont be saved.
+  IF (reply_to_cid IS NULL) THEN  
+    INSERT INTO bsky_post (
+      url,
+      cid,
+      author_did,
+      reply_to_cid,
+      text,
+      facets,
+      embeds,
+      has_image,
+      posted_at
+    ) VALUES (
+      url,
+      cid,
+      author_did,
+      reply_to_cid,
+      text,
+      facets,
+      embeds,
+      has_image,
+      posted_at
+    )
+    ON DUPLICATE KEY UPDATE  
+      cid = cid,
+      author_did = author_did,
+      reply_to_cid = reply_to_cid,
+      text = text,
+      facets = facets,
+      embeds = embeds,
+      has_image = has_image,
+      posted_at = posted_at,
+      updated_at = @at_now;
+  END IF;
 
 END

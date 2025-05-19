@@ -4,27 +4,24 @@ import got from 'got';
 import { pool } from './connection/connection.mjs';
 
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
-const LIMIT = process.env.AUTHOR_FEED_LIMIT || 20;
-const LOOP_LIMIT = process.env.AUTHOR_FEED_LOOP_LIMIT || 5;
+const LIMIT = process.env.ACTOR_FEED_LIMIT || 50;
+const LOOP_LIMIT = process.env.ACTOR_FEED_LOOP_LIMIT || 10;
 
-const BACKFILL_ACTOR = process.env.BACKFILL_AUTHOR_HANDLE || process.env.FEEDGEN_PUBLISHER_DID;
 
 const DEV_ENV = process.env.ENV === 'DEV';
 
 
-export async function backfillPublisher() {
+export async function backfillActor(backfillActor) {
     try {
-        console.log(`[backfillPublisher] Fetching author feed for actor: ${BACKFILL_ACTOR}`);
+        console.log(`[backfillActor] Fetching author feed for actor: ${backfillActor}`);
 
-        let loop = 0;
-        let cursor = null;
+        if (!backfillActor || (backfillActor?.length || 0) < 4) {
+            console.error('[backfillActor] No actor provided');
+            return;
+        }
 
-        while (cursor !== undefined && loop < LOOP_LIMIT) {
-            loop++;
-            let cursorParam = cursor ? `&cursor=${cursor}` : '';
-            
-            // make an API call with kdanni.hu actor parameter to {{BSKY_PUBLIC_ROOT}}/xrpc/app.bsky.feed.getAuthorFeed
-            const url = `${BSKY_PUBLIC_API_ROOT}/xrpc/app.bsky.feed.getAuthorFeed?actor=${BACKFILL_ACTOR}&limit=${LIMIT}${cursorParam}`;
+        try {
+            const url = `${BSKY_PUBLIC_API_ROOT}/xrpc/app.bsky.actor.getProfile?actor=${backfillActor}`;
             DEV_ENV && console.log(`URL: ${url}`);
             const response = await got(url, {
                 headers: {
@@ -41,7 +38,57 @@ export async function backfillPublisher() {
                 hooks: {
                     beforeRetry: [
                         (options, error) => {
-                            console.error(`[backfillPublisher] Request failed. Retrying... ${error.message}`);
+                            console.error(`[backfillActor] Request failed. Retrying... ${error.message}`);
+                        },
+                    ],
+                },
+            });
+            if (response && response.did) {
+                console.log(`[backfillActor] Actor found: ${response.did}, handle: ${response.handle}`);
+                const sql = `call ${'sp_UPSERT_bsky_author'}(?, ?, ?, ?, ?)`;
+                const params = [
+                    response.did || null,
+                    response.handle || null,
+                    response.displayName || response.handle || null,
+                    response.avatar || null,
+                    JSON.stringify({}),
+                ];
+                pool.execute(sql, params);
+            }
+        } catch (error) {
+            console.error('[backfillActor] Error:', error);
+            return;
+        }
+
+        let loop = 0;
+        let cursor = null;
+        const minus40days = new Date();
+        minus40days.setDate(minus40days.getDate() - 40);
+        let oldPosts = false;
+
+        while (cursor !== undefined && loop < LOOP_LIMIT) {
+            loop++;
+            let cursorParam = cursor ? `&cursor=${cursor}` : '';
+            
+            // make an API call with kdanni.hu actor parameter to {{BSKY_PUBLIC_ROOT}}/xrpc/app.bsky.feed.getAuthorFeed
+            const url = `${BSKY_PUBLIC_API_ROOT}/xrpc/app.bsky.feed.getAuthorFeed?actor=${backfillActor}&limit=${LIMIT}${cursorParam}`;
+            DEV_ENV && console.log(`URL: ${url}`);
+            const response = await got(url, {
+                headers: {
+                    'Accept': 'application/json',
+                },
+                responseType: 'json',
+                resolveBodyOnly: true,
+                retry: {
+                    limit: 1,
+                },
+                timeout: {
+                    request: 10000,
+                },
+                hooks: {
+                    beforeRetry: [
+                        (options, error) => {
+                            console.error(`[backfillActor] Request failed. Retrying... ${error.message}`);
                         },
                     ],
                 },
@@ -49,7 +96,7 @@ export async function backfillPublisher() {
             // console.log('[getAuthorFeed] Response:', response);
             let allnew = true;
             if (response && response.feed) {
-                DEV_ENV && console.log('[backfillPublisher] Cursor:', response.cursor);
+                DEV_ENV && console.log('[backfillActor] Cursor:', response.cursor);
                 cursor = response.cursor;
                 // console.log('[getAuthorFeed] Author feed data:', response.feed);
                 // Process the feed data as needed
@@ -63,15 +110,23 @@ export async function backfillPublisher() {
                     if (itemExists[0] && itemExists[0][0]) {
                         allnew = false;
                     }
-                    
-                    // console.dir(item, {depth: null});
-                    DEV_ENV && console.log('[backfillPublisher] Upserting item:', item?.post?.uri, item?.post?.record?.text, item?.post?.indexedAt);
+
+                    // DEV_ENV && console.dir(item, {depth: null});
+                    DEV_ENV && console.log('[backfillActor] Upserting item:', item?.post?.uri, item?.post?.record?.text, item?.post?.indexedAt);
                     await new Promise((resolve) => { setTimeout( resolve , 100 );});
                  
+                    if (item?.post?.indexedAt && new Date(item?.post?.indexedAt) < minus40days) {
+                        console.log(`[backfillActor] Post is older than 40 days, skipping...`);
+                        oldPosts = true;
+                        cursor = undefined;
+                        allnew = false;
+                        break;
+                    }
+
                     let has_image = getMimeStringOrNull(item?.post?.record?.embed);
 
-                    let replyParent = item?.post?.record.reply?.parent.uri || null;
-                    let replyRoot = item?.post?.record.reply?.root.uri || null;
+                    let replyParent = item?.post?.record?.reply?.parent?.uri || null;
+                    let replyRoot = item?.post?.record?.reply?.root?.uri || null;
                     
                     /**
                      * SP dont save replies. (reply if: replyParent or replyRoot is not null)
@@ -99,7 +154,7 @@ export async function backfillPublisher() {
                     pool.execute(sql, params);
                 }
             } else {
-                console.error('[backfillPublisher] No data found in response');
+                console.error('[backfillActor] No data found in response');
             }
             if (allnew === false) {
                 cursor = undefined;
@@ -108,8 +163,8 @@ export async function backfillPublisher() {
 
         } // End of while loop
 
-        console.log(`[backfillPublisher] Finished backfilling.`);
+        console.log(`[backfillActor] Finished backfilling.`);
     } catch (error) {
-        console.error('[backfillPublisher] Error:', error);
+        console.error('[backfillActor] Error:', error);
     }
 }

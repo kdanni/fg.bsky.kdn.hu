@@ -50,7 +50,7 @@ export async function runAlgo() {
 
         console.log(`[${shortname}] Finished algo`);
     } catch (error) {
-        console.error('Error in runAlgo:', error);
-    }    
+        console.error(`[${shortname}] `, 'Error in runAlgo:', error);
+    }
 }
 

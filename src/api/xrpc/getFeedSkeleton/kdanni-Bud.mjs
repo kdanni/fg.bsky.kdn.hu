@@ -15,7 +15,7 @@ async function handleRequest (req, res, next) {
   if(!feed) {
     return next();
   }
-  let regex = new RegExp(`^at://${FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`, 'i');
+  let regex = new RegExp(`^at://${FEEDGEN_PUBLISHER_DID}/app\.bsky\.feed\.generator/${shortname}$`, 'i');
 
   if(!regex.test(feed)) {
     return next();

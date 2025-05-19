@@ -20,6 +20,7 @@ const DEV_ENV = process.env.ENV === 'DEV';
     
 
 export async function runAlgo() {    
+    console.log(`[${shortname}] Running algo...`);
     try {
         const posts = await pool.query(
             `call ${'sp_SELECT_recent_posts'}(?)`,
@@ -32,7 +33,7 @@ export async function runAlgo() {
             for (const post of posts[0][0] || []) {
                 if(/^image\//.test(`${post.has_image}`)) {
                     if (/#budapest/i.test(post.text) || /#danube/i.test(post.text)) {
-                        console.log(`[${shortname}]`,'Filtered Post:', post);
+                        DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
 
                         const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?)`;
                         const params = [
@@ -47,6 +48,7 @@ export async function runAlgo() {
             }
         }
 
+        console.log(`[${shortname}] Finished algo`);
     } catch (error) {
         console.error('Error in runAlgo:', error);
     }    

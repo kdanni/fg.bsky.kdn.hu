@@ -1,3 +1,7 @@
+fg.bsky.kdn.hu.service
+backfill.fg.bsky.service
+server.fg.bsky.service
+
 # Logs
 logs
 *.log

@@ -8,10 +8,12 @@ const LOOP_LIMIT = process.env.AUTHOR_FEED_LOOP_LIMIT || 5;
 
 const BACKFILL_ACTOR = process.env.BACKFILL_AUTHOR_HANDLE || process.env.FEEDGEN_PUBLISHER_DID;
 
+const DEV_ENV = process.env.ENV === 'DEV';
+
 
 export async function backfillPublisher() {
     try {
-        console.log(`[getAuthorFeed] Fetching author feed for actor: ${BACKFILL_ACTOR}`);
+        console.log(`[backfillPublisher] Fetching author feed for actor: ${BACKFILL_ACTOR}`);
 
         let loop = 0;
         let cursor = null;
@@ -22,7 +24,7 @@ export async function backfillPublisher() {
             
             // make an API call with kdanni.hu actor parameter to {{BSKY_PUBLIC_ROOT}}/xrpc/app.bsky.feed.getAuthorFeed
             const url = `${BSKY_PUBLIC_API_ROOT}/xrpc/app.bsky.feed.getAuthorFeed?actor=${BACKFILL_ACTOR}&limit=${LIMIT}${cursorParam}`;
-            console.log(`URL: ${url}`);
+            DEV_ENV && console.log(`URL: ${url}`);
             const response = await got(url, {
                 headers: {
                     'Accept': 'application/json',
@@ -38,7 +40,7 @@ export async function backfillPublisher() {
                 hooks: {
                     beforeRetry: [
                         (options, error) => {
-                            console.error(`[getAuthorFeed] Request failed. Retrying... ${error.message}`);
+                            console.error(`[backfillPublisher] Request failed. Retrying... ${error.message}`);
                         },
                     ],
                 },
@@ -46,7 +48,7 @@ export async function backfillPublisher() {
             // console.log('[getAuthorFeed] Response:', response);
             let allnew = true;
             if (response && response.feed) {
-                console.log('[getAuthorFeed] Cursor:', response.cursor);
+                DEV_ENV && console.log('[backfillPublisher] Cursor:', response.cursor);
                 cursor = response.cursor;
                 // console.log('[getAuthorFeed] Author feed data:', response.feed);
                 // Process the feed data as needed
@@ -62,7 +64,7 @@ export async function backfillPublisher() {
                     }
                     
                     // console.dir(item, {depth: null});
-                    console.log('[getAuthorFeed] Upserting item:', item?.post?.uri, item?.post?.record?.text, item?.post?.indexedAt);
+                    DEV_ENV && console.log('[backfillPublisher] Upserting item:', item?.post?.uri, item?.post?.record?.text, item?.post?.indexedAt);
                     await new Promise((resolve) => { setTimeout( resolve , 100 );});
                  
                     let has_image = getMimeStringOrNull(item?.post?.record?.embed);
@@ -90,7 +92,7 @@ export async function backfillPublisher() {
                     pool.execute(sql, params);
                 }
             } else {
-                console.error('[getAuthorFeed] No data found in response');
+                console.error('[backfillPublisher] No data found in response');
             }
             if (allnew === false) {
                 cursor = undefined;
@@ -98,6 +100,8 @@ export async function backfillPublisher() {
             await new Promise((resolve) => { setTimeout( resolve , 1000 );});
 
         } // End of while loop
+
+        console.log(`[backfillPublisher] Finished backfilling.`);
     } catch (error) {
         console.error('[backfillPublisher] Error:', error);
     }

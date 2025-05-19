@@ -12,8 +12,10 @@ if (/^no[- ]operation\b/.test(commandString)) {
     process.exit(0);
 } else if (/^db[- ]?install\b/.test(commandString)) {
     dbinstall();
-} else if (/^backfill\b/.test(commandString)) {
+} else if (/^backfill$/.test(commandString)) {
     backfill();
+} else if (/^backfill[- ]?kdanni\b/.test(commandString)) {
+    backfillKdanni();
 } else if (/^kdanni[- ]?bud\b/i.test(commandString)) {
     kdanniBud();
 }  else if (/^kdanni[- ]?photo\b/i.test(commandString)) {
@@ -24,6 +26,13 @@ if (/^no[- ]operation\b/.test(commandString)) {
     main();
 }
 
+async function backfill() {
+    await import('./log/event-logger.mjs');
+    const emitter = (await import('./event-emitter.mjs')).default;
+    emitter.on('main', () => {/* NOP */ });
+
+    await import('./main/backfill.mjs');
+}
 
 async function runAlgos() {
     
@@ -55,7 +64,7 @@ async function kdanniBud() {
     process.emit('exit_event');
 }
 
-async function backfill() {
+async function backfillKdanni() {
     await import('./backfill/backfill-publisher.mjs');
     const { backfillPublisher } = await import('./backfill/backfill-publisher.mjs');
     await backfillPublisher();

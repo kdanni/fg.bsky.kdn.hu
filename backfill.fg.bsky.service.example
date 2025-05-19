@@ -1,0 +1,17 @@
+[Unit]
+Description=Blue Sky Custom Feed Generator data collecting. Backfill DB, no FirehoseSubscription, restart after every 300 sec.
+After=network.target
+
+[Service]
+Type=simple
+User=bsky
+Environment="NODE_OPTIONS=--max-old-space-size=1024"
+WorkingDirectory=/opt/fg.bsky.kdn.hu.service
+ExecStart=/usr/bin/npm start backfill
+Restart=on-failure
+Restart=always
+RestartSec=300
+RuntimeMaxSec=600
+
+[Install]
+WantedBy=multi-user.target

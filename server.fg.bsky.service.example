@@ -1,0 +1,14 @@
+[Unit]
+Description=Blue Sky Custom Feed Generator service.
+After=network.target
+
+[Service]
+Type=simple
+User=bsky
+Environment="NODE_OPTIONS=--max-old-space-size=1024"
+WorkingDirectory=/opt/fg.bsky.kdn.hu.service
+ExecStart=/usr/bin/npm start
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

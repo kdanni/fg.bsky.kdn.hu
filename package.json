@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node index.js",
     "dbinstall": "node index.js dbinstall",
+    "backfill": "node index.js backfill",
     "dev": "nodemon index.js",
     "test": "node --test --test-reporter=spec test/**/*.test.js"
   },

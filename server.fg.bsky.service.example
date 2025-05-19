@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 User=bsky
 Environment="NODE_OPTIONS=--max-old-space-size=1024"
-WorkingDirectory=/opt/fg.bsky.kdn.hu.service
+WorkingDirectory=/opt/fg.bsky.kdn.hu
 ExecStart=/usr/bin/npm start
 Restart=on-failure
 

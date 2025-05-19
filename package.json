@@ -1,0 +1,33 @@
+{
+  "name": "@kdanni/fg.bsky.kdn.hu",
+  "version": "1.0.0",
+  "description": "Green field BlueSky feed generator. (The exemple app killed my server.)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dbinstall": "node index.js dbinstall",
+    "dev": "nodemon index.js",
+    "test": "node --test --test-reporter=spec test/**/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/kdanni/fg.bsky.kdn.hu.git"
+  },
+  "keywords": [
+    "BlueSky",
+    "FeedGenerator"
+  ],
+  "author": "kdanni",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kdanni/fg.bsky.kdn.hu/issues"
+  },
+  "homepage": "https://kdanni.hu",
+  "dependencies": {
+    "dotenv": "16.5.0",
+    "express": "5.1.0",
+    "got": "14.4.7",
+    "mysql2": "3.14.1"
+  }
+}

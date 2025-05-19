@@ -1,0 +1,54 @@
+import { pool } from './connection/connection.mjs';
+
+export const shortname = 'kdanni.hu-Photo';
+
+export const FEEDGEN_CONFIG = {
+  publisherDid: `${process.env.FEEDGEN_PUBLISHER_DID}`,
+  feeds: [
+    {
+      uri: `at://${process.env.FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`,
+      id: `${shortname}`,
+      displayName: '@kdanni.hu - #Photo',
+      description: 'My posts with #phototgraphy hashtags, no #photo but #photography was to long for displayname.',
+      avatarFile: 'avatars/camera.jpg',
+    },
+  ],
+}
+
+const TARGET_AUTHOR_DID = process.env.KDANNI_DID || process.env.FEEDGEN_PUBLISHER_DID;
+const DEV_ENV = process.env.ENV === 'DEV';
+    
+
+export async function runAlgo() {    
+    try {
+        const posts = await pool.query(
+            `call ${'sp_SELECT_recent_posts'}(?)`,
+            [TARGET_AUTHOR_DID]
+        );
+
+        // console.log('Posts:', posts[0][0]);
+
+        if(posts[0] && posts[0][0]) {
+            for (const post of posts[0][0] || []) {
+                if(/^image\//.test(`${post.has_image}`)) {
+                    if (/#photography/i.test(post.text)) {
+                        console.log(`[${shortname}]`,'Filtered Post:', post);
+
+                        const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?)`;
+                        const params = [
+                            `${shortname}`,
+                            post.url,
+                            post.posted_at
+                        ];
+                        await pool.query(sql, params);
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+                }
+            }
+        }
+
+    } catch (error) {
+        console.error('Error in runAlgo:', error);
+    }    
+}
+

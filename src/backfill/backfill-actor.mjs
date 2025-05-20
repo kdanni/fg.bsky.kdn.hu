@@ -105,8 +105,7 @@ export async function backfillActor(backfillActor) {
 
                     DEBUG && console.dir(item, {depth: null});
                     DEV_ENV && console.log('[backfillActor] Upserting item:', item?.post?.uri, item?.post?.record?.text, item?.post?.indexedAt);
-                    await new Promise((resolve) => { setTimeout( resolve , 100 );});
-
+                    
                     let authorDid = item?.post?.author?.did || null;
                     let authorHandle = item?.post?.author?.handle || null;
                     if(backfillActor !== authorDid && backfillActor !== authorHandle) {
@@ -122,7 +121,7 @@ export async function backfillActor(backfillActor) {
                         cursor = undefined;
                         break;
                     }
-
+                    
                     let has_image = getMimeStringOrNull(item?.post?.record?.embed);
 
                     let replyParent = item?.post?.record?.reply?.parent?.uri || null;
@@ -152,6 +151,7 @@ export async function backfillActor(backfillActor) {
                         item?.post?.indexedAt||null,
                     ];
                     pool.execute(sql, params);
+                    await new Promise((resolve) => { setTimeout( resolve , 100 );});
                 }
             } else {
                 console.error('[backfillActor] No data found in response');

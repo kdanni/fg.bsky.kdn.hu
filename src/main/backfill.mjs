@@ -1,6 +1,7 @@
 import { backfillPublisher as backfillFeedPublishersPosts } from '../backfill/backfill-publisher.mjs';
 import { backfillFollowed } from '../backfill/backfill-followed.mjs';
 import { backfillListed } from '../backfill/backfill-listed.mjs';
+import { backfillSearchRunner } from '../backfill/backfill-search.mjs'
 
 
 import { runAlgo as kdBud } from '../algo/kdanni-Bud.mjs';
@@ -16,6 +17,7 @@ async function main() {
         await backfillFeedPublishersPosts();
         await backfillFollowed();
         await backfillListed();
+        await backfillSearchRunner();
 
         console.log('[backfill-main] Backfilling feed_publishers_posts done');
     } catch (e) {

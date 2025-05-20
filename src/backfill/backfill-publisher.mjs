@@ -66,8 +66,7 @@ export async function backfillPublisher() {
                     
                     // console.dir(item, {depth: null});
                     DEV_ENV && console.log('[backfillPublisher] Upserting item:', item?.post?.uri, item?.post?.record?.text, item?.post?.indexedAt);
-                    await new Promise((resolve) => { setTimeout( resolve , 100 );});
-                 
+                    
                     let has_image = getMimeStringOrNull(item?.post?.record?.embed);
 
                     let replyParent = item?.post?.record.reply?.parent.uri || null;
@@ -97,6 +96,7 @@ export async function backfillPublisher() {
                         item?.post?.indexedAt||null,
                     ];
                     pool.execute(sql, params);
+                    await new Promise((resolve) => { setTimeout( resolve , 100 );});
                 }
             } else {
                 console.error('[backfillPublisher] No data found in response');

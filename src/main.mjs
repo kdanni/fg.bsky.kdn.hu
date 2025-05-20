@@ -20,6 +20,10 @@ if (/^no[- ]operation\b/.test(commandString)) {
     backfillListed();
 } else if (/^backfill[- ]?actor\b/.test(commandString)) {
     backfillActor(commandString);
+} else if (/^backfill[- ]?search$/.test(commandString)) {
+    backfillSearchRunner();
+} else if (/^backfill[- ]?search\b/.test(commandString)) {
+    backfillSearch(commandString);
 } else if (/^kdanni[- ]?bud\b/i.test(commandString)) {
     kdanniBud();
 } else if (/^kdanni[- ]?photo\b/i.test(commandString)) {
@@ -87,20 +91,43 @@ async function backfillActor(commandString) {
     await import('./backfill/backfill-actor.mjs');
     const { backfillActor } = await import('./backfill/backfill-actor.mjs');
 
-    const match = /^backfill[- ]?actor\b (\S+)/.exec(commandString) || [commandString, null];
+    const match = /^backfill[- ]?actor\b +(\S+)/.exec(commandString) || [commandString, null];
 
     if(match[1] === null) {
         process.emit('exit_event');
     }
     const actor = `${match[1]}`.trim();
-
+    
     await backfillActor(actor);
+    
+    process.emit('exit_event');
+}
+
+async function backfillSearch(commandString) {
+    await import('./backfill/backfill-search.mjs');
+    const { backfillSearch } = await import('./backfill/backfill-search.mjs');
+    
+    const match = /^backfill[- ]?search\b +(.+)/.exec(commandString) || [commandString, null];
+    
+    console.log(`backfillSearch(commandString): ${commandString}`, match);
+    if(match[1] === null) {
+        process.emit('exit_event');
+    }
+    const queryString = `${match[1]}`.trim();
+
+    await backfillSearch(queryString);
 
     process.emit('exit_event');
 }
 
+async function backfillSearchRunner() {
+    await import('./backfill/backfill-search.mjs');
+    const { backfillSearchRunner } = await import('./backfill/backfill-search.mjs');
+    
+    await backfillSearchRunner();
 
-
+    process.emit('exit_event');
+}
 
 async function backfillFollowed() {
     await import('./backfill/backfill-followed.mjs');

@@ -4,9 +4,9 @@ import got from 'got';
 import { pool } from './connection/connection.mjs';
 
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
-const LIMIT = process.env.ACTOR_FEED_LIMIT || 50;
-const LOOP_LIMIT = process.env.ACTOR_FEED_LOOP_LIMIT || Number.MAX_SAFE_INTEGER;
-const MINUS_DAYS = process.env.MINUS_DAYS || 10;
+const LIMIT = process.env.ACTOR_AUTHOR_FEED_LIMIT || 50;
+const LOOP_LIMIT = process.env.ACTOR_AUTHOR_FEED_LOOP_LIMIT || Number.MAX_SAFE_INTEGER;
+const MINUS_DAYS = process.env.BACKFILL_MINUS_DAYS || 10;
 
 
 const DEV_ENV = process.env.ENV === 'DEV';
@@ -22,7 +22,7 @@ export async function backfillActor(backfillActor) {
         }
 
         try {
-            const url = `${BSKY_PUBLIC_API_ROOT}/xrpc/app.bsky.actor.getProfile?actor=${backfillActor}`;
+            const url = `${BSKY_PUBLIC_API_ROOT}/xrpc/app.bsky.actor.getProfile?actor=${backfillActor}&limit=${LIMIT}`;
             DEV_ENV && console.log(`URL: ${url}`);
             const response = await got(url, {
                 headers: {
@@ -94,7 +94,6 @@ export async function backfillActor(backfillActor) {
                 },
             });
             // console.log('[getAuthorFeed] Response:', response);
-            let allnew = true;
             if (response && response.feed) {
                 DEV_ENV && console.log('[backfillActor] Cursor:', response.cursor);
                 cursor = response.cursor;
@@ -103,13 +102,6 @@ export async function backfillActor(backfillActor) {
                 // Loop in the feed array then emit an event for each item
                 for (const item of (response.feed || []).reverse()) {
                     // console.log('[getAuthorFeed] Item:', item);
-
-                    const itemExists = await pool.query(
-                        'SELECT cid FROM bsky_post WHERE cid = ? ', [item?.post?.cid||null]);
-                    // console.log('[getAuthorFeed] Item exists in the database:', itemExists);
-                    if (itemExists[0] && itemExists[0][0]) {
-                        allnew = false;
-                    }
 
                     DEBUG && console.dir(item, {depth: null});
                     DEV_ENV && console.log('[backfillActor] Upserting item:', item?.post?.uri, item?.post?.record?.text, item?.post?.indexedAt);
@@ -122,11 +114,12 @@ export async function backfillActor(backfillActor) {
                         // repost will be skipped
                         continue;
                     }
+
+                    // console.dir(item, {depth: null});
                  
                     if (item?.post?.indexedAt && new Date(item?.post?.indexedAt) < minusXdays) {
                         console.log(`[backfillActor] Post is older than ${MINUS_DAYS} days, skipping...`);
                         cursor = undefined;
-                        allnew = false;
                         break;
                     }
 
@@ -162,9 +155,6 @@ export async function backfillActor(backfillActor) {
                 }
             } else {
                 console.error('[backfillActor] No data found in response');
-            }
-            if (allnew === false) {
-                cursor = undefined;
             }
             await new Promise((resolve) => { setTimeout( resolve , 1000 );});
 

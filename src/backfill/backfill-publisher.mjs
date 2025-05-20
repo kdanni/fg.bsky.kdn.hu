@@ -4,8 +4,8 @@ import got from 'got';
 import { pool } from './connection/connection.mjs';
 
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
-const LIMIT = process.env.AUTHOR_FEED_LIMIT || 50;
-const LOOP_LIMIT = process.env.AUTHOR_FEED_LOOP_LIMIT || Number.MAX_SAFE_INTEGER;
+const LIMIT = process.env.PUBLISHER_AUTHOR_FEED_LIMIT || 50;
+const LOOP_LIMIT = process.env.PUBLISHER_AUTHOR_FEED_LOOP_LIMIT || Number.MAX_SAFE_INTEGER;
 
 const BACKFILL_ACTOR = process.env.BACKFILL_AUTHOR_HANDLE || process.env.FEEDGEN_PUBLISHER_DID;
 

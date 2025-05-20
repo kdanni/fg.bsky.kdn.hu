@@ -10,7 +10,7 @@ const MINUS_DAYS = process.env.MINUS_DAYS || 10;
 
 
 const DEV_ENV = process.env.ENV === 'DEV';
-
+const DEBUG = process.env.DEBUG === 'true' || false;
 
 export async function backfillActor(backfillActor) {
     try {
@@ -111,9 +111,17 @@ export async function backfillActor(backfillActor) {
                         allnew = false;
                     }
 
-                    // DEV_ENV && console.dir(item, {depth: null});
+                    DEBUG && console.dir(item, {depth: null});
                     DEV_ENV && console.log('[backfillActor] Upserting item:', item?.post?.uri, item?.post?.record?.text, item?.post?.indexedAt);
                     await new Promise((resolve) => { setTimeout( resolve , 100 );});
+
+                    let authorDid = item?.post?.author?.did || null;
+                    let authorHandle = item?.post?.author?.handle || null;
+                    if(backfillActor !== authorDid && backfillActor !== authorHandle) {
+                        DEBUG && console.log(`[backfillActor] Skipping item, author did: ${authorDid}, handle: ${authorHandle}`);
+                        // repost will be skipped
+                        continue;
+                    }
                  
                     if (item?.post?.indexedAt && new Date(item?.post?.indexedAt) < minusXdays) {
                         console.log(`[backfillActor] Post is older than ${MINUS_DAYS} days, skipping...`);

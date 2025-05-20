@@ -8,6 +8,14 @@ CREATE TABLE IF NOT EXISTS listed_post (
   posted_at datetime DEFAULT CURRENT_TIMESTAMP,
   created_at datetime DEFAULT CURRENT_TIMESTAMP,
   updated_at datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (url)
+  PRIMARY KEY (url),
+  INDEX (list_name, posted_at),
+  INDEX (posted_at),
+  INDEX (list_name)
 )
 CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci;
+
+
+-- ALTER TABLE listed_post ADD INDEX (list_name, posted_at);
+-- ALTER TABLE listed_post ADD INDEX (posted_at);
+-- ALTER TABLE listed_post ADD INDEX (list_name);

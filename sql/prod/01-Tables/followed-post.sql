@@ -7,6 +7,14 @@ CREATE TABLE IF NOT EXISTS followed_post (
   posted_at datetime DEFAULT CURRENT_TIMESTAMP,
   created_at datetime DEFAULT CURRENT_TIMESTAMP,
   updated_at datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (url)
+  PRIMARY KEY (url),
+  INDEX (has_image, posted_at),
+  INDEX (posted_at),
+  INDEX (has_image)
 )
 CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci;
+
+
+-- ALTER TABLE followed_post ADD INDEX (has_image, posted_at);
+-- ALTER TABLE followed_post ADD INDEX (posted_at);
+-- ALTER TABLE followed_post ADD INDEX (has_image);

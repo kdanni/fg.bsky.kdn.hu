@@ -34,11 +34,14 @@ if (/^no[- ]operation\b/.test(commandString)) {
     kdanniPhoto();
 } else if (/^hashtag[- ]?bud\b/i.test(commandString)) {
     hashtagBud();
+} else if (/^list[- ]?Feed[- ]?Generators?\b/i.test(commandString)) {
+    listFeedGenerators();
 } else if (/^run[- ]?algos?\b/i.test(commandString)) {
     runAlgos();
 } else {
     main();
 }
+
 
 /** Main logic */
 
@@ -212,6 +215,16 @@ async function hashtagBud() {
     await import('./algo/budapest-hashtag.mjs');
     const { runAlgo } = await import('./algo/budapest-hashtag.mjs');
     await runAlgo();
+
+    process.emit('exit_event');
+}
+
+
+async function listFeedGenerators(){
+    await import('./bsky-social/repo.listRecords.mjs');
+    const { listFeedGenerator } = await import('./bsky-social/repo.listRecords.mjs');
+
+    await listFeedGenerator();
 
     process.emit('exit_event');
 }

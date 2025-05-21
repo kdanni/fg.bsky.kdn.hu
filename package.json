@@ -8,6 +8,8 @@
     "start": "node index.js",
     "dbinstall": "node index.js dbinstall",
     "backfill": "node index.js backfill",
+    "publish": "node index.js publish",
+    "unpublish": "node index.js unpublish",
     "dev": "nodemon index.js",
     "test": "node --test --test-reporter=spec test/**/*.test.js"
   },

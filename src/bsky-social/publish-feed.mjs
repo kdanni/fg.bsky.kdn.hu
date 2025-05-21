@@ -4,6 +4,8 @@ import fs from 'fs/promises'
 
 import { AtpAgent, AppBskyFeedDefs } from '@atproto/api'
 
+import { listFeedGenerator } from './repo.listRecords.mjs';
+
 // const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 const BSKY_SOCIAL_ROOT = process.env.BSKY_SOCIAL_ROOT || 'https://bsky.social';
 
@@ -25,12 +27,12 @@ export async function publisFeed(feedGenConfig){
         const password = feedGenConfig.bskyAppPassword || REGISTRATION_APP_PASSWORD;
         
         const service = feedGenConfig.bskyService || BSKY_SOCIAL_ROOT;
+        const publisherDid = feedGenConfig.publisherDid || FEEDGEN_PUBLISHER_DID;
 
         const agent = new AtpAgent({ service });
-        await agent.login({ identifier: handle, password})
+        await agent.login({ identifier: handle, password});
 
-
-        const publisherDid = feedGenConfig.publisherDid || FEEDGEN_PUBLISHER_DID;
+        const feedsInRepo = await listFeedGenerator(agent) || [];
 
         for(const feed of feedGenConfig.feeds || []) {
             const feedGenDid = `did:web:${FEEDGEN_HOSTNAME}`;
@@ -44,6 +46,18 @@ export async function publisFeed(feedGenConfig){
             console.log('[PublishFeed] displayName', displayName);
             console.log('[PublishFeed] description', description);
             console.log('[PublishFeed] avatarFile', avatarFile);
+
+            let skip = false;
+            for(const fir of feedsInRepo || []) {
+                if(`${fir}`.endsWith(recordName)) {
+                    skip = true;
+                    break;
+                }
+            }
+            if(skip){
+                console.log('[PublishFeed] !! already published, skipping.');                    
+                continue;
+            }
 
             const avatarRef = await uploadAvatar(agent, avatarFile);
 

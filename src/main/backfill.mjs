@@ -6,6 +6,7 @@ import { backfillSearchRunner } from '../backfill/backfill-search.mjs'
 
 import { runAlgo as kdBud } from '../algo/kdanni-Bud.mjs';
 import { runAlgo as kdPhoto } from '../algo/kdanni-Photo.mjs';
+import { runAlgo as budTag } from '../algo/budapest-hashtag.mjs';
 
 async function main() {
 
@@ -31,7 +32,8 @@ async function main() {
     console.log('[backfill-main] Running algos');
     await Promise.all([
         kdBud(),
-        kdPhoto()
+        kdPhoto(),
+        budTag()
     ]).catch((e) => {
         console.error('[backfill-main] Algo Error', e);
     });

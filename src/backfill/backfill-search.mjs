@@ -12,8 +12,8 @@ export const BACKFILL_SEARCH_QUERIES = [
 // const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 const BSKY_SOCIAL_ROOT = process.env.BSKY_SOCIAL_ROOT || 'https://bsky.social';
 const LIMIT = process.env.SEARCH_POSTS_LIMIT || 50;
-const LOOP_LIMIT = process.env.SEARCH_POSTS_LOOP_LIMIT || 3;
-const MINUS_DAYS = process.env.SEARCH_BACKFILL_MINUS_DAYS || 3;
+const LOOP_LIMIT = process.env.SEARCH_POSTS_LOOP_LIMIT || Number.MAX_SAFE_INTEGER;
+const MINUS_DAYS = process.env.SEARCH_BACKFILL_MINUS_DAYS || 365;
 
 
 const DEV_ENV = process.env.ENV === 'DEV';

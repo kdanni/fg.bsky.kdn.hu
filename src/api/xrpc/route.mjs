@@ -10,6 +10,8 @@ import kdanniPhoto from './getFeedSkeleton/kdanni-Photo.mjs';
 import kdanniFollowed from './getFeedSkeleton/followed.mjs';
 import kdanniListed from './getFeedSkeleton/listed.mjs';
 import kdanniFollowedOrListed from './getFeedSkeleton/followed_or_listed.mjs';
+import budapestHashtag from './getFeedSkeleton/budapest-hashtag.mjs';
+import magyaroHashtag from './getFeedSkeleton/magyaro-hashtag.mjs';
 
 const getFeedSkeletonChain = [
     mw000,
@@ -18,6 +20,8 @@ const getFeedSkeletonChain = [
     kdanniFollowed,
     kdanniListed,
     kdanniFollowedOrListed,
+    budapestHashtag,
+    magyaroHashtag,
     zzz
 ];
 

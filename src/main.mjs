@@ -28,6 +28,8 @@ if (/^no[- ]operation\b/.test(commandString)) {
     kdanniBud();
 } else if (/^kdanni[- ]?photo\b/i.test(commandString)) {
     kdanniPhoto();
+} else if (/^hashtag[- ]?bud\b/i.test(commandString)) {
+    hashtagBud();
 } else if (/^run[- ]?algos?\b/i.test(commandString)) {
     runAlgos();
 } else {
@@ -83,6 +85,14 @@ async function runAlgos() {
     await import('./algo/kdanni-Photo.mjs');
     let {runAlgo:photo}  = await import('./algo/kdanni-Photo.mjs');
     await photo();
+
+    await import('./algo/budapest-hashtag.mjs');
+    let { runAlgo:budTag } = await import('./algo/budapest-hashtag.mjs');
+    await budTag();
+
+    await import('./algo/magyarorszag-hashtag.mjs');
+    let { runAlgo:hunTag } = await import('./algo/magyarorszag-hashtag.mjs');
+    await hunTag();
 
     process.emit('exit_event');
 }
@@ -167,6 +177,14 @@ async function kdanniPhoto() {
 async function kdanniBud() {
     await import('./algo/kdanni-Bud.mjs');
     const { runAlgo } = await import('./algo/kdanni-Bud.mjs');
+    await runAlgo();
+
+    process.emit('exit_event');
+}
+
+async function hashtagBud() {
+    await import('./algo/budapest-hashtag.mjs');
+    const { runAlgo } = await import('./algo/budapest-hashtag.mjs');
     await runAlgo();
 
     process.emit('exit_event');

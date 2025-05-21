@@ -26,6 +26,7 @@
   },
   "homepage": "https://kdanni.hu",
   "dependencies": {
+    "@atproto/api": "0.15.8",
     "dotenv": "16.5.0",
     "express": "5.1.0",
     "got": "14.4.7",

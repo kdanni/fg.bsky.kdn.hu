@@ -12,6 +12,10 @@ if (/^no[- ]operation\b/.test(commandString)) {
     dbinstall();
 } else if (/^backfill$/.test(commandString)) {
     backfill();
+} else if (/^publish\b/.test(commandString)) {
+    publish(commandString);
+} else if (/^unpublish\b/.test(commandString)) {
+    unpublish(commandString);
 } else if (/^backfill[- ]?kdanni\b/.test(commandString)) {
     backfillKdanni();
 } else if (/^backfill[- ]?followed\b/.test(commandString)) {
@@ -65,6 +69,28 @@ async function backfill() {
      * After run the app will terminates.
      */
     await import('./main/backfill.mjs');
+}
+
+async function publish(commandString) {
+    await import('./log/event-logger.mjs');
+    const emitter = (await import('./event-emitter.mjs')).default;
+    emitter.on('main', () => {/* NOP */ });
+
+    await import('./main/publish.mjs');
+    const { publish } = await import('./main/publish.mjs');
+    
+    await publish(commandString);
+}
+
+async function unpublish(commandString) {
+    await import('./log/event-logger.mjs');
+    const emitter = (await import('./event-emitter.mjs')).default;
+    emitter.on('main', () => {/* NOP */ });
+
+    await import('./main/publish.mjs');
+    const { unpublish } = await import('./main/publish.mjs');
+
+    await unpublish(commandString);
 }
 
 /** Installer */

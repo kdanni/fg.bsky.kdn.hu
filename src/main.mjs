@@ -235,7 +235,13 @@ async function displayPosts() {
     await import('./post-process/display-posts-stored.mjs');
     const { displayPostsInDb } = await import('./post-process/display-posts-stored.mjs');
 
-    await displayPostsInDb();
+    const match = /(\d+)$/.exec(commandString) || ['', (365 * 20)]
+    const minusDays = Number.parseInt(match[1]);
+    const cursor = new Date();
+    cursor.setDate(cursor.getDate() - minusDays);
+    // console.log(match, minusDays, cursor);
+
+    await displayPostsInDb(cursor);
 
     process.emit('exit_event');
 }

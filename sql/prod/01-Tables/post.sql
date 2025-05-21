@@ -14,7 +14,9 @@ CREATE TABLE IF NOT EXISTS bsky_post (
   posted_at datetime DEFAULT CURRENT_TIMESTAMP,
   created_at datetime DEFAULT CURRENT_TIMESTAMP,
   updated_at datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (url)
+  PRIMARY KEY (url),
+  INDEX (posted_at),
+  INDEX (updated_at)
 )
 CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci;
 
@@ -22,3 +24,6 @@ CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci;
 -- INSERT INTO bsky_post ( url, cid, author_did, reply_to_cid, text, facets, embeds, has_image, posted_at, created_at, updated_at )
 --   SELECT url, cid, author_did, reply_to_cid, text, facets, embeds, has_image, posted_at, created_at, updated_at
 --   FROM bsky_post_old;
+
+-- ALTER TABLE bsky_post ADD INDEX (posted_at);
+-- ALTER TABLE bsky_post ADD INDEX (updated_at);

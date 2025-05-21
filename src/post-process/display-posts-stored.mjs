@@ -3,6 +3,8 @@ import { pool } from './connection/connection.mjs';
 const DEV_ENV = process.env.ENV === 'DEV';
 const DEBUG = process.env.DEBUG === 'true' || false;
 
+const POST_PROCESS_SP = process.env.POST_PROCESS_SP || 'SP_SELECT_bsky_posts';
+
 export async function displayPostsInDb (cursor) {
 
     cursor = cursor || new Date('2000-01-01');
@@ -12,7 +14,7 @@ export async function displayPostsInDb (cursor) {
 
     while (cursor !== undefined) {
 
-        const sql = `call ${'SP_SELECT_bsky_posts'}(?,?)`;
+        const sql = `call ${POST_PROCESS_SP}(?,?)`;
         const params = [cursor, 50];
 
         const result = await pool.execute(sql, params);

@@ -38,6 +38,8 @@ if (/^no[- ]operation\b/.test(commandString)) {
     listFeedGenerators();
 } else if (/^run[- ]?algos?\b/i.test(commandString)) {
     runAlgos();
+} else if (/^display[- ]?posts?\b/i.test(commandString)) {
+    displayPosts();
 } else {
     main();
 }
@@ -225,6 +227,15 @@ async function listFeedGenerators(){
     const { listFeedGenerator } = await import('./bsky-social/repo.listRecords.mjs');
 
     await listFeedGenerator();
+
+    process.emit('exit_event');
+}
+
+async function displayPosts() {
+    await import('./post-process/display-posts-stored.mjs');
+    const { displayPostsInDb } = await import('./post-process/display-posts-stored.mjs');
+
+    await displayPostsInDb();
 
     process.emit('exit_event');
 }

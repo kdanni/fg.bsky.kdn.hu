@@ -91,7 +91,7 @@ export async function backfillPublisher() {
                         replyParent || replyRoot || null,
                         item?.post?.record?.text||'',
                         JSON.stringify(item?.post?.record?.facets||null),
-                        JSON.stringify(item?.post?.record?.embeds||null),
+                        JSON.stringify(item?.post?.record?.embed||null),
                         has_image||null,
                         item?.post?.indexedAt||null,
                     ];

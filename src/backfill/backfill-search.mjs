@@ -92,7 +92,7 @@ export async function backfillSearch(backfillSearchQuery) {
             // console.log('[getAuthorFeed] Author feed data:', response.feed);
             // Process the feed data as needed
             // Loop in the feed array then emit an event for each item
-            for (const post of (response.posts || []).reverse()) {
+            for (const post of (response.posts || [])) {
                 const item = {post};
 
                 DEBUG && console.dir(post, {depth:null});

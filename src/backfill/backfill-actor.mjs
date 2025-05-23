@@ -100,7 +100,7 @@ export async function backfillActor(backfillActor) {
                 // console.log('[getAuthorFeed] Author feed data:', response.feed);
                 // Process the feed data as needed
                 // Loop in the feed array then emit an event for each item
-                for (const item of (response.feed || []).reverse()) {
+                for (const item of (response.feed || [])) {
                     // console.log('[getAuthorFeed] Item:', item);
 
                     DEBUG && console.dir(item, {depth: null});

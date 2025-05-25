@@ -42,7 +42,7 @@ export async function runAlgo() {
                             post.posted_at
                         ];
                         await pool.query(sql, params);
-                        await new Promise(resolve => setTimeout(resolve, 100));
+                        await new Promise(resolve => setTimeout(resolve, 10));
                     }
                 }
             }

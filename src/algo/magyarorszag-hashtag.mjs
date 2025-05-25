@@ -27,7 +27,7 @@ export async function runAlgo() {
             ['%#Magyarország%']
         );
 
-        console.log('Posts:', posts[0][0]);
+        // console.log('Posts:', posts[0][0]);
 
         if(posts[0] && posts[0][0]) {
             for (const post of posts[0][0] || []) {
@@ -42,7 +42,7 @@ export async function runAlgo() {
                             post.posted_at
                         ];
                         await pool.query(sql, params);
-                        await new Promise(resolve => setTimeout(resolve, 100));
+                        await new Promise(resolve => setTimeout(resolve, 10));
                     }
                 // }
             }

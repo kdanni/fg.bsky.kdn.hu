@@ -7,6 +7,7 @@ import { pool } from './connection/connection.mjs';
 export const BACKFILL_SEARCH_QUERIES = [
     '#Budapest',
     '#Magyarország',
+    '#magyar',
 ]
 
 // const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';

@@ -22,15 +22,21 @@ const DEV_ENV = process.env.ENV === 'DEV';
 export async function runAlgo() {    
     console.log(`[${shortname}] Running algo...`);
     try {
+        // const posts = await pool.query(
+        //     `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
+        //     ['%#Magyarország%']
+        // );
         const posts = await pool.query(
             `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
-            ['%#Magyarország%']
+            ['%#Magyar%']
         );
+        
 
         // console.log('Posts:', posts[0][0]);
 
         if(posts[0] && posts[0][0]) {
             for (const post of posts[0][0] || []) {
+                console.log(`[${shortname}]`, post.text);
                 // if(/^image\//.test(`${post.has_image}`)) {
                     if (/#magyarország/i.test(post.text)) {
                         DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);

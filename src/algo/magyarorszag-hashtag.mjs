@@ -39,7 +39,7 @@ export async function runAlgo() {
                 // console.log(`[${shortname}]`, post.text);
                 // if(/^image\//.test(`${post.has_image}`)) {
                     if (/#magyarország/i.test(post.text)
-                        || /#magyar/i.test(post.text)
+                        || /#magyar\b/i.test(post.text)
                     ) {
                         DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
 

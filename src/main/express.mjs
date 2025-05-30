@@ -1,5 +1,6 @@
 import appName from '../app.mjs';
 import express from 'express';
+import { errorHandler } from './../api/error-mw.mjs';
 
 const app = express();
 const port = process.env.FEEDGEN_PORT || process.env.PORT || 8879;
@@ -18,3 +19,4 @@ app.use('/.well-known', wellKnown);
 
 import xrpc from '../api/xrpc/route.mjs';
 app.use('/xrpc', xrpc);
+app.use(errorHandler);

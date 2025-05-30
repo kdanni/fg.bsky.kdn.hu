@@ -23,6 +23,7 @@ export async function runAlgo() {
     console.log(`[${shortname}] Running algo...`);
     try {
         const posts = await pool.query(
+            // `call ${'sp_SELECT_old_posts'}(?)`,
             `call ${'sp_SELECT_recent_posts'}(?)`,
             [TARGET_AUTHOR_DID]
         );

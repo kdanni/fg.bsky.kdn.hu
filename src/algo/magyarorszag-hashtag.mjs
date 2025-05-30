@@ -9,7 +9,7 @@ export const FEEDGEN_CONFIG = {
       uri: `at://${process.env.FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`,
       id: `${shortname}`,
       displayName: '#Magyarország 🇭🇺',
-      description: '#Magyarország posts.',
+      description: '#Magyarország or #magyar posts.',
       avatarFile: 'avatars/magyaro.jpg',
     },
   ],

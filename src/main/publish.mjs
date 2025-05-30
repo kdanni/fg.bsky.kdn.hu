@@ -1,5 +1,7 @@
 import { publisFeed } from '../bsky-social/publish-feed.mjs';
 import { unpublisFeed } from '../bsky-social/unpublis-feed.mjs';
+import { updateFeed } from '../bsky-social/update-feed-repo-object.mjs';
+
 
 import {FEEDGEN_CONFIG as followed} from '../algo/followed.mjs';
 import {FEEDGEN_CONFIG as listed} from '../algo/listed.mjs';
@@ -79,4 +81,41 @@ export async function unpublish(commandString) {
 
 
     process.emit('exit_event');
+}
+
+export async function republish(commandString) {
+    // console.log('function republish(commandString)', commandString);
+    const match = /^republish\b +(\S+)/.exec(commandString) || [commandString, null];
+
+    if(match[1] === null) {
+        process.emit('exit_event');
+    }
+    const feedName = `${match[1]}`.trim();
+
+    
+    if(feedName == 'followed') {
+        await updateFeed(followed);
+    }
+    if(feedName == 'listed') {
+        await updateFeed(listed);
+    }    
+    if(feedName == 'f_l') {
+        await updateFeed(f_l);
+    }
+    if(feedName == 'kdBud') {
+        await updateFeed(kdBud);
+    }
+    if(feedName == 'kdPhoto') {
+        await updateFeed(kdPhoto);
+    }
+    if(feedName == 'bud_hash') {
+        await updateFeed(budHash);
+    }
+    if(feedName == 'magyaro_hash') {
+        await updateFeed(magyaroHash);
+    }
+
+
+    process.emit('exit_event');
+
 }

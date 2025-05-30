@@ -16,6 +16,8 @@ if (/^no[- ]operation\b/.test(commandString)) {
     publish(commandString);
 } else if (/^unpublish\b/.test(commandString)) {
     unpublish(commandString);
+} else if (/^republish\b/.test(commandString)) {
+    republish(commandString);
 } else if (/^backfill[- ]?kdanni\b/.test(commandString)) {
     backfillKdanni();
 } else if (/^backfill[- ]?followed\b/.test(commandString)) {
@@ -97,6 +99,18 @@ async function unpublish(commandString) {
 
     await unpublish(commandString);
 }
+
+async function republish(commandString) {
+    await import('./log/event-logger.mjs');
+    const emitter = (await import('./event-emitter.mjs')).default;
+    emitter.on('main', () => {/* NOP */ });
+
+    await import('./main/publish.mjs');
+    const { republish } = await import('./main/publish.mjs');
+    
+    await republish(commandString);
+}
+
 
 /** Installer */
 

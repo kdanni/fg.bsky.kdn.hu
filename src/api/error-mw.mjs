@@ -4,9 +4,9 @@ export const errorHandler = (err, req, res, next) => {
   !DEV_ENV && console.error('[Express Error]', err.message);
   DEV_ENV && console.error('[Express Error]', err);
 
-
-  res.status(err.status || 500).json({
+  const status = err.status || 500;
+  res.status(status).json({
     status: "error",
-    message: err.message || "Internal Server Error",
+    message: (status < 500 ? "Bad request" : "Internal Server Error"),
   });
 };

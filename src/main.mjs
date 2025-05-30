@@ -139,6 +139,10 @@ async function runAlgos() {
     let { runAlgo:hunTag } = await import('./algo/magyarorszag-hashtag.mjs');
     await hunTag();
 
+    await import('./algo/kdanni-CustomFeed.mjs');
+    let { runAlgo:cf } = await import('./algo/kdanni-CustomFeed.mjs');
+    await cf();
+
     process.emit('exit_event');
 }
 

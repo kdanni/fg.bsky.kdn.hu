@@ -8,6 +8,7 @@ import { runAlgo as kdBud } from '../algo/kdanni-Bud.mjs';
 import { runAlgo as kdPhoto } from '../algo/kdanni-Photo.mjs';
 import { runAlgo as budTag } from '../algo/budapest-hashtag.mjs';
 import { runAlgo as moTag } from '../algo/magyarorszag-hashtag.mjs';
+import { runAlgo as cf } from '../algo/kdanni-CustomFeed.mjs';
 
 async function main() {
 
@@ -35,7 +36,8 @@ async function main() {
         kdBud(),
         kdPhoto(),
         budTag(),
-        moTag()
+        moTag(),
+        cf(),
     ]).catch((e) => {
         console.error('[backfill-main] Algo Error', e);
     });

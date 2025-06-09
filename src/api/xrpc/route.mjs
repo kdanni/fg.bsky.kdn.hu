@@ -13,6 +13,7 @@ import kdanniFollowedOrListed from './getFeedSkeleton/followed_or_listed.mjs';
 import budapestHashtag from './getFeedSkeleton/budapest-hashtag.mjs';
 import magyaroHashtag from './getFeedSkeleton/magyaro-hashtag.mjs';
 import cf from './getFeedSkeleton/kdanni-CustomFeed.mjs';
+import tractorHashtag from './getFeedSkeleton/tractor-hashtag.mjs';
 
 const getFeedSkeletonChain = [
     mw000,
@@ -23,6 +24,7 @@ const getFeedSkeletonChain = [
     kdanniFollowedOrListed,
     budapestHashtag,
     magyaroHashtag,
+    tractorHashtag,
     cf,
     zzz
 ];

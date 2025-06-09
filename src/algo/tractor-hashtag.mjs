@@ -22,15 +22,15 @@ const DEV_ENV = process.env.ENV === 'DEV';
 export async function runAlgo() {    
     console.log(`[${shortname}] Running algo...`);
     try {
-        // const posts = await pool.query(
-        //     `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
-        //     ['%#Magyarország%']
-        // );
-        const posts = await pool.query(
+        const posts1 = await pool.query(
+            `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
+            ['%#traktor%']
+        );
+        const posts2 = await pool.query(
             `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
             ['%#tractor%']
         );
-        
+        const posts = [].concat(posts1, posts2);
 
         // console.log('Posts:', posts[0][0]);
 
@@ -40,6 +40,8 @@ export async function runAlgo() {
                 // if(/^image\//.test(`${post.has_image}`)) {
                     if (/#tractor\b/i.test(post.text)
                         || /#traktor\b/i.test(post.text)
+                        || /#TractorSky\b/i.test(post.text)
+                        || /#TraktorSky\b/i.test(post.text)
                     ) {
                         DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
 

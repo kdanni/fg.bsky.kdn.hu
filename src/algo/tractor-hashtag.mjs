@@ -26,17 +26,19 @@ export async function runAlgo() {
             `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
             ['%#traktor%']
         );
-        const posts2 = await pool.query(
+        const posts = await pool.query(
             `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
             ['%#tractor%']
         );
-        const posts = [].concat(posts1, posts2);
-
-        // console.log('Posts:', posts[0][0]);
-
+        
         if(posts[0] && posts[0][0]) {
+            if(posts1[0] && posts1[0][0]) {
+                posts[0][0] = [].concat(posts[0][0], posts1[0][0]);
+            }
+
             for (const post of posts[0][0] || []) {
                 // console.log(`[${shortname}]`, post.text);
+                // console.log(`[${shortname}]`,'Filtered Post:', post);
                 // if(/^image\//.test(`${post.has_image}`)) {
                     if (/#tractor\b/i.test(post.text)
                         || /#traktor\b/i.test(post.text)

@@ -23,7 +23,7 @@ CREATE PROCEDURE sp_SELECT_recent_posts_by_text (
 BEGIN
 
     -- recent posts are created in the last 5 days
-    SET @days_ago = DATE_SUB(CURDATE(), INTERVAL 365 DAY);
+    SET @days_ago = DATE_SUB(CURDATE(), INTERVAL 5 DAY);
     
     SELECT *
     FROM bsky_post

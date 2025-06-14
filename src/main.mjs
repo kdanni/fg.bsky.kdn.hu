@@ -36,6 +36,8 @@ if (/^no[- ]operation\b/.test(commandString)) {
     kdanniPhoto();
 } else if (/^hashtag[- ]?bud\b/i.test(commandString)) {
     hashtagBud();
+} else if (/^hashtag[- ]?tractor\b/i.test(commandString)) {
+    hashtagTractor();
 } else if (/^list[- ]?Feed[- ]?Generators?\b/i.test(commandString)) {
     listFeedGenerators();
 } else if (/^run[- ]?algos?\b/i.test(commandString)) {
@@ -142,6 +144,10 @@ async function runAlgos() {
     await import('./algo/kdanni-CustomFeed.mjs');
     let { runAlgo:cf } = await import('./algo/kdanni-CustomFeed.mjs');
     await cf();
+    
+    await import('./algo/tractor-hashtag.mjs');
+    let { runAlgo:tractor } = await import('./algo/tractor-hashtag.mjs');
+    await tractor();
 
     process.emit('exit_event');
 }
@@ -239,6 +245,14 @@ async function hashtagBud() {
     process.emit('exit_event');
 }
 
+async function hashtagTractor() {
+    await import('./algo/tractor-hashtag.mjs');
+    const { runAlgo } = await import('./algo/tractor-hashtag.mjs');
+    await runAlgo();
+
+    process.emit('exit_event');
+}
+
 
 async function listFeedGenerators(){
     await import('./bsky-social/repo.listRecords.mjs');
@@ -263,3 +277,4 @@ async function displayPosts() {
 
     process.emit('exit_event');
 }
+

@@ -38,6 +38,8 @@ if (/^no[- ]operation\b/.test(commandString)) {
     hashtagBud();
 } else if (/^hashtag[- ]?tractor\b/i.test(commandString)) {
     hashtagTractor();
+} else if (/^not[- ]?urban[- ]?ex\b/i.test(commandString)) {
+    notUrbanEx();
 } else if (/^list[- ]?Feed[- ]?Generators?\b/i.test(commandString)) {
     listFeedGenerators();
 } else if (/^run[- ]?algos?\b/i.test(commandString)) {
@@ -253,6 +255,13 @@ async function hashtagTractor() {
     process.emit('exit_event');
 }
 
+async function notUrbanEx() {
+    await import('./algo/not-urban-ex.mjs');
+    const { runAlgo } = await import('./algo/not-urban-ex.mjs');
+    await runAlgo();
+
+    process.emit('exit_event');
+}
 
 async function listFeedGenerators(){
     await import('./bsky-social/repo.listRecords.mjs');

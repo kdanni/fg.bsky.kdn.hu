@@ -4,6 +4,16 @@ import { getAuthToken } from '../bsky-social/auth.mjs';
 
 import { pool } from './connection/connection.mjs';
 
+const SKIP_AUTHORS_ARRAY = [];
+const SKIP_KEYWORDS_ARRAY = [
+    '#nft\b',
+    '#nfts\b',
+    '#nfttool',
+    '#web3',
+];
+
+import { TAGS } from '../algo/not-urban-ex.mjs'; 
+
 export const BACKFILL_SEARCH_QUERIES = [
     '#Budapest',
     '#Magyarország',
@@ -11,6 +21,8 @@ export const BACKFILL_SEARCH_QUERIES = [
     '#tractor',
     '#TractorSky',
 ]
+
+BACKFILL_SEARCH_QUERIES.push(...TAGS);
 
 // const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 const BSKY_SOCIAL_ROOT = process.env.BSKY_SOCIAL_ROOT || 'https://bsky.social';
@@ -107,6 +119,10 @@ export async function backfillSearch(backfillSearchQuery) {
 
                 DEV_ENV && console.log(`[backfillSearch] Post: Author: ${post.author?.handle} Text: ${(text).replace('\n',' ')}`);
                 
+                if( await skipPost(text, authorDid, authorHandle) ) {
+                    DEV_ENV && console.log(`[backfillSearch] Skipping post: ${authorHandle} - ${text}`);
+                    continue;
+                }
 
                 let has_image = getMimeStringOrNull(item?.post?.record?.embed);
 
@@ -155,4 +171,17 @@ export async function backfillSearch(backfillSearchQuery) {
     } catch (error) {
         console.error('[backfillSearch] Error:', error);
     }
+}
+
+async function skipPost(text, authorHandle) {
+    if (SKIP_AUTHORS_ARRAY.includes(authorHandle)) {
+        return true;
+    }
+    for (const keyword of SKIP_KEYWORDS_ARRAY) {
+        let reg = new RegExp(keyword, 'i');
+        if (reg.test(text)) {
+            return true;
+        }
+    }
+    return false;
 }

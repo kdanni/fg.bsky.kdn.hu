@@ -14,6 +14,7 @@ import budapestHashtag from './getFeedSkeleton/budapest-hashtag.mjs';
 import magyaroHashtag from './getFeedSkeleton/magyaro-hashtag.mjs';
 import cf from './getFeedSkeleton/kdanni-CustomFeed.mjs';
 import tractorHashtag from './getFeedSkeleton/tractor-hashtag.mjs';
+import notUberEx from './getFeedSkeleton/not-uber-ex.mjs';
 
 const getFeedSkeletonChain = [
     mw000,
@@ -25,6 +26,7 @@ const getFeedSkeletonChain = [
     budapestHashtag,
     magyaroHashtag,
     tractorHashtag,
+    notUberEx,
     cf,
     zzz
 ];

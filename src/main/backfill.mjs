@@ -10,6 +10,7 @@ import { runAlgo as budTag } from '../algo/budapest-hashtag.mjs';
 import { runAlgo as moTag } from '../algo/magyarorszag-hashtag.mjs';
 import { runAlgo as cf } from '../algo/kdanni-CustomFeed.mjs';
 import { runAlgo as tractor } from '../algo/tractor-hashtag.mjs';
+import { runAlgo as notUrbanEx } from '../algo/not-urban-ex.mjs';
 
 async function main() {
 
@@ -40,6 +41,7 @@ async function main() {
         moTag(),
         cf(),
         tractor(),
+        notUrbanEx(),
     ]).catch((e) => {
         console.error('[backfill-main] Algo Error', e);
     });

@@ -12,6 +12,7 @@ import {FEEDGEN_CONFIG as budHash} from '../algo/budapest-hashtag.mjs';
 import {FEEDGEN_CONFIG as magyaroHash} from '../algo/magyarorszag-hashtag.mjs';
 import {FEEDGEN_CONFIG as cf} from '../algo/kdanni-CustomFeed.mjs';
 import {FEEDGEN_CONFIG as tractor} from '../algo/tractor-hashtag.mjs';
+import {FEEDGEN_CONFIG as notUrbanEx } from '../algo/not-urban-ex.mjs';
 
 
 export async function publish(commandString) {
@@ -50,7 +51,9 @@ export async function publish(commandString) {
     if(feedName == 'tractor') {
         await publisFeed(tractor);
     }
-
+    if(/notUrbanEx/i.test(feedName)) {
+        await publisFeed(notUrbanEx);
+    }
 
     process.emit('exit_event');
 }
@@ -92,6 +95,9 @@ export async function unpublish(commandString) {
     if(feedName == 'tractor') {
         await unpublisFeed(tractor);
     }
+    if(/notUrbanEx/i.test(feedName)) {
+        await unpublisFeed(notUrbanEx);
+    }
 
     process.emit('exit_event');
 }
@@ -132,6 +138,9 @@ export async function republish(commandString) {
     }
     if(feedName == 'tractor') {
         await updateFeed(tractor);
+    }
+    if(/notUrbanEx/i.test(feedName)) {
+        await updateFeed(notUrbanEx);
     }
 
 

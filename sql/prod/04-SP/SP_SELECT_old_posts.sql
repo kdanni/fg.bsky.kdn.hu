@@ -22,7 +22,7 @@ CREATE PROCEDURE sp_SELECT_old_posts (
 )
 BEGIN
 
-    -- recent posts are created in the last 10 days
+    -- recent posts are created in the last 5 years
     SET @days_ago = DATE_SUB(CURDATE(), INTERVAL 5 YEAR);
     
     SELECT *

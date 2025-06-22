@@ -40,6 +40,8 @@ if (/^no[- ]operation\b/.test(commandString)) {
     hashtagTractor();
 } else if (/^not[- ]?urban[- ]?ex\b/i.test(commandString)) {
     notUrbanEx();
+} else if (/^mus(eum)?[- ]ej/i.test(commandString)) {
+    musEj();
 } else if (/^list[- ]?Feed[- ]?Generators?\b/i.test(commandString)) {
     listFeedGenerators();
 } else if (/^run[- ]?algos?\b/i.test(commandString)) {
@@ -262,6 +264,16 @@ async function notUrbanEx() {
 
     process.emit('exit_event');
 }
+
+
+async function musEj() {
+    await import('./algo/kdanni-MusEj.mjs');
+    const { runAlgo } = await import('./algo/kdanni-MusEj.mjs');
+    await runAlgo();
+
+    process.emit('exit_event');
+}
+
 
 async function listFeedGenerators(){
     await import('./bsky-social/repo.listRecords.mjs');

@@ -11,6 +11,7 @@ import { runAlgo as moTag } from '../algo/magyarorszag-hashtag.mjs';
 import { runAlgo as cf } from '../algo/kdanni-CustomFeed.mjs';
 import { runAlgo as tractor } from '../algo/tractor-hashtag.mjs';
 import { runAlgo as notUrbanEx } from '../algo/not-urban-ex.mjs';
+import { runAlgo as musEj } from '../algo/kdanni-MusEj.mjs';
 
 async function main() {
 
@@ -42,6 +43,7 @@ async function main() {
         cf(),
         tractor(),
         notUrbanEx(),
+        musEj(),
     ]).catch((e) => {
         console.error('[backfill-main] Algo Error', e);
     });

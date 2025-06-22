@@ -8,7 +8,7 @@ export const FEEDGEN_CONFIG = {
     {
       uri: `at://${process.env.FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`,
       id: `${shortname}`,
-      displayName: '@kdanni.hu - #MúzeumokÉjszakája',
+      displayName: '@kdn #MúzeumokÉjszakája🏛️',
       description: 'My posts with #MúzeumokÉjszakája hashtags',
       avatarFile: 'avatars/musej.jpg',
     },

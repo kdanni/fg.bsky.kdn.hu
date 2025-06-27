@@ -5,6 +5,7 @@ export const shortname = 'notUrbanEx';
 export const TAGS = [
     '#urbandecay',
     '#urbangaze',
+    '#suburbangaze',
     '#cityscape',
     '#bridge',
     '#architecture',

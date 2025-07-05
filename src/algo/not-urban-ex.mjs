@@ -9,6 +9,7 @@ export const TAGS = [
     '#cityscape',
     '#bridge',
     '#architecture',
+    '#oldbuildings',
     '#industrial',
     '#powerpole',
     '#nightscape',

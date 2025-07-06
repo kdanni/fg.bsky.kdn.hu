@@ -20,6 +20,10 @@ export const BACKFILL_SEARCH_QUERIES = [
     '#magyar',
     '#tractor',
     '#TractorSky',
+    '#brutalism',
+    '#brutalista',
+    '#blrutalist',
+    '#brutalisky',
 ]
 
 BACKFILL_SEARCH_QUERIES.push(...TAGS);

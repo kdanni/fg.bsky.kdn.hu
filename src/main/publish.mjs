@@ -15,6 +15,7 @@ import {FEEDGEN_CONFIG as tractor} from '../algo/tractor-hashtag.mjs';
 import {FEEDGEN_CONFIG as notUrbanEx } from '../algo/not-urban-ex.mjs';
 import {FEEDGEN_CONFIG as musEj } from '../algo/kdanni-MusEj.mjs';
 import {FEEDGEN_CONFIG as nsfw } from '../algo/nsfw.mjs';
+import { FEEDGEN_CONFIG as brutalism } from '../algo/brutalism-hashtag.mjs';
 
 
 export async function publish(commandString) {
@@ -61,6 +62,9 @@ export async function publish(commandString) {
     }
     if(feedName == 'nsfw') {
         await publisFeed(nsfw);
+    }
+    if(feedName == 'brutalism') {
+        await publisFeed(brutalism);
     }
 
     process.emit('exit_event');
@@ -112,6 +116,9 @@ export async function unpublish(commandString) {
     if(feedName == 'nsfw') {
         await unpublisFeed(nsfw);
     }
+    if(feedName == 'brutalism') {
+        await unpublisFeed(brutalism);
+    }
 
     process.emit('exit_event');
 }
@@ -161,6 +168,9 @@ export async function republish(commandString) {
     }
     if(feedName == 'nsfw') {
         await updateFeed(nsfw);
+    }
+    if(feedName == 'brutalism') {
+        await updateFeed(brutalism);
     }
 
     process.emit('exit_event');

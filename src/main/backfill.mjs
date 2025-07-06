@@ -12,6 +12,7 @@ import { runAlgo as cf } from '../algo/kdanni-CustomFeed.mjs';
 import { runAlgo as tractor } from '../algo/tractor-hashtag.mjs';
 import { runAlgo as notUrbanEx } from '../algo/not-urban-ex.mjs';
 import { runAlgo as musEj } from '../algo/kdanni-MusEj.mjs';
+import { runAlgo as brutalism } from '../algo/brutalism-hashtag.mjs';
 
 async function main() {
 
@@ -44,6 +45,7 @@ async function main() {
         tractor(),
         notUrbanEx(),
         musEj(),
+        brutalism(),
     ]).catch((e) => {
         console.error('[backfill-main] Algo Error', e);
     });

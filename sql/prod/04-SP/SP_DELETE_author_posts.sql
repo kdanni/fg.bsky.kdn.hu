@@ -1,4 +1,4 @@
--- DROP PROCEDURE IF EXISTS SP_DELETE_author_posts;
+DROP PROCEDURE IF EXISTS SP_DELETE_author_posts;
 
 
 -- CREATE PROCEDURE SP_DELETE_author_posts ( 

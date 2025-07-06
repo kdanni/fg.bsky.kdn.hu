@@ -39,7 +39,7 @@ async function handleRequest (req, res, next) {
   // cursor_date datetime,
   // image_only boolean,
   // p_limit INT
-  const sql = `call ${'SP_SELECT_listed_feed_posts'}(?,?,?)`;
+  const sql = `call ${'SP_SELECT_nsfw_listed_posts'}(?,?,?)`;
   const params = [cursorDate, false, 30];
   const rows = await pool.query(sql, params);
   

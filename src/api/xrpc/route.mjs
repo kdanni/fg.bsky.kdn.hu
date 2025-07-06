@@ -16,6 +16,7 @@ import cf from './getFeedSkeleton/kdanni-CustomFeed.mjs';
 import tractorHashtag from './getFeedSkeleton/tractor-hashtag.mjs';
 import notUberEx from './getFeedSkeleton/not-uber-ex.mjs';
 import musEj from './getFeedSkeleton/kdanni-MusEj.mjs';
+import nsfw from './getFeedSkeleton/nsfw.mjs';
 
 const getFeedSkeletonChain = [
     mw000,
@@ -30,6 +31,7 @@ const getFeedSkeletonChain = [
     notUberEx,
     musEj,
     cf,
+    nsfw,
     zzz
 ];
 

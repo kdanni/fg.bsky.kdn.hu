@@ -1,4 +1,4 @@
-import { pool } from './connection/connection.mjs';
+// import { pool } from './connection/connection.mjs';
 
 
 export const shortname = 'nsfw-Listed';
@@ -22,16 +22,5 @@ const TARGET_AUTHOR_DID = process.env.KDANNI_DID || process.env.FEEDGEN_PUBLISHE
     
 
 export async function runAlgo(authorDid, listName) {    
-    if(!authorDid || authorDid === TARGET_AUTHOR_DID) {
-        console.log(`[algo-nsfw] Skipping algo for ${authorDid}`);
-        return;
-    }
-    listName = listName || 'nsfw posts';
-    try {
-        pool.execute(`call ${'SP_listed_post_algo'}(?,?)`, [authorDid, listName]);
-
-    } catch (error) {
-        console.error(`[algo-nsfw] `, 'Error in runAlgo:', error);
-    }
-    console.log(`[algo-nsfw] Finished algo for ${authorDid}`);
+    // NOP
 }

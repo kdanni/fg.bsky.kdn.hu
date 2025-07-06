@@ -14,6 +14,7 @@ import {FEEDGEN_CONFIG as cf} from '../algo/kdanni-CustomFeed.mjs';
 import {FEEDGEN_CONFIG as tractor} from '../algo/tractor-hashtag.mjs';
 import {FEEDGEN_CONFIG as notUrbanEx } from '../algo/not-urban-ex.mjs';
 import {FEEDGEN_CONFIG as musEj } from '../algo/kdanni-MusEj.mjs';
+import {FEEDGEN_CONFIG as nsfw } from '../algo/nsfw.mjs';
 
 
 export async function publish(commandString) {
@@ -57,6 +58,9 @@ export async function publish(commandString) {
     }
     if(feedName == 'musEj') {
         await publisFeed(musEj);
+    }
+    if(feedName == 'nsfw') {
+        await publisFeed(nsfw);
     }
 
     process.emit('exit_event');
@@ -105,6 +109,9 @@ export async function unpublish(commandString) {
     if(feedName == 'musEj') {
         await unpublisFeed(musEj);
     }
+    if(feedName == 'nsfw') {
+        await unpublisFeed(nsfw);
+    }
 
     process.emit('exit_event');
 }
@@ -152,7 +159,9 @@ export async function republish(commandString) {
     if(feedName == 'musEj') {
         await updateFeed(musEj);
     }
-
+    if(feedName == 'nsfw') {
+        await updateFeed(nsfw);
+    }
 
     process.emit('exit_event');
 

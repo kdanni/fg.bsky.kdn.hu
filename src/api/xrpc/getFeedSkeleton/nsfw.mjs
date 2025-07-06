@@ -6,9 +6,7 @@ const FEEDGEN_PUBLISHER_DID = process.env.FEEDGEN_PUBLISHER_DID;
 
 import { pool } from '../../../algo/connection/connection.mjs';
 
-import {shortname} from '../../../algo/listed.mjs';
-
-const SKIP_LISTS = ['NSFW', 'Not Listed'];
+import {shortname} from '../../../algo/nsfw.mjs';
 
 async function handleRequest (req, res, next) {
 
@@ -51,9 +49,6 @@ async function handleRequest (req, res, next) {
     // console.log(`[${shortname}] response`, rows[0][0]);
     for (const row of rows[0][0] || []) {
       if(row) {
-        if(SKIP_LISTS.includes(row.list_name)) {
-          continue; // Skip NSFW and Not Listed
-        }
         resultUrls.push({post: row.url});
         resultCursor = row.url;
       }

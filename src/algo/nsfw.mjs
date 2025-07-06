@@ -9,7 +9,7 @@ export const FEEDGEN_CONFIG = {
     {
       uri: `at://${process.env.FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`,
       id: `${shortname}`,
-      displayName: '@kdanni.hu - NSFW',
+      displayName: 'NSFW listed 🔞',
       description: 'I assume you working in a conservative environment.',
       avatarFile: 'avatars/nsfw.png',
     },

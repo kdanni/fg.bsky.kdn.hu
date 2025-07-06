@@ -17,6 +17,7 @@ import tractorHashtag from './getFeedSkeleton/tractor-hashtag.mjs';
 import notUberEx from './getFeedSkeleton/not-uber-ex.mjs';
 import musEj from './getFeedSkeleton/kdanni-MusEj.mjs';
 import nsfw from './getFeedSkeleton/nsfw.mjs';
+import brutal from './getFeedSkeleton/brutalism-hashtag.mjs';
 
 const getFeedSkeletonChain = [
     mw000,
@@ -28,6 +29,7 @@ const getFeedSkeletonChain = [
     budapestHashtag,
     magyaroHashtag,
     tractorHashtag,
+    brutal,
     notUberEx,
     musEj,
     cf,

@@ -38,6 +38,8 @@ if (/^no[- ]operation\b/.test(commandString)) {
     hashtagBud();
 } else if (/^hashtag[- ]?tractor\b/i.test(commandString)) {
     hashtagTractor();
+} else if (/^hashtag[- ]?brutalism\b/i.test(commandString)) {
+    hashtagBrutalism();
 } else if (/^not[- ]?urban[- ]?ex\b/i.test(commandString)) {
     notUrbanEx();
 } else if (/^mus(eum)?[- ]ej/i.test(commandString)) {
@@ -254,6 +256,13 @@ async function hashtagTractor() {
     const { runAlgo } = await import('./algo/tractor-hashtag.mjs');
     await runAlgo();
 
+    process.emit('exit_event');
+}
+
+async function hashtagBrutalism() {
+    await import('./algo/brutalism-hashtag.mjs');
+    const { runAlgo } = await import('./algo/brutalism-hashtag.mjs');
+    await runAlgo(); 
     process.emit('exit_event');
 }
 

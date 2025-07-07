@@ -9,7 +9,9 @@ import { pool } from '../../../algo/connection/connection.mjs';
 import {shortname} from '../../../algo/nsfw.mjs';
 
 async function handleRequest (req, res, next) {
-
+  if(res.locals.cachedData || res.locals.feedData) {
+    return next();
+  }
   const feed = req.query['feed'];
 
   if(!feed) {
@@ -22,18 +24,7 @@ async function handleRequest (req, res, next) {
   }
   console.log(`[${shortname}] request`, feed);
   
-  let date0 = new Date();
-  date0.setDate(date0.getDate() + 1);
-  const cursor = req.query['cursor'];
-  let cursorDate = date0;
-  if(cursor) {
-    // console.log(`[${shortname}] cursor`, cursor);
-    const [timestamp, cid] = cursor.split('::');
-    // console.log(`[${shortname}] timestamp`, timestamp);
-    if (timestamp) {
-        cursorDate = new Date(timestamp);
-    }
-  }
+  let cursorDate = req.locals.cursorDate;
 
   // SP params:
   // cursor_date datetime,
@@ -61,10 +52,12 @@ async function handleRequest (req, res, next) {
       resultCursor = `${c[0][0].posted_at}::${c[0][0].cid}`;
     }
   }
-  res.json({
+  res.locals.cacheEX = 1200; // 1200 seconds cache (20 minutes)
+  res.locals.feedData = {
     feed: resultUrls,
     cursor: resultCursor
-  })
+  };
+  next();
 }
 
 export default handleRequest;

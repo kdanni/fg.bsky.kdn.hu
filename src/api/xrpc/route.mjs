@@ -4,6 +4,8 @@ const router = express.Router();
 //MW
 
 import mw000 from './getFeedSkeleton/000.mjs';
+import redis0 from './getFeedSkeleton/0-redis.mjs';
+import redisz from './getFeedSkeleton/z-redis.mjs';
 import zzz from './getFeedSkeleton/zzz.mjs';
 import kdanniBud from './getFeedSkeleton/kdanni-Bud.mjs';
 import kdanniPhoto from './getFeedSkeleton/kdanni-Photo.mjs';
@@ -21,6 +23,7 @@ import brutal from './getFeedSkeleton/brutalism-hashtag.mjs';
 
 const getFeedSkeletonChain = [
     mw000,
+    redis0,
     kdanniBud,
     kdanniPhoto,
     kdanniFollowed,
@@ -34,6 +37,7 @@ const getFeedSkeletonChain = [
     musEj,
     cf,
     nsfw,
+    redisz,
     zzz
 ];
 

@@ -40,3 +40,9 @@ async function handleRequest (req, res, next) {
 }
 
 export default handleRequest;
+
+export function constructCacheKey(shortname, cursorString) {
+    const feedUriRoot = `at://${FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/`;
+    cursorString = cursorString || 'initial';
+    return `${feedUriRoot}${shortname}::${cursorString}`;
+}

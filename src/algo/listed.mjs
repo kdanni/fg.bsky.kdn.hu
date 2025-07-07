@@ -1,5 +1,6 @@
 import { pool } from './connection/connection.mjs';
 import { getInitialFeedData } from '../api/xrpc/getFeedSkeleton/listed.mjs';
+import { constructCacheKey } from '../api/xrpc/getFeedSkeleton/000.mjs';
 import { isRedisConnected, redisSet } from '../redis/redis-io-connection.mjs';
 
 export const shortname = 'kdanni-Listed';
@@ -33,7 +34,7 @@ export async function runAlgo(authorDid, listName) {
         if(await isRedisConnected()) {
             let initialFeedData = await getInitialFeedData();
             if (initialFeedData && initialFeedData.feed) {
-                let cacheKey = `${shortname}::initial`;
+                let cacheKey = constructCacheKey(shortname);
                 await redisSet(cacheKey, JSON.stringify(initialFeedData), ['EX', 3000]); 
                 console.log(`[algo-listed] Cached initial feed data for ${cacheKey}`);
             }

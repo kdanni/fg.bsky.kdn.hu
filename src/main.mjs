@@ -30,6 +30,8 @@ if (/^no[- ]operation\b/.test(commandString)) {
     backfillSearchRunner();
 } else if (/^backfill[- ]?search\b/.test(commandString)) {
     backfillSearch(commandString);
+} else if (/^algo[- ]?followed\b/.test(commandString)) {
+    algoFollowed();
 } else if (/^kdanni[- ]?bud\b/i.test(commandString)) {
     kdanniBud();
 } else if (/^kdanni[- ]?photo\b/i.test(commandString)) {
@@ -204,6 +206,15 @@ async function backfillFollowed() {
     await import('./backfill/backfill-followed.mjs');
     const { backfillFollowed } = await import('./backfill/backfill-followed.mjs');
     await backfillFollowed();
+
+    process.emit('exit_event');
+}
+
+
+async function algoFollowed() {
+    await import('./algo/followed.mjs');
+    const { runAlgo } = await import('./algo/followed.mjs');
+    await runAlgo();
 
     process.emit('exit_event');
 }

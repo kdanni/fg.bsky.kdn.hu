@@ -37,6 +37,7 @@ async function main() {
 
     console.log('[backfill-main] Running algos');
     await Promise.all([
+        backfillFollowed(), // Not an algo.
         kdBud(),
         kdPhoto(),
         budTag(),

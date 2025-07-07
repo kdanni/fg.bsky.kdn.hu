@@ -1,5 +1,6 @@
 import { pool } from './connection/connection.mjs';
-
+import { getInitialFeedData } from '../api/xrpc/getFeedSkeleton/listed.mjs';
+import { isRedisConnected, redisSet } from '../redis/redis-io-connection.mjs';
 
 export const shortname = 'kdanni-Listed';
 
@@ -16,7 +17,6 @@ export const FEEDGEN_CONFIG = {
   ],
 }
 
-
 const TARGET_AUTHOR_DID = process.env.KDANNI_DID || process.env.FEEDGEN_PUBLISHER_DID;
 // const DEV_ENV = process.env.ENV === 'DEV';
     
@@ -30,6 +30,14 @@ export async function runAlgo(authorDid, listName) {
     try {
         pool.execute(`call ${'SP_listed_post_algo'}(?,?)`, [authorDid, listName]);
 
+        if(await isRedisConnected()) {
+            let initialFeedData = await getInitialFeedData();
+            if (initialFeedData && initialFeedData.feed) {
+                let cacheKey = `${shortname}::initial`;
+                await redisSet(cacheKey, JSON.stringify(initialFeedData), ['EX', 3000]); 
+                console.log(`[algo-listed] Cached initial feed data for ${cacheKey}`);
+            }
+        }
     } catch (error) {
         console.error(`[algo-listed] `, 'Error in runAlgo:', error);        
     }

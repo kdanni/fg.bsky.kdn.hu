@@ -16,7 +16,7 @@ import budapestHashtag from './getFeedSkeleton/budapest-hashtag.mjs';
 import magyaroHashtag from './getFeedSkeleton/magyaro-hashtag.mjs';
 import cf from './getFeedSkeleton/kdanni-CustomFeed.mjs';
 import tractorHashtag from './getFeedSkeleton/tractor-hashtag.mjs';
-import notUberEx from './getFeedSkeleton/not-uber-ex.mjs';
+import notUrbanEx from './getFeedSkeleton/not-urban-ex.mjs';
 import musEj from './getFeedSkeleton/kdanni-MusEj.mjs';
 import nsfw from './getFeedSkeleton/nsfw.mjs';
 import brutal from './getFeedSkeleton/brutalism-hashtag.mjs';
@@ -33,7 +33,7 @@ const getFeedSkeletonChain = [
     magyaroHashtag,
     tractorHashtag,
     brutal,
-    notUberEx,
+    notUrbanEx,
     musEj,
     cf,
     nsfw,

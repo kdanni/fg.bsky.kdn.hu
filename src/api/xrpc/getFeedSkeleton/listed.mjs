@@ -81,4 +81,5 @@ export async function getInitialFeedData() {
   }
 }
 
+export { shortname };
 export default handleRequest;

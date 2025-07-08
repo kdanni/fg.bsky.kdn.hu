@@ -4,8 +4,7 @@ export const SERVICE_ENDPOINT = `https://${process.env.FEEDGEN_HOSTNAME}`
 
 const FEEDGEN_PUBLISHER_DID = process.env.FEEDGEN_PUBLISHER_DID;
 
-import { pool } from '../../../algo/connection/connection.mjs';
-import crypto from 'crypto';
+import { fetchFeedData } from './util/fetchFeedData-by-FeedName.mjs';
 
 import {shortname} from '../../../algo/brutalism-hashtag.mjs';
 
@@ -14,7 +13,6 @@ async function handleRequest (req, res, next) {
     return next();
   }
   const feed = req.query['feed'];
-
   if(!feed) {
     return next();
   }
@@ -26,34 +24,10 @@ async function handleRequest (req, res, next) {
   
   let cursorDate = req.locals.cursorDate;
   
-  const sql = `call ${'sp_SELECT_feed_posts_by_name'}(?,?,?)`;
-  const params = [shortname, cursorDate, 30];
-  const rows = await pool.query(sql, params);
-  
-  const resultUrls = [];
-  let resultCursor = undefined;
-  if(rows[0] && rows[0][0]) {
-    // console.log(`[${shortname}] response`, rows[0][0]);
-    for (const row of rows[0][0] || []) {
-      if(row) {
-        resultUrls.push({post: row.url});
-        resultCursor = row.url;
-      }
-    }
-  }
-  if(resultCursor) {
-    const c = await pool.query('SELECT cid, posted_at FROM bsky_post WHERE url = ?', [resultCursor]);
-    // console.log(`[${shortname}] c`, c);
-    if (c && c[0] && c[0][0]) {
-      resultCursor = `${c[0][0].posted_at}::${c[0][0].cid}`;
-    }
-  }
-  res.locals.cacheEX = 1200; // 1200 seconds cache (20 minutes)
-  res.locals.feedData = {
-    feed: resultUrls,
-    cursor: resultCursor
-  };
+  const feedData = await fetchFeedData(shortname, cursorDate);
+  res.locals.feedData = feedData;
   next();
 }
 
+export { shortname };
 export default handleRequest;

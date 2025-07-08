@@ -20,12 +20,23 @@ BEGIN
         set p_limit = 30;
     end if;
 
-    SELECT *
-    FROM feed_post
+    SELECT 
+        feed_name,
+        url,
+        posted_at,
+        created_at,
+        updated_at
+    -- FROM feed_post
+    FROM (
+        SELECT *,
+            ROW_NUMBER() OVER (PARTITION BY url ORDER BY updated_at DESC) AS rn
+        FROM feed_post
+    ) AS sub
     WHERE feed_name IN (
         SELECT value COLLATE utf8mb4_hungarian_ci AS value
         FROM JSON_TABLE(p_feed_name_array, '$[*]' COLUMNS (value VARCHAR(54) PATH '$')) AS jt
     )
+    AND rn = 1
     AND posted_at < cursor_date
     ORDER BY posted_at DESC
     LIMIT p_limit;

@@ -2,7 +2,7 @@ import { backfillPublisher as backfillFeedPublishersPosts } from '../backfill/ba
 import { backfillFollowed } from '../backfill/backfill-followed.mjs';
 import { backfillListed } from '../backfill/backfill-listed.mjs';
 import { backfillSearchRunner } from '../backfill/backfill-search.mjs'
-
+import { initCache } from '../algo/cache/init-cache.mjs';
 
 import { runAlgo as kdBud } from '../algo/kdanni-Bud.mjs';
 import { runAlgo as kdPhoto } from '../algo/kdanni-Photo.mjs';
@@ -51,6 +51,12 @@ async function main() {
         console.error('[backfill-main] Algo Error', e);
     });
     console.log('[backfill-main] Running algos done');
+
+    try {
+        await initCache();
+    } catch (error) {
+        console.error('[backfill-main] Cache Initialization Error:', error);
+    }
 
     setTimeout(() => { process.emit('exit_event') }, 1000);
 }

@@ -20,6 +20,7 @@ import notUrbanEx from './getFeedSkeleton/not-urban-ex.mjs';
 import musEj from './getFeedSkeleton/kdanni-MusEj.mjs';
 import nsfw from './getFeedSkeleton/nsfw.mjs';
 import brutal from './getFeedSkeleton/brutalism-hashtag.mjs';
+import ubt from './getFeedSkeleton/urban-brutal-tractor.mjs';
 
 const getFeedSkeletonChain = [
     mw000,
@@ -34,6 +35,7 @@ const getFeedSkeletonChain = [
     tractorHashtag,
     brutal,
     notUrbanEx,
+    ubt,
     musEj,
     cf,
     nsfw,

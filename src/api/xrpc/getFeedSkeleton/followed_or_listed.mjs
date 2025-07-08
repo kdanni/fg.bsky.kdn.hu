@@ -7,7 +7,7 @@ const FEEDGEN_PUBLISHER_DID = process.env.FEEDGEN_PUBLISHER_DID;
 import { pool } from '../../../algo/connection/connection.mjs';
 import crypto from 'crypto';
 
-export const shortname = 'kd-Follow-Listd';
+const shortname = 'kd-Follow-Listd';
 
 export const FEEDGEN_CONFIG = {
   publisherDid: `${process.env.FEEDGEN_PUBLISHER_DID}`,
@@ -89,4 +89,5 @@ export async function getInitialFeedData() {
   }
 }
 
+export { shortname };
 export default handleRequest;

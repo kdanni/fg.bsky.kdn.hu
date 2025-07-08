@@ -168,9 +168,7 @@ export async function backfillSearch(backfillSearchQuery) {
                 pool.execute(authorSql, authorParams);
                 await new Promise((resolve) => { setTimeout( resolve , 100 );});
             }
-
         } // End of while loop
-
         console.log(`[backfillSearch] Finished backfilling.`);
     } catch (error) {
         console.error('[backfillSearch] Error:', error);

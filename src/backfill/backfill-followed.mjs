@@ -1,7 +1,13 @@
 import got from 'got';
 
 import { backfillActor } from './backfill-actor.mjs';
-import { runAlgo } from '../algo/followed.mjs';
+import { runAlgo, shortname } from '../algo/followed.mjs';
+
+import { getInitialFeedData } from '../api/xrpc/getFeedSkeleton/followed.mjs';
+import { getInitialFeedData as getInitialFeedDataFL, shortname as shortnameFL } from '../api/xrpc/getFeedSkeleton/followed_or_listed.mjs';
+import { constructCacheKey } from '../api/xrpc/getFeedSkeleton/000.mjs';
+import { isRedisConnected, redisSet } from '../redis/redis-io-connection.mjs';
+
 
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 const LIMIT = process.env.AUTHOR_FEED_LIMIT || 50;
@@ -60,6 +66,21 @@ export async function backfillFollowed() {
                 break;
             }
         } // End of while loop
+        
+        if(await isRedisConnected()) {
+            let initialFeedData = await getInitialFeedData();
+            if (initialFeedData && initialFeedData.feed) {
+                let cacheKey = constructCacheKey(shortname);
+                await redisSet(cacheKey, JSON.stringify(initialFeedData), ['EX', 3000]); 
+                console.log(`[backfillFollowed] Cached initial feed data for ${cacheKey}`);
+            }
+            let initialFeedDataFL = await getInitialFeedDataFL();
+            if (initialFeedDataFL && initialFeedDataFL.feed) {
+                let cacheKey = constructCacheKey(shortnameFL);
+                await redisSet(cacheKey, JSON.stringify(initialFeedDataFL), ['EX', 3000]);
+                console.log(`[backfillFollowed] Cached initial feed data for ${cacheKey}`);
+            }
+        }
     } catch (error) {
         console.error(`[backfillFollowed] Error fetching followed feed: ${error.message}`);
     }

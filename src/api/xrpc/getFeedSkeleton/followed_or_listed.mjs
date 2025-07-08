@@ -5,7 +5,7 @@ export const SERVICE_ENDPOINT = `https://${process.env.FEEDGEN_HOSTNAME}`
 const FEEDGEN_PUBLISHER_DID = process.env.FEEDGEN_PUBLISHER_DID;
 
 import { pool } from '../../../algo/connection/connection.mjs';
-
+import crypto from 'crypto';
 
 export const shortname = 'kd-Follow-Listd';
 
@@ -22,6 +22,37 @@ export const FEEDGEN_CONFIG = {
   ],
 }
 
+async function fetchFeedData(cursorDate) {
+  const sql = `call ${'SP_SELECT_followed_or_listed_feed_posts'}(?,?,?)`;
+  const params = [cursorDate, false, 30];
+  const rows = await pool.query(sql, params);
+
+  const resultUrls = [];
+  let resultCursor = undefined;
+  let cDate = cursorDate ? new Date(cursorDate) : new Date();
+  if (rows[0] && rows[0][0]) {
+    for (const row of rows[0][0] || []) {
+      if (row) {
+        resultUrls.push({ post: row.url });
+        resultCursor = row.url;
+        cDate = row.posted_at ? new Date(row.posted_at) : cDate;
+      }
+    }
+  }
+  if (resultCursor) {
+    const c = await pool.query('SELECT cid, posted_at FROM bsky_post WHERE url = ?', [resultCursor]);
+    if (c && c[0] && c[0][0]) {
+      resultCursor = `${c[0][0].posted_at}::${c[0][0].cid}`;
+    } else {
+      const hashedCursor = crypto.createHash('sha256').update(resultCursor).digest('hex');
+      resultCursor = `${cDate}::${hashedCursor}`;
+    }
+  }
+  return {
+    feed: resultUrls,
+    cursor: resultCursor
+  };
+}
 
 async function handleRequest (req, res, next) {
   if(res.locals.cachedData || res.locals.feedData) {
@@ -38,41 +69,24 @@ async function handleRequest (req, res, next) {
     return next();
   }
   console.log(`[${shortname}] request`, feed);
-  
+
   let cursorDate = req.locals.cursorDate;
 
-  // SP params:
-  // cursor_date datetime,
-  // image_only boolean,
-  // p_limit INT
-  const sql = `call ${'SP_SELECT_followed_or_listed_feed_posts'}(?,?,?)`;
-  const params = [cursorDate, false, 30];
-  const rows = await pool.query(sql, params);
-  
-  const resultUrls = [];
-  let resultCursor = undefined;
-  if(rows[0] && rows[0][0]) {
-    // console.log(`[${shortname}] response`, rows[0][0]);
-    for (const row of rows[0][0] || []) {
-      if(row) {
-        resultUrls.push({post: row.url});
-        resultCursor = row.url;
-      }
-    }
-  }
-  if(resultCursor) {
-    const c = await pool.query('SELECT cid, posted_at FROM bsky_post WHERE url = ?', [resultCursor]);
-    // console.log(`[${shortname}] c`, c);
-    if (c && c[0] && c[0][0]) {
-      resultCursor = `${c[0][0].posted_at}::${c[0][0].cid}`;
-    }
-  }
+  const feedData = await fetchFeedData(cursorDate);
   res.locals.cacheEX = 1200; // 1200 seconds cache (20 minutes)
-  res.locals.feedData = {
-    feed: resultUrls,
-    cursor: resultCursor
-  };
+  res.locals.feedData = feedData;
   next();
+}
+
+export async function getInitialFeedData() {
+  try {
+    const datePlus1Hour = new Date();
+    datePlus1Hour.setHours(datePlus1Hour.getHours() + 1);
+    return await fetchFeedData(datePlus1Hour);
+  } catch (error) {
+    console.error(`[${shortname}] Error in getInitialFeedData:`, error);
+    return null;
+  }
 }
 
 export default handleRequest;

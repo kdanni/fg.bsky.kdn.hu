@@ -5,6 +5,7 @@ export const SERVICE_ENDPOINT = `https://${process.env.FEEDGEN_HOSTNAME}`
 const FEEDGEN_PUBLISHER_DID = process.env.FEEDGEN_PUBLISHER_DID;
 
 import { pool } from '../../../algo/connection/connection.mjs';
+import crypto from 'crypto';
 
 import {shortname} from '../../../algo/kdanni-Photo.mjs';
 

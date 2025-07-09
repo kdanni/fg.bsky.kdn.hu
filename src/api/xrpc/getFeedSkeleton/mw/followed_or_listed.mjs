@@ -6,20 +6,8 @@ const FEEDGEN_PUBLISHER_DID = process.env.FEEDGEN_PUBLISHER_DID;
 
 import { fetchFeedDataBySql } from '../util/fetchFeedData.mjs';
 
-const shortname = 'kd-Follow-Listd';
+import { shortname } from '../../../../algo/followed_or_listed.mjs';
 
-export const FEEDGEN_CONFIG = {
-  publisherDid: `${process.env.FEEDGEN_PUBLISHER_DID}`,
-  feeds: [
-    {
-      uri: `at://${process.env.FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`,
-      id: `${shortname}`,
-      displayName: '@kdanni.hu - F + L',
-      description: 'Posts by followed or users on my lists. No replies.',
-      avatarFile: 'avatars/kdn.jpg',
-    },
-  ],
-}
 
 async function fetchFeedData(cursorDate) {
   const sql = `call ${'SP_SELECT_followed_or_listed_feed_posts'}(?,?,?)`;

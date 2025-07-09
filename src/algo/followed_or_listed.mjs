@@ -1,4 +1,4 @@
-export const shortname = 'nsfw-Listed';
+export const shortname = 'kd-Follow-Listd';
 
 export const FEEDGEN_CONFIG = {
   publisherDid: `${process.env.FEEDGEN_PUBLISHER_DID}`,
@@ -6,9 +6,9 @@ export const FEEDGEN_CONFIG = {
     {
       uri: `at://${process.env.FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`,
       id: `${shortname}`,
-      displayName: 'NSFW listed 🔞',
-      description: 'I assume you working in a conservative environment.',
-      avatarFile: 'avatars/nsfw.png',
+      displayName: '@kdanni.hu - F + L',
+      description: 'Posts by followed or users on my lists. No replies.',
+      avatarFile: 'avatars/kdn.jpg',
     },
   ],
 }

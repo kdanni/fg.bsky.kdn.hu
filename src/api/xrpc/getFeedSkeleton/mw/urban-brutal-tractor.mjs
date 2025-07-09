@@ -6,25 +6,7 @@ const FEEDGEN_PUBLISHER_DID = process.env.FEEDGEN_PUBLISHER_DID;
 
 import { fetchFeedData } from '../util/fetchFeedData.mjs';
 
-import { shortname as nu } from '../../../../algo/not-urban-ex.mjs';
-import { shortname as tr } from '../../../../algo/tractor-hashtag.mjs';
-import { shortname as br } from '../../../../algo/brutalism-hashtag.mjs';
-
-const shortname = 'brutalurbantractor';
-const shortnameArray = [nu, tr, br];
-
-export const FEEDGEN_CONFIG = {
-  publisherDid: `${process.env.FEEDGEN_PUBLISHER_DID}`,
-  feeds: [
-    {
-      uri: `at://${process.env.FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`,
-      id: `${shortname}`,
-      displayName: '#BrutalUrbanTractor',
-      description: 'Merged feed of Brutalism, Not Urbanex, and Tractor posts.',
-      avatarFile: 'avatars/kdn.jpg',
-    },
-  ],
-}
+import { shortname, shortnameArray } from '../../../../algo/urban-brutal-tractor.mjs';
 
 async function handleRequest(req, res, next) {
   if (res.locals.cachedData || res.locals.feedData) {

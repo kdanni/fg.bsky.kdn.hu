@@ -5,7 +5,7 @@ import { updateFeed } from '../bsky-social/update-feed-repo-object.mjs';
 
 import {FEEDGEN_CONFIG as followed} from '../algo/followed.mjs';
 import {FEEDGEN_CONFIG as listed} from '../algo/listed.mjs';
-import {FEEDGEN_CONFIG as f_l} from '../api/xrpc/getFeedSkeleton/followed_or_listed.mjs';
+import {FEEDGEN_CONFIG as f_l} from '../algo/followed_or_listed.mjs';
 import {FEEDGEN_CONFIG as kdBud} from '../algo/kdanni-Bud.mjs';
 import {FEEDGEN_CONFIG as kdPhoto} from '../algo/kdanni-Photo.mjs';
 import {FEEDGEN_CONFIG as budHash} from '../algo/budapest-hashtag.mjs';
@@ -16,7 +16,7 @@ import {FEEDGEN_CONFIG as notUrbanEx } from '../algo/not-urban-ex.mjs';
 import {FEEDGEN_CONFIG as musEj } from '../algo/kdanni-MusEj.mjs';
 import {FEEDGEN_CONFIG as nsfw } from '../algo/nsfw.mjs';
 import { FEEDGEN_CONFIG as brutalism } from '../algo/brutalism-hashtag.mjs';
-import { FEEDGEN_CONFIG as UBT } from '../api/xrpc/getFeedSkeleton/urban-brutal-tractor.mjs';
+import { FEEDGEN_CONFIG as UBT } from '../algo/urban-brutal-tractor.mjs';
 
 
 export async function publish(commandString) {

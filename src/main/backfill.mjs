@@ -14,6 +14,9 @@ import { runAlgo as notUrbanEx } from '../algo/not-urban-ex.mjs';
 import { runAlgo as musEj } from '../algo/kdanni-MusEj.mjs';
 import { runAlgo as brutalism } from '../algo/brutalism-hashtag.mjs';
 
+let algosOver = false;
+let finalPartOver = false;
+
 async function main() {
 
     // BlueSky API calls
@@ -35,9 +38,10 @@ async function main() {
     // Algos select post from bsky_post table and insert into feed_post table no remote API calls
     // Can run in parallel if DB isn't a bottleneck
 
+    finalPart();
+
     console.log('[backfill-main] Running algos');
     await Promise.all([
-        backfillFollowed(), // Not an algo.
         kdBud(),
         kdPhoto(),
         budTag(),
@@ -51,16 +55,26 @@ async function main() {
         console.error('[backfill-main] Algo Error', e);
     });
     console.log('[backfill-main] Running algos done');
-
     try {
         await initCache();
     } catch (error) {
         console.error('[backfill-main] Cache Initialization Error:', error);
+    }    
+    algosOver = true;
+    doExit();
+}
+async function finalPart() {
+    await backfillFollowed();    
+    finalPartOver = true;
+    doExit();
+}
+async function doExit() {    
+    if (!algosOver || !finalPartOver) {
+        console.log('[backfill-main] Waiting for algos and final part to finish');
+        return;
     }
-
     setTimeout(() => { process.emit('exit_event') }, 1000);
 }
-
 
 (async () => {
     setTimeout(main, 1000);

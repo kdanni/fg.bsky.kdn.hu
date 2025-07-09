@@ -39,9 +39,10 @@ const getFeedSkeletonChain = [
     musEj,
     cf,
     nsfw,
-    redisz,
-    zzz
 ];
+// Make sure to keep the order of the chain
+getFeedSkeletonChain.push(redisz);
+getFeedSkeletonChain.push(zzz);
 
 router.get('/app.bsky.feed.getFeedSkeleton', getFeedSkeletonChain);
 

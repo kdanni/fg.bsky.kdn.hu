@@ -3,12 +3,12 @@ const router = express.Router();
 
 //MW
 
-import mw from './mw.mjs';
+import serviceDidMw from './service-did-mw.mjs';
 
-const mwChain = [
-    mw
+const serviceDidMwChain = [
+    serviceDidMw
 ];
 
-router.get('/did.json', mwChain);
+router.get('/did.json', serviceDidMwChain);
 
 export default router;

@@ -22,12 +22,11 @@ async function handleRequest (req, res, next) {
   if(!regex.test(feed)) {
     return next();
   }
-  console.log(`[${shortname}] request`, feed);
+  console.log(`[${shortname}] ${JSON.stringify(req.locals)} ${JSON.stringify(res.locals)}`);
   
   let cursorDate = req.locals.cursorDate;
 
   const feedData = await fetchFeedData(shortname, cursorDate);
-  res.locals.cacheEX = 600; // 600 seconds cache
   res.locals.feedData = feedData;
   next();
 }

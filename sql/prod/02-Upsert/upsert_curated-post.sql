@@ -1,2 +1,0 @@
-
-DROP PROCEDURE IF EXISTS sp_UPSERT_curated_post;

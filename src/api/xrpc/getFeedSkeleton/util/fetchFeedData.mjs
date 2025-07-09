@@ -8,6 +8,11 @@ export async function fetchFeedData(shortname, cursorDate, limit = 30) {
     shortname = JSON.stringify(shortname);
   }
   const params = [shortname, cursorDate, limit];
+  
+  return await fetchFeedDataBySql(sql, params, cursorDate);
+}
+
+export async function fetchFeedDataBySql(sql, params, cursorDate) {
   const rows = await pool.query(sql, params);
 
   const resultUrls = [];

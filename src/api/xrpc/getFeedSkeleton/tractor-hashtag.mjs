@@ -4,7 +4,7 @@ export const SERVICE_ENDPOINT = `https://${process.env.FEEDGEN_HOSTNAME}`
 
 const FEEDGEN_PUBLISHER_DID = process.env.FEEDGEN_PUBLISHER_DID;
 
-import { fetchFeedData } from './util/fetchFeedData-by-FeedName.mjs';
+import { fetchFeedData } from './util/fetchFeedData.mjs';
 
 import {shortname} from '../../../algo/tractor-hashtag.mjs';
 

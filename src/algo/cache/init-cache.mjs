@@ -8,7 +8,7 @@ import { shortname as shortnameMagyaro } from '../../api/xrpc/getFeedSkeleton/ma
 import { shortname as shortnameTractor } from '../../api/xrpc/getFeedSkeleton/tractor-hashtag.mjs';
 import { shortname as shortnameNSFW } from '../../api/xrpc/getFeedSkeleton/nsfw.mjs';
 import { constructCacheKey } from '../../api/xrpc/getFeedSkeleton/000.mjs';
-import { getInitialFeedData } from '../../api/xrpc/getFeedSkeleton/util/fetchFeedData-by-FeedName.mjs';
+import { getInitialFeedData } from '../../api/xrpc/getFeedSkeleton/util/fetchFeedData.mjs';
 import { isRedisConnected, redisSet } from '../../redis/redis-io-connection.mjs';
 
 export async function initCache() {

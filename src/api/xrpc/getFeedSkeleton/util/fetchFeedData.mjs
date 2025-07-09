@@ -1,4 +1,4 @@
-import { pool } from '../../../../algo/connection/connection.mjs';
+import { pool } from './connection.mjs';
 import crypto from 'crypto';
 
 export async function fetchFeedData(shortname, cursorDate, limit = 30) {

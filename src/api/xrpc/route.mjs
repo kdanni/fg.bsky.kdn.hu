@@ -7,20 +7,20 @@ import mw000 from './getFeedSkeleton/000.mjs';
 import redis0 from './getFeedSkeleton/0-redis.mjs';
 import redisz from './getFeedSkeleton/z-redis.mjs';
 import zzz from './getFeedSkeleton/zzz.mjs';
-import kdanniBud from './getFeedSkeleton/kdanni-Bud.mjs';
-import kdanniPhoto from './getFeedSkeleton/kdanni-Photo.mjs';
-import kdanniFollowed from './getFeedSkeleton/followed.mjs';
-import kdanniListed from './getFeedSkeleton/listed.mjs';
-import kdanniFollowedOrListed from './getFeedSkeleton/followed_or_listed.mjs';
-import budapestHashtag from './getFeedSkeleton/budapest-hashtag.mjs';
-import magyaroHashtag from './getFeedSkeleton/magyaro-hashtag.mjs';
-import cf from './getFeedSkeleton/kdanni-CustomFeed.mjs';
-import tractorHashtag from './getFeedSkeleton/tractor-hashtag.mjs';
-import notUrbanEx from './getFeedSkeleton/not-urban-ex.mjs';
-import musEj from './getFeedSkeleton/kdanni-MusEj.mjs';
-import nsfw from './getFeedSkeleton/nsfw.mjs';
-import brutal from './getFeedSkeleton/brutalism-hashtag.mjs';
-import ubt from './getFeedSkeleton/urban-brutal-tractor.mjs';
+import kdanniBud from './getFeedSkeleton/mw/kdanni-Bud.mjs';
+import kdanniPhoto from './getFeedSkeleton/mw/kdanni-Photo.mjs';
+import kdanniFollowed from './getFeedSkeleton/mw/followed.mjs';
+import kdanniListed from './getFeedSkeleton/mw/listed.mjs';
+import kdanniFollowedOrListed from './getFeedSkeleton/mw/followed_or_listed.mjs';
+import budapestHashtag from './getFeedSkeleton/mw/budapest-hashtag.mjs';
+import magyaroHashtag from './getFeedSkeleton/mw/magyaro-hashtag.mjs';
+import cf from './getFeedSkeleton/mw/kdanni-CustomFeed.mjs';
+import tractorHashtag from './getFeedSkeleton/mw/tractor-hashtag.mjs';
+import notUrbanEx from './getFeedSkeleton/mw/not-urban-ex.mjs';
+import musEj from './getFeedSkeleton/mw/kdanni-MusEj.mjs';
+import nsfw from './getFeedSkeleton/mw/nsfw.mjs';
+import brutal from './getFeedSkeleton/mw/brutalism-hashtag.mjs';
+import ubt from './getFeedSkeleton/mw/urban-brutal-tractor.mjs';
 
 const getFeedSkeletonChain = [
     mw000,

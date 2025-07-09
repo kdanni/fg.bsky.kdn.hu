@@ -4,9 +4,9 @@ export const SERVICE_ENDPOINT = `https://${process.env.FEEDGEN_HOSTNAME}`
 
 const FEEDGEN_PUBLISHER_DID = process.env.FEEDGEN_PUBLISHER_DID;
 
-import { fetchFeedData } from './util/fetchFeedData.mjs';
+import { fetchFeedData } from '../util/fetchFeedData.mjs';
 
-import {shortname} from '../../../algo/kdanni-CustomFeed.mjs';
+import {shortname} from '../../../../algo/kdanni-Bud.mjs';
 
 async function handleRequest (req, res, next) {
   if(res.locals.cachedData || res.locals.feedData) {

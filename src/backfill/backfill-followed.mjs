@@ -3,8 +3,8 @@ import got from 'got';
 import { backfillActor } from './backfill-actor.mjs';
 import { runAlgo, shortname } from '../algo/followed.mjs';
 
-import { getInitialFeedData } from '../api/xrpc/getFeedSkeleton/followed.mjs';
-import { getInitialFeedData as getInitialFeedDataFL, shortname as shortnameFL } from '../api/xrpc/getFeedSkeleton/followed_or_listed.mjs';
+import { getInitialFeedData } from '../api/xrpc/getFeedSkeleton/mw/followed.mjs';
+import { getInitialFeedData as getInitialFeedDataFL, shortname as shortnameFL } from '../api/xrpc/getFeedSkeleton/mw/followed_or_listed.mjs';
 import { constructCacheKey } from '../api/xrpc/getFeedSkeleton/000.mjs';
 import { isRedisConnected, redisSet } from '../redis/redis-io-connection.mjs';
 

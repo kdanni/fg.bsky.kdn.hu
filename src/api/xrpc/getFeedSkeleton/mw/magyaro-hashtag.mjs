@@ -4,9 +4,9 @@ export const SERVICE_ENDPOINT = `https://${process.env.FEEDGEN_HOSTNAME}`
 
 const FEEDGEN_PUBLISHER_DID = process.env.FEEDGEN_PUBLISHER_DID;
 
-import { fetchFeedData } from './util/fetchFeedData.mjs';
+import { fetchFeedData } from '../util/fetchFeedData.mjs';
 
-import {shortname} from '../../../algo/kdanni-Photo.mjs';
+import {shortname} from '../../../../algo/magyarorszag-hashtag.mjs';
 
 async function handleRequest (req, res, next) {
   if(res.locals.cachedData || res.locals.feedData) {
@@ -18,7 +18,7 @@ async function handleRequest (req, res, next) {
     return next();
   }
   let regex = new RegExp(`^at://${FEEDGEN_PUBLISHER_DID}/app\.bsky\.feed\.generator/${shortname}$`, 'i');
-  
+
   if(!regex.test(feed)) {
     return next();
   }

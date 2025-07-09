@@ -3,7 +3,7 @@ import got from 'got';
 import { backfillActor } from './backfill-actor.mjs';
 import { runAlgo, shortname } from '../algo/listed.mjs';
 
-import { getInitialFeedData } from '../api/xrpc/getFeedSkeleton/listed.mjs';
+import { getInitialFeedData } from '../api/xrpc/getFeedSkeleton/mw/listed.mjs';
 import { constructCacheKey } from '../api/xrpc/getFeedSkeleton/000.mjs';
 import { isRedisConnected, redisSet } from '../redis/redis-io-connection.mjs';
 

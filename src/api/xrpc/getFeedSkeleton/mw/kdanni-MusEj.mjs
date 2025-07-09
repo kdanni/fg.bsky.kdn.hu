@@ -4,9 +4,9 @@ export const SERVICE_ENDPOINT = `https://${process.env.FEEDGEN_HOSTNAME}`
 
 const FEEDGEN_PUBLISHER_DID = process.env.FEEDGEN_PUBLISHER_DID;
 
-import { fetchFeedData } from './util/fetchFeedData.mjs';
+import { fetchFeedData } from '../util/fetchFeedData.mjs';
 
-import {shortname} from '../../../algo/kdanni-Bud.mjs';
+import {shortname} from '../../../../algo/kdanni-MusEj.mjs';
 
 async function handleRequest (req, res, next) {
   if(res.locals.cachedData || res.locals.feedData) {
@@ -28,6 +28,7 @@ async function handleRequest (req, res, next) {
       
   const feedData = await fetchFeedData(shortname, cursorDate);
   res.locals.feedData = feedData;
+  res.locals.cacheEX = 3000;
   next();
 }
 

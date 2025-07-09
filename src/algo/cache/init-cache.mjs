@@ -6,7 +6,7 @@ import { shortname as shortnameKBud } from '../../api/xrpc/getFeedSkeleton/mw/kd
 import { shortname as shortnameKPhoto } from '../../api/xrpc/getFeedSkeleton/mw/kdanni-Photo.mjs';
 import { shortname as shortnameMagyaro } from '../../api/xrpc/getFeedSkeleton/mw/magyaro-hashtag.mjs';
 import { shortname as shortnameTractor } from '../../api/xrpc/getFeedSkeleton/mw/tractor-hashtag.mjs';
-import { shortname as shortnameNSFW, initFeedCache as initFeedCacheNSFW } from '../../api/xrpc/getFeedSkeleton/mw/nsfw.mjs';
+import { shortname as shortnameNSFW, getInitialFeedData as getInitialFeedDataNSFW } from '../../api/xrpc/getFeedSkeleton/mw/nsfw.mjs';
 import { constructCacheKey } from '../../api/xrpc/getFeedSkeleton/000.mjs';
 import { getInitialFeedData } from '../../api/xrpc/getFeedSkeleton/util/fetchFeedData.mjs';
 import { isRedisConnected, redisSet } from '../../redis/redis-io-connection.mjs';
@@ -23,7 +23,7 @@ export async function initCache() {
             await initFeedCache(shortnameMagyaro);
             await initFeedCache(shortnameTractor);
             // Initialize NSFW feed cache
-            let initialFeedDataNSFW = await initFeedCacheNSFW();
+            let initialFeedDataNSFW = await getInitialFeedDataNSFW();
             if (initialFeedDataNSFW && initialFeedDataNSFW.feed) {
                 let cacheKey = constructCacheKey(shortnameNSFW);
                 await redisSet(cacheKey, JSON.stringify(initialFeedDataNSFW), ['EX', 3000]);

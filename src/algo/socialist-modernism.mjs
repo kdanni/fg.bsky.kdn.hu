@@ -1,20 +1,16 @@
 import { pool } from './connection/connection.mjs';
 
-export const shortname = 'notUrbanEx';
+export const shortname = 'SocialistModernism';
 
 export const TAGS = [
-    '#urbandecay',
-    '#urbangaze',
-    '#suburbangaze',
-    '#cityscape',
-    '#bridge',
-    '#architecture',
-    '#oldbuildings',
-    '#industrial',
-    '#powerpole',
-    '#nightscape',
-    '#skyline',
-    '#dam',
+    '#SocialistModernism',
+    '#SocialistArchitecture',
+    '#Socialistheritage',
+    '#SoCHeritage',
+    '#CommunistArchitecture',
+    '#CommunistModernism',
+    '#Communistheritage',
+    '#Plattenbau',    
 ]
 
 const tagsRegexArray = TAGS.map(tag => `${tag}\\b`).join('|');
@@ -26,9 +22,9 @@ export const FEEDGEN_CONFIG = {
     {
       uri: `at://${process.env.FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`,
       id: `${shortname}`,
-      displayName: 'Not UrbanEx images',
+      displayName: '#SocialistModernism 🏢',
       description: `Hashtag included: ${TAGS.join(' ')}`,
-      avatarFile: 'avatars/notUrbanEx.jpg',
+      avatarFile: 'avatars/brutal.jpg',
     },
   ],
 }
@@ -49,8 +45,8 @@ export async function runAlgo() {
             if (posts1[0] && posts1[0][0]) {
                 posts.push(...posts1[0][0]);
             }
-        }        
-               
+        }
+        
         if(posts && posts.length > 0) {
             for (const post of posts || []) {
                 // console.log(`[${shortname}]`, post.text);

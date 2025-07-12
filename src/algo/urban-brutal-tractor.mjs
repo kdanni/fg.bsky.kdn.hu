@@ -1,9 +1,10 @@
 import { shortname as nu } from './not-urban-ex.mjs';
 import { shortname as tr } from './tractor-hashtag.mjs';
 import { shortname as br } from './brutalism-hashtag.mjs';
+import { shortname as sm } from './socialist-modernism.mjs';
 
 export const shortname = 'brutalurbantractor';
-export const shortnameArray = [nu, tr, br];
+export const shortnameArray = [nu, tr, br, sm];
 
 export const FEEDGEN_CONFIG = {
   publisherDid: `${process.env.FEEDGEN_PUBLISHER_DID}`,

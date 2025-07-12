@@ -13,6 +13,7 @@ import { runAlgo as tractor } from '../algo/tractor-hashtag.mjs';
 import { runAlgo as notUrbanEx } from '../algo/not-urban-ex.mjs';
 import { runAlgo as musEj } from '../algo/kdanni-MusEj.mjs';
 import { runAlgo as brutalism } from '../algo/brutalism-hashtag.mjs';
+import { runAlgo as sm } from '../algo/socialist-modernism.mjs';
 
 let algosOver = false;
 let finalPartOver = false;
@@ -51,6 +52,7 @@ async function main() {
         notUrbanEx(),
         musEj(),
         brutalism(),
+        sm(),
     ]).catch((e) => {
         console.error('[backfill-main] Algo Error', e);
     });

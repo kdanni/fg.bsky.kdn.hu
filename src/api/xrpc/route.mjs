@@ -21,6 +21,7 @@ import musEj from './getFeedSkeleton/mw/kdanni-MusEj.mjs';
 import nsfw from './getFeedSkeleton/mw/nsfw.mjs';
 import brutal from './getFeedSkeleton/mw/brutalism-hashtag.mjs';
 import ubt from './getFeedSkeleton/mw/urban-brutal-tractor.mjs';
+import sm from './getFeedSkeleton/mw/socialist-modernism.mjs';
 
 const getFeedSkeletonChain = [
     mw000,
@@ -36,6 +37,7 @@ const getFeedSkeletonChain = [
     brutal,
     notUrbanEx,
     ubt,
+    sm,
     musEj,
     cf,
     nsfw,

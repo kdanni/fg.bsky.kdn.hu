@@ -17,6 +17,7 @@ import {FEEDGEN_CONFIG as musEj } from '../algo/kdanni-MusEj.mjs';
 import {FEEDGEN_CONFIG as nsfw } from '../algo/nsfw.mjs';
 import { FEEDGEN_CONFIG as brutalism } from '../algo/brutalism-hashtag.mjs';
 import { FEEDGEN_CONFIG as UBT } from '../algo/urban-brutal-tractor.mjs';
+import { FEEDGEN_CONFIG as SM } from '../algo/socialist-modernism.mjs';
 
 
 export async function publish(commandString) {
@@ -69,6 +70,9 @@ export async function publish(commandString) {
     }
     if(feedName == 'urban-brutal-tractor' || feedName == 'UBT') {
         await publisFeed(UBT);
+    }
+    if(feedName == 'socialist-modernism' || feedName == 'SM') {
+        await publisFeed(SM);
     }
 
     process.emit('exit_event');
@@ -126,6 +130,9 @@ export async function unpublish(commandString) {
     if(feedName == 'urban-brutal-tractor' || feedName == 'UBT') {
         await unpublisFeed(UBT);
     }
+    if(feedName == 'socialist-modernism' || feedName == 'SM') {
+        await unpublisFeed(SM);
+    }
 
     process.emit('exit_event');
 }
@@ -181,6 +188,9 @@ export async function republish(commandString) {
     }
     if(feedName == 'urban-brutal-tractor' || feedName == 'UBT') {
         await updateFeed(UBT);
+    }
+    if(feedName == 'socialist-modernism' || feedName == 'SM') {
+        await updateFeed(SM);
     }
 
     process.emit('exit_event');

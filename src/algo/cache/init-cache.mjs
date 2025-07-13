@@ -6,6 +6,7 @@ import { shortname as shortnameKBud } from '../../api/xrpc/getFeedSkeleton/mw/kd
 import { shortname as shortnameKPhoto } from '../../api/xrpc/getFeedSkeleton/mw/kdanni-Photo.mjs';
 import { shortname as shortnameMagyaro } from '../../api/xrpc/getFeedSkeleton/mw/magyaro-hashtag.mjs';
 import { shortname as shortnameTractor } from '../../api/xrpc/getFeedSkeleton/mw/tractor-hashtag.mjs';
+import { shortname as shortnameFood } from '../../api/xrpc/getFeedSkeleton/mw/food-images.mjs';
 import { shortname as shortnameNSFW, getInitialFeedData as getInitialFeedDataNSFW } from '../../api/xrpc/getFeedSkeleton/mw/nsfw.mjs';
 import { constructCacheKey } from '../../api/xrpc/getFeedSkeleton/000.mjs';
 import { getInitialFeedData } from '../../api/xrpc/getFeedSkeleton/util/fetchFeedData.mjs';
@@ -22,6 +23,7 @@ export async function initCache() {
             await initFeedCache(shortnameKPhoto);
             await initFeedCache(shortnameMagyaro);
             await initFeedCache(shortnameTractor);
+            await initFeedCache(shortnameFood);
             // Initialize NSFW feed cache
             let initialFeedDataNSFW = await getInitialFeedDataNSFW();
             if (initialFeedDataNSFW && initialFeedDataNSFW.feed) {

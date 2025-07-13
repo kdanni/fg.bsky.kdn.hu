@@ -14,6 +14,7 @@ const SKIP_KEYWORDS_ARRAY = [
 
 import { TAGS } from '../algo/not-urban-ex.mjs'; 
 import { TAGS as TAGS2 } from '../algo/socialist-modernism.mjs'; 
+import { TAGS as TAGS3 } from '../algo/food-images.mjs'; 
 
 export const BACKFILL_SEARCH_QUERIES = [
     '#Budapest',
@@ -29,6 +30,7 @@ export const BACKFILL_SEARCH_QUERIES = [
 
 BACKFILL_SEARCH_QUERIES.push(...TAGS);
 BACKFILL_SEARCH_QUERIES.push(...TAGS2);
+BACKFILL_SEARCH_QUERIES.push(...TAGS3);
 
 // const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 const BSKY_SOCIAL_ROOT = process.env.BSKY_SOCIAL_ROOT || 'https://bsky.social';

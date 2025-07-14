@@ -1,4 +1,4 @@
-import { getMimeStringOrNull } from './util.mjs';
+import { getMimeStringOrNull, getLanguageOrEn } from './util.mjs';
 import got from 'got';
 
 import { pool } from './connection/connection.mjs';
@@ -68,6 +68,7 @@ export async function backfillPublisher() {
                     DEV_ENV && console.log('[backfillPublisher] Upserting item:', item?.post?.uri, item?.post?.record?.text, item?.post?.indexedAt);
                     
                     let has_image = getMimeStringOrNull(item?.post?.record?.embed);
+                    let langs = getLanguageOrEn(item?.post?.record);
 
                     let replyParent = item?.post?.record.reply?.parent.uri || null;
                     let replyRoot = item?.post?.record.reply?.root.uri || null;
@@ -75,7 +76,7 @@ export async function backfillPublisher() {
                     /**
                      * SP dont save replies. (reply if: replyParent or replyRoot is not null)
                      */
-                    const sql = `call ${'sp_UPSERT_bsky_post'}(?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                    const sql = `call ${'sp_UPSERT_bsky_post'}(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
                     // url VARCHAR(255),
                     // cid VARCHAR(255),
                     // author_did VARCHAR(255),
@@ -90,6 +91,7 @@ export async function backfillPublisher() {
                         item?.post?.author?.did||null,
                         replyParent || replyRoot || null,
                         item?.post?.record?.text||'',
+                        langs || 'en',
                         JSON.stringify(item?.post?.record?.facets||null),
                         JSON.stringify(item?.post?.record?.embed||null),
                         has_image||null,

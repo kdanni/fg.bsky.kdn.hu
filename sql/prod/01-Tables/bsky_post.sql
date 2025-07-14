@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS bsky_post (
   author_did VARCHAR(255) NOT NULL,
   reply_to_cid VARCHAR(255) DEFAULT NULL,  
   text TEXT NOT NULL,
+  langs VARCHAR(27) DEFAULT 'en',
   facets JSON DEFAULT NULL,
   embeds JSON DEFAULT NULL, 
   has_image VARCHAR(64) NULL, 
@@ -27,3 +28,8 @@ CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci;
 
 -- ALTER TABLE bsky_post ADD INDEX (posted_at);
 -- ALTER TABLE bsky_post ADD INDEX (updated_at);
+
+
+-- ALTER TABLE bsky_post
+--   ADD COLUMN langs VARCHAR(27) DEFAULT 'en' AFTER text
+-- ;

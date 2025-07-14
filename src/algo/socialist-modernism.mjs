@@ -24,7 +24,7 @@ export const FEEDGEN_CONFIG = {
       id: `${shortname}`,
       displayName: '#SocialistModernism 🏢',
       description: `Hashtag included: ${TAGS.join(' ')}`,
-      avatarFile: 'avatars/brutal.jpg',
+      avatarFile: 'avatars/socialist-modernism.jpg',
     },
   ],
 }

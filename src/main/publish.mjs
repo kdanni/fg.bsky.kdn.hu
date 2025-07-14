@@ -18,6 +18,7 @@ import {FEEDGEN_CONFIG as nsfw } from '../algo/nsfw.mjs';
 import { FEEDGEN_CONFIG as brutalism } from '../algo/brutalism-hashtag.mjs';
 import { FEEDGEN_CONFIG as UBT } from '../algo/urban-brutal-tractor.mjs';
 import { FEEDGEN_CONFIG as SM } from '../algo/socialist-modernism.mjs';
+import { FEEDGEN_CONFIG as FOOD } from '../algo/food-images.mjs';
 
 
 export async function publish(commandString) {
@@ -73,6 +74,9 @@ export async function publish(commandString) {
     }
     if(feedName == 'socialist-modernism' || feedName == 'SM') {
         await publisFeed(SM);
+    }
+    if(feedName == 'food-images' || feedName == 'FOOD') {
+        await publisFeed(FOOD);
     }
 
     process.emit('exit_event');
@@ -133,6 +137,9 @@ export async function unpublish(commandString) {
     if(feedName == 'socialist-modernism' || feedName == 'SM') {
         await unpublisFeed(SM);
     }
+    if(feedName == 'food-images' || feedName == 'FOOD') {
+        await unpublisFeed(FOOD);
+    }
 
     process.emit('exit_event');
 }
@@ -191,6 +198,9 @@ export async function republish(commandString) {
     }
     if(feedName == 'socialist-modernism' || feedName == 'SM') {
         await updateFeed(SM);
+    }
+    if(feedName == 'food-images' || feedName == 'FOOD') {
+        await updateFeed(FOOD);
     }
 
     process.emit('exit_event');

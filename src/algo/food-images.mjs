@@ -25,7 +25,7 @@ export const FEEDGEN_CONFIG = {
     {
       uri: `at://${process.env.FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`,
       id: `${shortname}`,
-      displayName: 'Food Images',
+      displayName: 'Food Images 🍜',
       description: `Hashtag included: ${TAGS.join(' ')}`,
       avatarFile: 'avatars/food-images.jpg',
     },

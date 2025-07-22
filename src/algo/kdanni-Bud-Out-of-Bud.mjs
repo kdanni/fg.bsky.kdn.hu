@@ -10,8 +10,8 @@ export const FEEDGEN_CONFIG = {
     {
       uri: `at://${process.env.FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`,
       id: `${shortname}`,
-      displayName: '#Budapest & #OutOfTheCity',
-      description: 'Merged feed of Budapest and OutOfTheCity posts.',
+      displayName: '#Budapest&#OutOfTheCity',
+      description: 'Merged feed of my Budapest and my OutOfTheCity posts.',
       avatarFile: 'avatars/kdn.jpg',
     },
   ],

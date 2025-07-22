@@ -9,6 +9,8 @@ import {FEEDGEN_CONFIG as f_l} from '../algo/followed_or_listed.mjs';
 import {FEEDGEN_CONFIG as kdBud} from '../algo/kdanni-Bud.mjs';
 import {FEEDGEN_CONFIG as kdPhoto} from '../algo/kdanni-Photo.mjs';
 import {FEEDGEN_CONFIG as budHash} from '../algo/budapest-hashtag.mjs';
+import {FEEDGEN_CONFIG as kdOutofBud} from '../algo/kdanni-out-of-Bud.mjs';
+import {FEEDGEN_CONFIG as kdBudOutofBud} from '../algo/kdanni-Bud-Out-of-Bud.mjs';
 import {FEEDGEN_CONFIG as magyaroHash} from '../algo/magyarorszag-hashtag.mjs';
 import {FEEDGEN_CONFIG as cf} from '../algo/kdanni-CustomFeed.mjs';
 import {FEEDGEN_CONFIG as tractor} from '../algo/tractor-hashtag.mjs';
@@ -78,6 +80,12 @@ export async function publish(commandString) {
     if(feedName == 'food-images' || feedName == 'FOOD') {
         await publisFeed(FOOD);
     }
+    if(feedName == 'kdanni-out-of-Bud') {
+        await publisFeed(kdOutofBud);
+    }
+    if(feedName == 'kdanni-Bud-Out-of-Bud') {
+        await publisFeed(kdBudOutofBud);
+    }
 
     process.emit('exit_event');
 }
@@ -140,6 +148,12 @@ export async function unpublish(commandString) {
     if(feedName == 'food-images' || feedName == 'FOOD') {
         await unpublisFeed(FOOD);
     }
+    if(feedName == 'kdanni-out-of-Bud') {
+        await unpublisFeed(kdOutofBud);
+    }
+    if(feedName == 'kdanni-Bud-Out-of-Bud') {
+        await unpublisFeed(kdBudOutofBud);
+    }
 
     process.emit('exit_event');
 }
@@ -201,6 +215,12 @@ export async function republish(commandString) {
     }
     if(feedName == 'food-images' || feedName == 'FOOD') {
         await updateFeed(FOOD);
+    }
+    if(feedName == 'kdanni-out-of-Bud') {
+        await updateFeed(kdOutofBud);
+    }
+    if(feedName == 'kdanni-Bud-Out-of-Bud') {
+        await updateFeed(kdBudOutofBud);
     }
 
     process.emit('exit_event');

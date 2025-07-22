@@ -5,6 +5,8 @@ import { backfillSearchRunner } from '../backfill/backfill-search.mjs'
 import { initCache } from '../algo/cache/init-cache.mjs';
 
 import { runAlgo as kdBud } from '../algo/kdanni-Bud.mjs';
+import { runAlgo as kdOutofBud } from '../algo/kdanni-out-of-Bud.mjs';
+import { runAlgo as kdBudOutofBud } from '../algo/kdanni-Bud-Out-of-Bud.mjs';
 import { runAlgo as kdPhoto } from '../algo/kdanni-Photo.mjs';
 import { runAlgo as budTag } from '../algo/budapest-hashtag.mjs';
 import { runAlgo as moTag } from '../algo/magyarorszag-hashtag.mjs';
@@ -45,6 +47,8 @@ async function main() {
     console.log('[backfill-main] Running algos');
     await Promise.all([
         kdBud(),
+        kdOutofBud(),
+        kdBudOutofBud(),
         kdPhoto(),
         budTag(),
         moTag(),

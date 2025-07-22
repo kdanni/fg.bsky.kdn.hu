@@ -8,6 +8,8 @@ import redis0 from './getFeedSkeleton/0-redis.mjs';
 import redisz from './getFeedSkeleton/z-redis.mjs';
 import zzz from './getFeedSkeleton/zzz.mjs';
 import kdanniBud from './getFeedSkeleton/mw/kdanni-Bud.mjs';
+import kdanniOutofBud from './getFeedSkeleton/mw/kdanni-outOfBud.mjs';
+import kdanniBudOutofBud from './getFeedSkeleton/mw/kdanni-Bud-Out-of-Bud.mjs';
 import kdanniPhoto from './getFeedSkeleton/mw/kdanni-Photo.mjs';
 import kdanniFollowed from './getFeedSkeleton/mw/followed.mjs';
 import kdanniListed from './getFeedSkeleton/mw/listed.mjs';
@@ -28,6 +30,8 @@ const getFeedSkeletonChain = [
     mw000,
     redis0,
     kdanniBud,
+    kdanniOutofBud,
+    kdanniBudOutofBud,
     kdanniPhoto,
     kdanniFollowed,
     kdanniListed,

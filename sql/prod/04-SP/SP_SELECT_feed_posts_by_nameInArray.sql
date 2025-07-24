@@ -31,6 +31,10 @@ BEGIN
         SELECT *,
             ROW_NUMBER() OVER (PARTITION BY url ORDER BY updated_at DESC) AS rn
         FROM feed_post
+        WHERE feed_name IN (
+            SELECT value COLLATE utf8mb4_hungarian_ci AS value
+            FROM JSON_TABLE(p_feed_name_array, '$[*]' COLUMNS (value VARCHAR(54) PATH '$')) AS jt
+        )
     ) AS sub
     WHERE feed_name IN (
         SELECT value COLLATE utf8mb4_hungarian_ci AS value

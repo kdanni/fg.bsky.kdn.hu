@@ -17,6 +17,7 @@ import { runAlgo as musEj } from '../algo/kdanni-MusEj.mjs';
 import { runAlgo as brutalism } from '../algo/brutalism-hashtag.mjs';
 import { runAlgo as sm } from '../algo/socialist-modernism.mjs';
 import { runAlgo as food } from '../algo/food-images.mjs';
+import { runAlgo as landscape } from '../algo/landscape.mjs';
 
 let algosOver = false;
 let finalPartOver = false;
@@ -59,6 +60,7 @@ async function main() {
         brutalism(),
         sm(),
         food(),
+        landscape(),
     ]).catch((e) => {
         console.error('[backfill-main] Algo Error', e);
     });

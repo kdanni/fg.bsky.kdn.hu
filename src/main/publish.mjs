@@ -21,6 +21,7 @@ import { FEEDGEN_CONFIG as brutalism } from '../algo/brutalism-hashtag.mjs';
 import { FEEDGEN_CONFIG as UBT } from '../algo/urban-brutal-tractor.mjs';
 import { FEEDGEN_CONFIG as SM } from '../algo/socialist-modernism.mjs';
 import { FEEDGEN_CONFIG as FOOD } from '../algo/food-images.mjs';
+import { FEEDGEN_CONFIG as LANDSCAPE } from '../algo/landscape.mjs';
 
 
 export async function publish(commandString) {
@@ -85,6 +86,9 @@ export async function publish(commandString) {
     }
     if(feedName == 'kdanni-Bud-Out-of-Bud') {
         await publisFeed(kdBudOutofBud);
+    }
+    if(feedName == 'landscape') {
+        await publisFeed(LANDSCAPE);
     }
 
     process.emit('exit_event');
@@ -154,6 +158,9 @@ export async function unpublish(commandString) {
     if(feedName == 'kdanni-Bud-Out-of-Bud') {
         await unpublisFeed(kdBudOutofBud);
     }
+    if(feedName == 'landscape') {
+        await unpublisFeed(LANDSCAPE);
+    }
 
     process.emit('exit_event');
 }
@@ -221,6 +228,9 @@ export async function republish(commandString) {
     }
     if(feedName == 'kdanni-Bud-Out-of-Bud') {
         await updateFeed(kdBudOutofBud);
+    }
+    if(feedName == 'landscape') {
+        await updateFeed(LANDSCAPE);
     }
 
     process.emit('exit_event');

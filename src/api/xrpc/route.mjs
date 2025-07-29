@@ -25,6 +25,7 @@ import brutal from './getFeedSkeleton/mw/brutalism-hashtag.mjs';
 import ubt from './getFeedSkeleton/mw/urban-brutal-tractor.mjs';
 import sm from './getFeedSkeleton/mw/socialist-modernism.mjs';
 import food from './getFeedSkeleton/mw/food-images.mjs';
+import landscape from './getFeedSkeleton/mw/landscape.mjs';
 
 const getFeedSkeletonChain = [
     mw000,
@@ -47,6 +48,7 @@ const getFeedSkeletonChain = [
     musEj,
     cf,
     nsfw,
+    landscape,
 ];
 // Make sure to keep the order of the chain
 getFeedSkeletonChain.push(redisz);

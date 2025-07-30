@@ -22,7 +22,9 @@ import { FEEDGEN_CONFIG as UBT } from '../algo/urban-brutal-tractor.mjs';
 import { FEEDGEN_CONFIG as SM } from '../algo/socialist-modernism.mjs';
 import { FEEDGEN_CONFIG as FOOD } from '../algo/food-images.mjs';
 import { FEEDGEN_CONFIG as LANDSCAPE } from '../algo/landscape.mjs';
-
+import { FEEDGEN_CONFIG as budapestAll } from '../algo/budapest-all.mjs';
+import { FEEDGEN_CONFIG as budapestMeetings } from '../algo/budapest-meetings.mjs';
+import { FEEDGEN_CONFIG as budapestJobs } from '../algo/budapest-jobsearch.mjs';
 
 export async function publish(commandString) {
     const match = /^publish\b +(\S+)/.exec(commandString) || [commandString, null];
@@ -90,7 +92,15 @@ export async function publish(commandString) {
     if(feedName == 'landscape') {
         await publisFeed(LANDSCAPE);
     }
-
+    if(feedName == 'budapest-all') {
+        await publisFeed(budapestAll);
+    }
+    if(feedName == 'budapest-meetings') {
+        await publisFeed(budapestMeetings);
+    }
+    if(feedName == 'budapest-jobs') {   
+        await publisFeed(budapestJobs);
+    }
     process.emit('exit_event');
 }
 
@@ -161,7 +171,15 @@ export async function unpublish(commandString) {
     if(feedName == 'landscape') {
         await unpublisFeed(LANDSCAPE);
     }
-
+    if(feedName == 'budapest-all') {
+        await unpublisFeed(budapestAll);
+    }
+    if(feedName == 'budapest-meetings') {
+        await unpublisFeed(budapestMeetings);
+    }
+    if(feedName == 'budapest-jobs') {       
+        await unpublisFeed(budapestJobs);
+    }
     process.emit('exit_event');
 }
 
@@ -232,7 +250,15 @@ export async function republish(commandString) {
     if(feedName == 'landscape') {
         await updateFeed(LANDSCAPE);
     }
-
+    if(feedName == 'budapest-all') {
+        await updateFeed(budapestAll);
+    }
+    if(feedName == 'budapest-meetings') {
+        await updateFeed(budapestMeetings);
+    }
+    if(feedName == 'budapest-jobs') {       
+        await updateFeed(budapestJobs);
+    }
     process.emit('exit_event');
 
 }

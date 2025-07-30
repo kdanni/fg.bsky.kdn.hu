@@ -12,6 +12,9 @@ import { shortname as shortnameNSFW, getInitialFeedData as getInitialFeedDataNSF
 import { constructCacheKey } from '../../api/xrpc/getFeedSkeleton/000.mjs';
 import { getInitialFeedData } from '../../api/xrpc/getFeedSkeleton/util/fetchFeedData.mjs';
 import { isRedisConnected, redisSet } from '../../redis/redis-io-connection.mjs';
+import { shortname as shortnameBudapestAll } from '../../api/xrpc/getFeedSkeleton/mw/budapest-all.mjs';
+import { shortname as shortnameBudapestMeetings } from '../../api/xrpc/getFeedSkeleton/mw/budapest-meeting.mjs';
+import { shortname as shortnameBudapestJobs } from '../../api/xrpc/getFeedSkeleton/mw/budapest-jobs.mjs';
 
 export async function initCache() {
     try {
@@ -26,6 +29,9 @@ export async function initCache() {
             await initFeedCache(shortnameTractor);
             await initFeedCache(shortnameFood);
             await initFeedCache(shortnameLandscape);
+            await initFeedCache(shortnameBudapestAll);
+            await initFeedCache(shortnameBudapestMeetings);
+            await initFeedCache(shortnameBudapestJobs);
             // Initialize NSFW feed cache
             let initialFeedDataNSFW = await getInitialFeedDataNSFW();
             if (initialFeedDataNSFW && initialFeedDataNSFW.feed) {

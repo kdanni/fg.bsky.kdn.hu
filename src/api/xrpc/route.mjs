@@ -26,6 +26,9 @@ import ubt from './getFeedSkeleton/mw/urban-brutal-tractor.mjs';
 import sm from './getFeedSkeleton/mw/socialist-modernism.mjs';
 import food from './getFeedSkeleton/mw/food-images.mjs';
 import landscape from './getFeedSkeleton/mw/landscape.mjs';
+import budapestAll from './getFeedSkeleton/mw/budapest-all.mjs';
+import budapestMeetings from './getFeedSkeleton/mw/budapest-meeting.mjs';
+import budapestJobs from './getFeedSkeleton/mw/budapest-jobs.mjs';
 
 const getFeedSkeletonChain = [
     mw000,
@@ -49,6 +52,9 @@ const getFeedSkeletonChain = [
     cf,
     nsfw,
     landscape,
+    budapestAll,
+    budapestMeetings,
+    budapestJobs,
 ];
 // Make sure to keep the order of the chain
 getFeedSkeletonChain.push(redisz);

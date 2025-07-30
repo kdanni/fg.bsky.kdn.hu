@@ -19,6 +19,7 @@ import { TAGS as TAGS4 } from '../algo/landscape.mjs';
 
 export const BACKFILL_SEARCH_QUERIES = [
     '#Budapest',
+    '📍Budapest',
     '#Magyarország',
     '#magyar',
     '#tractor',

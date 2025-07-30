@@ -24,7 +24,7 @@ export async function runAlgo() {
     try {
         const posts = await pool.query(
             `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
-            ['%#Budapest%']
+            ['%Budapest%']
         );
 
         // console.log('Posts:', posts[0][0]);
@@ -32,7 +32,7 @@ export async function runAlgo() {
         if(posts[0] && posts[0][0]) {
             for (const post of posts[0][0] || []) {
                 if(/^image\//.test(`${post.has_image}`)) {
-                    if (/#budapest/i.test(post.text)) {
+                    if (/#budapest/i.test(post.text) || ( /#photo(graphy)?\b/i.test(post.text) && /📍budapest/i.test(post.text))) {
                         DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
 
                         const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?)`;

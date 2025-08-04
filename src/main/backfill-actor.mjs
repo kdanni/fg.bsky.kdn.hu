@@ -33,11 +33,11 @@ export async function main() {
         ]);
         
         await backfillFollowed();
-        await initFeedCache(F);
+        // await initFeedCache(F);
 
         await backfillListed();
-        await initFeedCache(L);
-        await initFeedCache(FL);
+        // await initFeedCache(L);
+        // await initFeedCache(FL);
         await initFeedNSFW();
     
         console.log('[backfill-actor-main] Backfilling done');

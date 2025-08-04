@@ -60,18 +60,17 @@ export async function backfillSearchRunner () {
     }
 }
 
-import { initCache } from '../algo/cache/init-cache.mjs';
-
 import { runAlgo as brutalism } from '../algo/brutalism-hashtag.mjs';
-import { runAlgo as sm } from '../algo/socialist-modernism.mjs';
+import { runAlgo as budapestAll } from '../algo/budapest-all.mjs';
+import { runAlgo as budTag } from '../algo/budapest-hashtag.mjs';
 import { runAlgo as food } from '../algo/food-images.mjs';
 import { runAlgo as landscape } from '../algo/landscape.mjs';
-import { runAlgo as treescape } from '../algo/treescape.mjs';
-import { runAlgo as budapestAll } from '../algo/budapest-all.mjs';
-import { runAlgo as tractor } from '../algo/tractor-hashtag.mjs';
-import { runAlgo as notUrbanEx } from '../algo/not-urban-ex.mjs';
-import { runAlgo as budTag } from '../algo/budapest-hashtag.mjs';
 import { runAlgo as moTag } from '../algo/magyarorszag-hashtag.mjs';
+import { runAlgo as notUrbanEx } from '../algo/not-urban-ex.mjs';
+import { runAlgo as sm } from '../algo/socialist-modernism.mjs';
+import { runAlgo as tractor } from '../algo/tractor-hashtag.mjs';
+import { runAlgo as treescape } from '../algo/treescape.mjs';
+import { runAlgo as UBT } from '../algo/urban-brutal-tractor.mjs';
 
 export async function backfillSearchAlgoRunner () {
     console.log('[backfillSearch] Running algos');
@@ -86,15 +85,11 @@ export async function backfillSearchAlgoRunner () {
         landscape(),
         treescape(),
         budapestAll(),
+        UBT(),
     ]).catch((e) => {
         console.error('[backfillSearch] Algo Error', e);
     });
     console.log('[backfillSearch] Running algos done');
-    try {
-        await initCache();
-    } catch (error) {
-        console.error('[backfillSearch] Cache Initialization Error:', error);
-    }
 }
 
 export async function backfillSearch(backfillSearchQuery) {

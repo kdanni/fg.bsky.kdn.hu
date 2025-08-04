@@ -1,6 +1,4 @@
 import { backfillSearchRunner, backfillSearchAlgoRunner } from '../backfill/backfill-search.mjs'
-import { initCache } from '../algo/cache/init-cache.mjs';
-
 
 export async function main() {
 
@@ -22,10 +20,5 @@ export async function main() {
     ]).catch((e) => {
         console.error('[backfill-search-main] Algo Error', e);
     });
-    console.log('[backfill-search-main] Running algos done');
-    try {
-        await initCache();
-    } catch (error) {
-        console.error('[backfill-search-main] Cache Initialization Error:', error);
-    }
+    console.log('[backfill-search-main] Running algos done');    
 }

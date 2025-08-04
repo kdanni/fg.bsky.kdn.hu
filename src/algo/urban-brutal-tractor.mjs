@@ -1,3 +1,5 @@
+import { initFeedCache } from './cache/init-cache.mjs';
+
 import { shortname as nu } from './not-urban-ex.mjs';
 import { shortname as tr } from './tractor-hashtag.mjs';
 import { shortname as br } from './brutalism-hashtag.mjs';
@@ -20,5 +22,6 @@ export const FEEDGEN_CONFIG = {
 }
 
 export async function runAlgo() {    
-    // NOP
+  await initFeedCache(shortname, shortnameArray);
+  console.log(`[${shortname}] Cache initialized`);
 }

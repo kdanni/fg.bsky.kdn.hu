@@ -1,4 +1,5 @@
 export const shortname = 'nsfw-Listed';
+// import { initFeedNSFW } from './cache/init-cache.mjs';
 
 export const FEEDGEN_CONFIG = {
   publisherDid: `${process.env.FEEDGEN_PUBLISHER_DID}`,
@@ -14,5 +15,6 @@ export const FEEDGEN_CONFIG = {
 }
 
 export async function runAlgo() {    
-    // NOP
+  // await initFeedNSFW();
+  // console.log(`[${shortname}] Cache initialized`);
 }

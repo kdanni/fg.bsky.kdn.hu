@@ -1,4 +1,5 @@
 import { pool } from './connection/connection.mjs';
+// import { initFeedCache } from './cache/init-cache.mjs';
 
 export const shortname = 'kdanni-Listed';
 
@@ -31,4 +32,6 @@ export async function runAlgo(authorDid, listName) {
         console.error(`[algo-listed] `, 'Error in runAlgo:', error);        
     }
     console.log(`[algo-listed] Finished algo for ${authorDid}`);
+    // await initFeedCache(shortname);
+    // console.log(`[${shortname}] Cache initialized`);
 }

@@ -1,4 +1,5 @@
-import { pool } from './connection/connection.mjs';
+// import { pool } from './connection/connection.mjs';
+import { initFeedCache } from './cache/init-cache.mjs';
 
 export const shortname = 'budapesJobsearch';
 
@@ -20,7 +21,8 @@ export const FEEDGEN_CONFIG = {
 const DEV_ENV = process.env.ENV === 'DEV';
     
 
-export async function runAlgo() {    
-    // NOP
+export async function runAlgo() {
+  await initFeedCache(shortname);
+  console.log(`[${shortname}] Cache initialized`);
 }
 

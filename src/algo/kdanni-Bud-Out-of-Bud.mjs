@@ -1,5 +1,6 @@
 import { shortname as bud } from './kdanni-Bud.mjs';
 import { shortname as oobud } from './kdanni-out-of-Bud.mjs';
+import { initFeedCache } from './cache/init-cache.mjs';
 
 export const shortname = 'kd-Bud-OutofBud';
 export const shortnameArray = [bud, oobud];
@@ -18,5 +19,6 @@ export const FEEDGEN_CONFIG = {
 }
 
 export async function runAlgo() {    
-    // NOP
+  await initFeedCache(shortname, shortnameArray);
+  console.log(`[${shortname}] Cache initialized`);
 }

@@ -1,4 +1,5 @@
 import { pool } from './connection/connection.mjs';
+import { initFeedCache } from './cache/init-cache.mjs';
 
 export const shortname = 'food-images';
 
@@ -72,6 +73,8 @@ export async function runAlgo() {
         }
 
         console.log(`[${shortname}] Finished algo`);
+        await initFeedCache(shortname);
+        console.log(`[${shortname}] Cache initialized`);
     } catch (error) {
         console.error(`[${shortname}] `, 'Error in runAlgo:', error);
     }

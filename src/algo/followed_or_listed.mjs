@@ -1,3 +1,5 @@
+// import { initFeedCache } from './cache/init-cache.mjs';
+
 export const shortname = 'kd-Follow-Listd';
 
 export const FEEDGEN_CONFIG = {
@@ -14,5 +16,6 @@ export const FEEDGEN_CONFIG = {
 }
 
 export async function runAlgo() {    
-    // NOP
+  // await initFeedCache(shortname);
+  // console.log(`[${shortname}] Cache initialized`);
 }

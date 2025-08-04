@@ -25,11 +25,11 @@ if (/^no[- ]operation\b/.test(commandString)) {
 } else if (/^backfill[- ]?list(ed)?\b/.test(commandString)) {
     backfillListed();
 } else if (/^backfill[- ]?actor\b/.test(commandString)) {
-    backfillActor(commandString);
+    backfillActor();
 } else if (/^backfill[- ]?search$/.test(commandString)) {
     backfillSearchRunner();
 } else if (/^backfill[- ]?search\b/.test(commandString)) {
-    backfillSearch(commandString);
+    backfillSearch();
 } else if (/^algo[- ]?followed\b/.test(commandString)) {
     algoFollowed();
 } else if (/^kdanni[- ]?bud\b/i.test(commandString)) {
@@ -73,6 +73,30 @@ async function main() {
 }
 
 
+async function backfillActor() {
+    await import('./log/event-logger.mjs');
+    const emitter = (await import('./event-emitter.mjs')).default;
+    emitter.on('main', () => {/* NOP */ });
+
+    const actor = await import('./main/backfill-actor.mjs');
+    
+    await actor.main();
+    
+    setTimeout(() => { process.emit('exit_event');}, 1000);
+}
+
+async function backfillSearch() {
+    await import('./log/event-logger.mjs');
+    const emitter = (await import('./event-emitter.mjs')).default;
+    emitter.on('main', () => {/* NOP */ });
+    
+    const search = await import('./main/backfill-search.mjs');
+
+    await search.main();
+
+    setTimeout(() => { process.emit('exit_event');}, 1000);
+}
+
 async function backfill() {
     await import('./log/event-logger.mjs');
     const emitter = (await import('./event-emitter.mjs')).default;
@@ -85,7 +109,19 @@ async function backfill() {
      * 
      * After run the app will terminates.
      */
-    await import('./main/backfill.mjs');
+    const actor = await import('./main/backfill-actor.mjs');
+    const search = await import('./main/backfill-search.mjs');
+
+    try {
+        await Promise.all([
+            actor.main(),
+            search.main(),
+        ]);
+    } catch (error) {
+        console.error('[main] Backfill Error:', error);
+    }
+
+    setTimeout(() => { process.emit('exit_event');}, 1000);
 }
 
 async function publish(commandString) {
@@ -133,65 +169,13 @@ async function dbinstall() {
 
 async function runAlgos() {
     
-    await import('./algo/kdanni-Bud.mjs');
-    let { runAlgo:bud } = await import('./algo/kdanni-Bud.mjs');
-    await bud();
+    const { backfillSearchAlgoRunner } = await import('./backfill/backfill-search.mjs');
 
-    await import('./algo/kdanni-Photo.mjs');
-    let {runAlgo:photo}  = await import('./algo/kdanni-Photo.mjs');
-    await photo();
-
-    await import('./algo/budapest-hashtag.mjs');
-    let { runAlgo:budTag } = await import('./algo/budapest-hashtag.mjs');
-    await budTag();
-
-    await import('./algo/magyarorszag-hashtag.mjs');
-    let { runAlgo:hunTag } = await import('./algo/magyarorszag-hashtag.mjs');
-    await hunTag();
-
-    await import('./algo/kdanni-CustomFeed.mjs');
-    let { runAlgo:cf } = await import('./algo/kdanni-CustomFeed.mjs');
-    await cf();
-    
-    await import('./algo/tractor-hashtag.mjs');
-    let { runAlgo:tractor } = await import('./algo/tractor-hashtag.mjs');
-    await tractor();
+    await backfillSearchAlgoRunner();
 
     process.emit('exit_event');
 }
 
-async function backfillActor(commandString) {
-    await import('./backfill/backfill-actor.mjs');
-    const { backfillActor } = await import('./backfill/backfill-actor.mjs');
-
-    const match = /^backfill[- ]?actor\b +(\S+)/.exec(commandString) || [commandString, null];
-
-    if(match[1] === null) {
-        process.emit('exit_event');
-    }
-    const actor = `${match[1]}`.trim();
-    
-    await backfillActor(actor);
-    
-    process.emit('exit_event');
-}
-
-async function backfillSearch(commandString) {
-    await import('./backfill/backfill-search.mjs');
-    const { backfillSearch } = await import('./backfill/backfill-search.mjs');
-    
-    const match = /^backfill[- ]?search\b +(.+)/.exec(commandString) || [commandString, null];
-    
-    console.log(`backfillSearch(commandString): ${commandString}`, match);
-    if(match[1] === null) {
-        process.emit('exit_event');
-    }
-    const queryString = `${match[1]}`.trim();
-
-    await backfillSearch(queryString);
-
-    process.emit('exit_event');
-}
 
 async function backfillSearchRunner() {
     await import('./backfill/backfill-search.mjs');

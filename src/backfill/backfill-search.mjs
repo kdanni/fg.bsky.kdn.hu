@@ -16,6 +16,7 @@ import { TAGS } from '../algo/not-urban-ex.mjs';
 import { TAGS as TAGS2 } from '../algo/socialist-modernism.mjs'; 
 import { TAGS as TAGS3 } from '../algo/food-images.mjs'; 
 import { TAGS as TAGS4 } from '../algo/landscape.mjs'; 
+import { TAGS as TAGS5 } from '../algo/treescape.mjs';
 
 export const BACKFILL_SEARCH_QUERIES = [
     '#Budapest',
@@ -34,6 +35,7 @@ BACKFILL_SEARCH_QUERIES.push(...TAGS);
 BACKFILL_SEARCH_QUERIES.push(...TAGS2);
 BACKFILL_SEARCH_QUERIES.push(...TAGS3);
 BACKFILL_SEARCH_QUERIES.push(...TAGS4);
+BACKFILL_SEARCH_QUERIES.push(...TAGS5);
 
 // const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 const BSKY_SOCIAL_ROOT = process.env.BSKY_SOCIAL_ROOT || 'https://bsky.social';
@@ -55,6 +57,43 @@ export async function backfillSearchRunner () {
         } catch (error) {
             console.error(`[backfillSearch] backfillSearchRunner() ERROR ${error}`)
         }
+    }
+}
+
+import { initCache } from '../algo/cache/init-cache.mjs';
+
+import { runAlgo as brutalism } from '../algo/brutalism-hashtag.mjs';
+import { runAlgo as sm } from '../algo/socialist-modernism.mjs';
+import { runAlgo as food } from '../algo/food-images.mjs';
+import { runAlgo as landscape } from '../algo/landscape.mjs';
+import { runAlgo as treescape } from '../algo/treescape.mjs';
+import { runAlgo as budapestAll } from '../algo/budapest-all.mjs';
+import { runAlgo as tractor } from '../algo/tractor-hashtag.mjs';
+import { runAlgo as notUrbanEx } from '../algo/not-urban-ex.mjs';
+import { runAlgo as budTag } from '../algo/budapest-hashtag.mjs';
+import { runAlgo as moTag } from '../algo/magyarorszag-hashtag.mjs';
+
+export async function backfillSearchAlgoRunner () {
+    console.log('[backfillSearch] Running algos');
+    await Promise.all([
+        budTag(),
+        moTag(),
+        tractor(),
+        notUrbanEx(),
+        brutalism(),
+        sm(),
+        food(),
+        landscape(),
+        treescape(),
+        budapestAll(),
+    ]).catch((e) => {
+        console.error('[backfillSearch] Algo Error', e);
+    });
+    console.log('[backfillSearch] Running algos done');
+    try {
+        await initCache();
+    } catch (error) {
+        console.error('[backfillSearch] Cache Initialization Error:', error);
     }
 }
 

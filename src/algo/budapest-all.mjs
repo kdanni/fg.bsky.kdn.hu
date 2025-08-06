@@ -35,7 +35,8 @@ export async function runAlgo() {
         if(posts[0] && posts[0][0]) {
             for (const post of posts[0][0] || []) {
                 // if(/^image\//.test(`${post.has_image}`)) {
-                    if (/\bevent\b/i.test(post.text) || /\bmeetup\b/i.test(post.text) || /\bmeetings?\b/i.test(post.text)) {
+                    if (/\bevent\b/i.test(post.text) || /\bmeetup\b/i.test(post.text) 
+                        || /\bmeetings?\b/i.test(post.text) || /\bconference\b/i.test(post.text)) {
                         DEV_ENV && console.log(`[${shortnameMeetings}]`,'Filtered Post:', post);
 
                         const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?)`;

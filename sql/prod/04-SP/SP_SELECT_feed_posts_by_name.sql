@@ -21,13 +21,24 @@ BEGIN
         set p_limit = 30;
     end if;
 
-    SELECT *
-    FROM feed_post
-    LEFT JOIN bsky_post_labels ON feed_post.url = bsky_post_labels.url
-    WHERE feed_name = p_feed_name
-    AND posted_at < cursor_date
-    AND (p_sfw = 0 OR bsky_post_labels.nsfw = 0)
-    ORDER BY posted_at DESC
+--   feed_name VARCHAR(54) NOT NULL,
+--   url VARCHAR(200) NOT NULL,
+--   posted_at datetime DEFAULT CURRENT_TIMESTAMP,
+--   created_at datetime DEFAULT CURRENT_TIMESTAMP,
+--   updated_at datetime DEFAULT CURRENT_TIMESTAMP,
+
+    SELECT 
+        p.feed_name,
+        p.url,
+        p.posted_at,
+        p.created_at,
+        p.updated_at
+    FROM feed_post p
+    LEFT JOIN bsky_post_labels l ON p.url = l.url
+    WHERE p.feed_name = p_feed_name
+    AND p.posted_at < cursor_date
+    AND (p_sfw = 0 OR l.nsfw = 0)
+    ORDER BY p.posted_at DESC
     LIMIT p_limit;
 
 END

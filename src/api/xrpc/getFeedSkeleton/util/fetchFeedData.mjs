@@ -1,13 +1,13 @@
 import { pool } from './connection.mjs';
 import crypto from 'crypto';
 
-export async function fetchFeedData(shortname, cursorDate, limit = 30, sfw = false) {
+export async function fetchFeedData(shortname, cursorDate, limit = 30, sfw = 0) {
   let sql = `call ${'sp_SELECT_feed_posts_by_name'}(?,?,?,?)`;
   if (Array.isArray(shortname)) {
     sql = `call ${'sp_SELECT_feed_posts_by_nameInArray'}(?,?,?,?)`;
     shortname = JSON.stringify(shortname);
   }
-  const params = [shortname, cursorDate, limit, sfw ? 1 : 0];
+  const params = [shortname, cursorDate, limit, sfw];
   
   return await fetchFeedDataBySql(sql, params, cursorDate);
 }

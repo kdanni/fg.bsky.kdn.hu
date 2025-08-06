@@ -11,7 +11,9 @@ CREATE TABLE IF NOT EXISTS bsky_post (
   langs VARCHAR(27) DEFAULT 'en',
   facets JSON DEFAULT NULL,
   embeds JSON DEFAULT NULL, 
+  labels JSON DEFAULT NULL, 
   has_image VARCHAR(64) NULL, 
+  sfw INT DEFAULT 10,
   posted_at datetime DEFAULT CURRENT_TIMESTAMP,
   created_at datetime DEFAULT CURRENT_TIMESTAMP,
   updated_at datetime DEFAULT CURRENT_TIMESTAMP,
@@ -33,3 +35,9 @@ CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci;
 -- ALTER TABLE bsky_post
 --   ADD COLUMN langs VARCHAR(27) DEFAULT 'en' AFTER text
 -- ;
+
+-- ALTER TABLE bsky_post
+-- ADD COLUMN sfw INT DEFAULT 10 AFTER has_image;
+
+-- ALTER TABLE bsky_post
+-- ADD COLUMN labels JSON DEFAULT NULL AFTER embeds;

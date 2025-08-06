@@ -24,13 +24,24 @@ export async function backfillListed() {
         for (const list of listUrls || []) {
             DEV_ENV && console.log(`[backfillListed] List: ${list.uri} - ${list.name}`);
 
+            let safeForWorkScore = 10;
+            if (/NSFW/i.test(`${list.name}`)) {
+                safeForWorkScore = 0;
+            } else 
+            if (/Not Listed/i.test(`${list.name}`)) {
+                safeForWorkScore = 5;
+            } else 
+            if (/^Pol$/i.test(`${list.name}`)) {
+                safeForWorkScore = 5;
+            }
+
             const listUsers = await getListedUsers(list.uri);
 
             DEV_ENV && console.log(`[backfillListed] Found ${listUsers.length} users in list: ${list.uri}`, listUsers);
 
             for (const user of listUsers || []) {
                 DEV_ENV && console.log(`[backfillListed] User: ${user.did} - ${user.handle} - ${user.displayName}`);
-                await backfillActor(user.did);
+                await backfillActor(user.did, safeForWorkScore);
                 await runAlgo(user.did, list.name);
             }
         }

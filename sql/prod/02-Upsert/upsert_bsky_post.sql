@@ -10,7 +10,9 @@ CREATE PROCEDURE sp_UPSERT_bsky_post (
   langs VARCHAR(27),
   facets JSON,
   embeds JSON,
+  labels JSON,
   has_image VARCHAR(64),
+  sfw INT,
   posted_at datetime
 )
 BEGIN
@@ -30,7 +32,9 @@ BEGIN
       langs,
       facets,
       embeds,
+      labels,
       has_image,
+      sfw,
       posted_at
     ) VALUES (
       url,
@@ -41,7 +45,9 @@ BEGIN
       langs,
       facets,
       embeds,
+      labels,
       has_image,
+      sfw,
       posted_at
     )
     ON DUPLICATE KEY UPDATE  
@@ -52,7 +58,9 @@ BEGIN
       langs = langs,
       facets = facets,
       embeds = embeds,
+      labels = labels,
       has_image = has_image,
+      sfw = sfw,
       posted_at = posted_at,
       updated_at = @at_now;
   END IF;

@@ -2,7 +2,7 @@ import { getMimeStringOrNull, getLanguageOrEn } from './util.mjs';
 import got from 'got';
 
 import { pool } from './connection/connection.mjs';
-import { upsertLabels } from './upsert-labels.mjs';
+import { upsertPost } from './upsert-post.mjs';
 
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 const LIMIT = process.env.ACTOR_AUTHOR_FEED_LIMIT || 50;
@@ -13,7 +13,7 @@ const MINUS_DAYS = process.env.BACKFILL_MINUS_DAYS || 10;
 const DEV_ENV = process.env.ENV === 'DEV';
 const DEBUG = process.env.DEBUG === 'true' || false;
 
-export async function backfillActor(backfillActor) {
+export async function backfillActor(backfillActor, sfw = 10) {
     try {
         console.log(`[backfillActor] Fetching author feed for actor: ${backfillActor}`);
 
@@ -47,13 +47,14 @@ export async function backfillActor(backfillActor) {
             });
             if (response && response.did) {
                 console.log(`[backfillActor] Actor found: ${response.did}, handle: ${response.handle}`);
-                const sql = `call ${'sp_UPSERT_bsky_author'}(?, ?, ?, ?, ?)`;
+                const sql = `call ${'sp_UPSERT_bsky_author'}(?, ?, ?, ?, ?, ?)`;
                 const params = [
                     response.did || null,
                     response.handle || null,
                     response.displayName || response.handle || null,
                     response.avatar || null,
                     JSON.stringify({}),
+                    sfw || 10, // default to 10 if not provided
                 ];
                 pool.execute(sql, params);
             }
@@ -123,38 +124,8 @@ export async function backfillActor(backfillActor) {
                         break;
                     }
                     
-                    let has_image = getMimeStringOrNull(item?.post?.record?.embed);
-                    let langs = getLanguageOrEn(item?.post?.record);
+                    await upsertPost(item);
 
-                    let replyParent = item?.post?.record?.reply?.parent?.uri || null;
-                    let replyRoot = item?.post?.record?.reply?.root?.uri || null;
-                    
-                    /**
-                     * SP dont save replies. (reply if: replyParent or replyRoot is not null)
-                     */
-                    const sql = `call ${'sp_UPSERT_bsky_post'}(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-                    // url VARCHAR(255),
-                    // cid VARCHAR(255),
-                    // author_did VARCHAR(255),
-                    // reply_to_cid VARCHAR(255),
-                    // text TEXT,
-                    // facets JSON,
-                    // embeds JSON,
-                    // posted_at datetime,
-                    const params = [
-                        item?.post?.uri||null,
-                        item?.post?.cid||null,
-                        item?.post?.author?.did||null,
-                        replyParent || replyRoot || null,
-                        item?.post?.record?.text||'',
-                        langs || 'en',
-                        JSON.stringify(item?.post?.record?.facets||null),
-                        JSON.stringify(item?.post?.record?.embed||null),
-                        has_image||null,
-                        item?.post?.indexedAt||null,
-                    ];
-                    pool.execute(sql, params);                    
-                    await upsertLabels(item);
                     await new Promise((resolve) => { setTimeout( resolve , 100 );});
                 }
             } else {

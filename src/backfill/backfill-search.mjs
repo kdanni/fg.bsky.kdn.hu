@@ -3,7 +3,7 @@ import got from 'got';
 import { getAuthToken } from '../bsky-social/auth.mjs';
 
 import { pool } from './connection/connection.mjs';
-import { upsertLabels } from './upsert-labels.mjs';
+import { upsertPost } from './upsert-post.mjs';
 
 const SKIP_AUTHORS_ARRAY = [];
 const SKIP_KEYWORDS_ARRAY = [
@@ -170,37 +170,8 @@ export async function backfillSearch(backfillSearchQuery) {
                     continue;
                 }
 
-                let has_image = getMimeStringOrNull(item?.post?.record?.embed);
-                let langs = getLanguageOrEn(item?.post?.record);
-
-                let replyParent = item?.post?.record?.reply?.parent?.uri || null;
-                let replyRoot = item?.post?.record?.reply?.root?.uri || null;
-                                    
-                /**
-                 * SP dont save replies. (reply if: replyParent or replyRoot is not null)
-                 */
-                const sql = `call ${'sp_UPSERT_bsky_post'}(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-                // url VARCHAR(255),
-                // cid VARCHAR(255),
-                // author_did VARCHAR(255),
-                // reply_to_cid VARCHAR(255),
-                // text TEXT,
-                // facets JSON,
-                // embeds JSON,
-                // posted_at datetime,
-                const params = [
-                    item?.post?.uri||null,
-                    item?.post?.cid||null,
-                    item?.post?.author?.did||null,
-                    replyParent || replyRoot || null,
-                    item?.post?.record?.text||'',
-                    langs || 'en',
-                    JSON.stringify(item?.post?.record?.facets||null),
-                    JSON.stringify(item?.post?.record?.embed||null),
-                    has_image||null,
-                    item?.post?.indexedAt||null,
-                ];
-                pool.execute(sql, params);
+                let safeForWorkScore = await upsertPost(item);
+                
                 const authorSql = `call ${'sp_UPSERT_bsky_author'}(?, ?, ?, ?, ?)`;
                 const authorParams = [
                     post.author?.did || null,
@@ -208,9 +179,9 @@ export async function backfillSearch(backfillSearchQuery) {
                     post.author?.displayName || post.handle || null,
                     post.author?.avatar || null,
                     JSON.stringify({}),
+                    safeForWorkScore != 10 ? 8 : 10, // default to 10 if not provided
                 ];
                 pool.execute(authorSql, authorParams);
-                await upsertLabels(item);
                 await new Promise((resolve) => { setTimeout( resolve , 100 );});
             }
         } // End of while loop

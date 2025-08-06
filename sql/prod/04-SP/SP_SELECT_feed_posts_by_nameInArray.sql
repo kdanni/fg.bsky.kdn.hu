@@ -13,12 +13,16 @@ CREATE PROCEDURE sp_SELECT_feed_posts_by_nameInArray (
     p_feed_name_array JSON,
     cursor_date datetime,
     p_limit INT,
-    p_sfw TINYINT
+    p_sfw INT
 )
 BEGIN
     
     if p_limit is null or p_limit <= 0 then
         set p_limit = 30;
+    end if;
+
+    if p_sfw is null or p_sfw < 0 then
+        set p_sfw = 10;
     end if;
 
     SELECT 
@@ -36,22 +40,14 @@ BEGIN
             SELECT value COLLATE utf8mb4_hungarian_ci AS value
             FROM JSON_TABLE(p_feed_name_array, '$[*]' COLUMNS (value VARCHAR(54) PATH '$')) AS jt
         )
-        AND (p_sfw = 0 OR url IN (
-            SELECT url
-            FROM bsky_post_labels
-            WHERE nsfw = 0
-        ))
+        AND sfw >= p_sfw
     ) AS sub
     WHERE feed_name IN (
         SELECT value COLLATE utf8mb4_hungarian_ci AS value
         FROM JSON_TABLE(p_feed_name_array, '$[*]' COLUMNS (value VARCHAR(54) PATH '$')) AS jt
     )
-    AND rn = 1    
-    AND (p_sfw = 0 OR url IN (
-        SELECT url
-        FROM bsky_post_labels
-        WHERE nsfw = 0
-    ))
+    AND rn = 1
+    AND sfw >= p_sfw
     AND posted_at < cursor_date
     ORDER BY posted_at DESC
     LIMIT p_limit;

@@ -4,6 +4,7 @@ DROP PROCEDURE IF EXISTS sp_UPSERT_feed_post;
 CREATE PROCEDURE sp_UPSERT_feed_post (
   feed_name VARCHAR(54),
   url VARCHAR(200),
+  sfw INT,
   posted_at datetime
 )
 BEGIN
@@ -12,13 +13,16 @@ BEGIN
   INSERT INTO feed_post (
     feed_name,
     url,
+    sfw,
     posted_at
   ) VALUES (
     feed_name,
     url,
+    sfw,
     posted_at
   )
-  ON DUPLICATE KEY UPDATE  
+  ON DUPLICATE KEY UPDATE
+    sfw = sfw,
     posted_at = posted_at,
     updated_at = @at_now;
 

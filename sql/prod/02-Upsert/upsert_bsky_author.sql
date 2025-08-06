@@ -6,7 +6,8 @@ CREATE PROCEDURE sp_UPSERT_bsky_author (
   handle VARCHAR(255),
   displayName VARCHAR(255),
   avatar VARCHAR(255),
-  data JSON
+  data JSON,
+  sfw INT
 )
 BEGIN
   SET @at_now = now();
@@ -16,19 +17,22 @@ BEGIN
     handle,
     displayName,
     avatar,
-    data
+    data,
+    sfw
   ) VALUES (
     did,
     handle,
     displayName,
     avatar,
-    data  
+    data,
+    sfw
   )
   ON DUPLICATE KEY UPDATE  
     handle = handle,
     displayName = displayName,
     avatar = avatar,
     data = data,
+    sfw = sfw,
     updated_at = @at_now;
 
 END

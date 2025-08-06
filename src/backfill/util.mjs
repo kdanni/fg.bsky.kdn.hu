@@ -1,4 +1,5 @@
-
+const DEV_ENV = process.env.ENV === 'DEV';
+const DEBUG = process.env.DEBUG === 'true' || false;
 
 // # Quick reference table
 // Condition	API labels entry includes	Client effect (depending on user settings)
@@ -57,9 +58,9 @@ export function getSafeForWorkScore(item) {
   }
 
   if (item?.post?.record?.labels?.length > 0) {
-    console.log(`[SFW score] Post ${item.post.record.text} has labels: ${JSON.stringify(item.post.record.labels)}`);
+    DEBUG && console.log(`[SFW score] Post ${item.post.record.text} has labels: ${JSON.stringify(item.post.record.labels)}`);
     for (const label of item.post.record.labels) {
-      console.log(`[SFW score] Post ${item.post.record.text} has NSFW label: ${label.val}`);
+      DEBUG && console.log(`[SFW score] Post ${item.post.record.text} has NSFW label: ${label.val}`);
       if (NSFW_LABELS.includes(label.val)) {
         safeForWorkScore = 0;
         break;
@@ -70,7 +71,7 @@ export function getSafeForWorkScore(item) {
     }
   }  
   if (safeForWorkScore !== 0 && item?.post?.record?.labels?.values?.length > 0) {
-    console.log(`[SFW score] Post ${item.post.record.text} has SELF labels: ${JSON.stringify(item.post.record.labels)}`);
+    DEBUG && console.log(`[SFW score] Post ${item.post.record.text} has SELF labels: ${JSON.stringify(item.post.record.labels)}`);
     for (const label of item.post.record.labels.values) {
       if (NSFW_LABELS.includes(label.val)) {
         safeForWorkScore= 0;
@@ -91,7 +92,7 @@ export function getSafeForWorkScore(item) {
     }
   }
 
-  console.log(`[SFW score] Score: ${safeForWorkScore}, Post ${item.post.record.text} has labels: ${JSON.stringify(item.post.record.labels)}`);    
+  DEV_ENV && console.log(`[SFW score] Score: ${safeForWorkScore}, Post ${item.post.record.text} has labels: ${JSON.stringify(item.post.record.labels)}`);
 
   return safeForWorkScore;
 }

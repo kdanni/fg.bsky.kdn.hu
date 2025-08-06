@@ -1,13 +1,13 @@
 import { pool } from './connection.mjs';
 import crypto from 'crypto';
 
-export async function fetchFeedData(shortname, cursorDate, limit = 30) {
-  let sql = `call ${'sp_SELECT_feed_posts_by_name'}(?,?,?)`;
+export async function fetchFeedData(shortname, cursorDate, limit = 30, sfw = false) {
+  let sql = `call ${'sp_SELECT_feed_posts_by_name'}(?,?,?,?)`;
   if (Array.isArray(shortname)) {
-    sql = `call ${'sp_SELECT_feed_posts_by_nameInArray'}(?,?,?)`;
+    sql = `call ${'sp_SELECT_feed_posts_by_nameInArray'}(?,?,?,?)`;
     shortname = JSON.stringify(shortname);
   }
-  const params = [shortname, cursorDate, limit];
+  const params = [shortname, cursorDate, limit, sfw ? 1 : 0];
   
   return await fetchFeedDataBySql(sql, params, cursorDate);
 }
@@ -42,11 +42,11 @@ export async function fetchFeedDataBySql(sql, params, cursorDate) {
   };
 }
 
-export async function getInitialFeedData(shortname) {
+export async function getInitialFeedData(shortname, sfw = false) {
   try {
     const datePlus1Hour = new Date();
     datePlus1Hour.setHours(datePlus1Hour.getHours() + 1);
-    return await fetchFeedData(shortname, datePlus1Hour);
+    return await fetchFeedData(shortname, datePlus1Hour, 30, sfw);
   } catch (error) {
     console.error(`[${shortname}] Error in getInitialFeedData:`, error);
     return null;

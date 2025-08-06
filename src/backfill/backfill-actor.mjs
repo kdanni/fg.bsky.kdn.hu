@@ -2,6 +2,7 @@ import { getMimeStringOrNull, getLanguageOrEn } from './util.mjs';
 import got from 'got';
 
 import { pool } from './connection/connection.mjs';
+import { upsertLabels } from './upsert-labels.mjs';
 
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 const LIMIT = process.env.ACTOR_AUTHOR_FEED_LIMIT || 50;
@@ -152,7 +153,8 @@ export async function backfillActor(backfillActor) {
                         has_image||null,
                         item?.post?.indexedAt||null,
                     ];
-                    pool.execute(sql, params);
+                    pool.execute(sql, params);                    
+                    await upsertLabels(item);
                     await new Promise((resolve) => { setTimeout( resolve , 100 );});
                 }
             } else {

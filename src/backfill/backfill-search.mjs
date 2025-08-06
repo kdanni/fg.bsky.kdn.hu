@@ -3,6 +3,7 @@ import got from 'got';
 import { getAuthToken } from '../bsky-social/auth.mjs';
 
 import { pool } from './connection/connection.mjs';
+import { upsertLabels } from './upsert-labels.mjs';
 
 const SKIP_AUTHORS_ARRAY = [];
 const SKIP_KEYWORDS_ARRAY = [
@@ -209,6 +210,7 @@ export async function backfillSearch(backfillSearchQuery) {
                     JSON.stringify({}),
                 ];
                 pool.execute(authorSql, authorParams);
+                await upsertLabels(item);
                 await new Promise((resolve) => { setTimeout( resolve , 100 );});
             }
         } // End of while loop

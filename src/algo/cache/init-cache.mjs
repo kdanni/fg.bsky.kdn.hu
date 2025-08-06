@@ -4,7 +4,7 @@ import { isRedisConnected, redisSet } from '../../redis/redis-io-connection.mjs'
 
 import { shortname as shortnameNSFW, getInitialFeedData as getInitialFeedDataNSFW } from '../../api/xrpc/getFeedSkeleton/mw/nsfw.mjs';
 
-export async function initFeedCache(shortname, shortnameArray) {
+export async function initFeedCache(shortname, shortnameArray, sfw = false) {
     if(!shortname){
         return;
     }
@@ -12,7 +12,7 @@ export async function initFeedCache(shortname, shortnameArray) {
     if(shortnameArray?.length > 0) {
         feedName = shortnameArray;
     }
-    let initialFeedData = await getInitialFeedData(feedName);
+    let initialFeedData = await getInitialFeedData(feedName, sfw);
     if (initialFeedData && initialFeedData.feed) {
         let cacheKey = constructCacheKey(shortname);
         await redisSet(cacheKey, JSON.stringify(initialFeedData), ['EX', 3000]);

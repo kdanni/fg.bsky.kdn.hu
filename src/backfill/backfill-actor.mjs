@@ -54,7 +54,7 @@ export async function backfillActor(backfillActor, sfw = 10) {
                     response.displayName || response.handle || null,
                     response.avatar || null,
                     JSON.stringify({}),
-                    sfw || 10, // default to 10 if not provided
+                    sfw,
                 ];
                 pool.execute(sql, params);
             }
@@ -124,7 +124,7 @@ export async function backfillActor(backfillActor, sfw = 10) {
                         break;
                     }
                     
-                    await upsertPost(item);
+                    await upsertPost(item, sfw);
 
                     await new Promise((resolve) => { setTimeout( resolve , 100 );});
                 }

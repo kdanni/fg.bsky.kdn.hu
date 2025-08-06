@@ -1,4 +1,3 @@
-import { getMimeStringOrNull, getLanguageOrEn } from './util.mjs';
 import got from 'got';
 import { getAuthToken } from '../bsky-social/auth.mjs';
 
@@ -172,7 +171,7 @@ export async function backfillSearch(backfillSearchQuery) {
 
                 let safeForWorkScore = await upsertPost(item);
                 
-                const authorSql = `call ${'sp_UPSERT_bsky_author'}(?, ?, ?, ?, ?)`;
+                const authorSql = `call ${'sp_UPSERT_bsky_author'}(?, ?, ?, ?, ?, ?)`;
                 const authorParams = [
                     post.author?.did || null,
                     post.author?.handle || null,

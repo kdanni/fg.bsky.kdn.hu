@@ -36,10 +36,11 @@ export async function runAlgo() {
                     if (/#budapest/i.test(post.text) || ( /#photo(graphy)?\b/i.test(post.text) && /📍budapest/i.test(post.text))) {
                         DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
 
-                        const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?)`;
+                        const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?,?)`;
                         const params = [
                             `${shortname}`,
                             post.url,
+                            post.sfw,
                             post.posted_at
                         ];
                         await pool.query(sql, params);

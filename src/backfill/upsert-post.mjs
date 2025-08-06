@@ -2,7 +2,7 @@ import { getMimeStringOrNull, getLanguageOrEn, getSafeForWorkScore } from './uti
 import { pool } from './connection/connection.mjs';
 
 
-export async function upsertPost(item) {
+export async function upsertPost(item, p_sfw = 10) {
 
     let has_image = getMimeStringOrNull(item?.post?.record?.embed);
     let langs = getLanguageOrEn(item?.post?.record);
@@ -11,6 +11,7 @@ export async function upsertPost(item) {
     let replyRoot = item?.post?.record.reply?.root.uri || null;
 
     let safeForWorkScore = getSafeForWorkScore(item);
+    safeForWorkScore = Math.min(safeForWorkScore, p_sfw);
     
     /**
      * SP dont save replies. (reply if: replyParent or replyRoot is not null)
@@ -38,7 +39,7 @@ export async function upsertPost(item) {
         JSON.stringify(item?.post?.record?.embed||null),
         JSON.stringify(item?.post?.record?.labels||null),
         has_image||null,
-        safeForWorkScore || 10,
+        safeForWorkScore,
         item?.post?.indexedAt||null,
     ];
     pool.execute(sql, params);

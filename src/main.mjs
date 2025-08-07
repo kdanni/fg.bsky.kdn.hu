@@ -52,6 +52,8 @@ if (/^no[- ]operation\b/.test(commandString)) {
     listFeedGenerators();
 } else if (/^run[- ]?algos?\b/i.test(commandString)) {
     runAlgos();
+} else if (/^list[- ]?blocked[- ]?users\b/.test(commandString)) {
+    listBlockedUsers();
 } else if (/^display[- ]?posts?\b/i.test(commandString)) {
     displayPosts();
 } else {
@@ -321,3 +323,18 @@ async function displayPosts() {
     process.emit('exit_event');
 }
 
+async function listBlockedUsers() {
+    const match = /^list[- ]?blocked[- ]?users\b(.+)$/.exec(commandString) || ['', '', ''];
+    const actor = match[1].trim() || process.env.BACKFILL_AUTHOR_HANDLE || process.env.FEEDGEN_PUBLISHER_DID;
+
+    await import('./backfill/backfill-listed.mjs');
+    const { getBlockedUsers } = await import('./backfill/backfill-listed.mjs');
+    let blockedUsers = await getBlockedUsers(actor);
+
+    console.log(`[listBlockedUsers] Found ${blockedUsers.length} blocked users for actor: ${actor}`);
+    for (const user of blockedUsers || []) {
+        console.log(`[listBlockedUsers] User: ${user.did} - ${user.handle} - ${user.displayName}`);
+    }
+
+    process.emit('exit_event');
+}

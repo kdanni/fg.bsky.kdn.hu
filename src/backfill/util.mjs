@@ -26,7 +26,6 @@ const NSFW_HASHTAGS = [
   '#nsfwbluesky',
   '#xxx',
   '#porn',
-  '#sexual',
   '#graphicmedia',
 ];
 
@@ -85,10 +84,10 @@ export function getSafeForWorkScore(item) {
   if (safeForWorkScore !== 0 && item?.post?.record?.text) {
     if (NSFW_HASHTAGS_REGEX.test(item.post.record.text)) {
       safeForWorkScore = 0;
-      console.log(`[SFW score] Post ${item.post.record.text} has labels: ${JSON.stringify(item.post.record.labels)}`);    
+      DEBUG && console.log(`[SFW score] Post ${item.post.record.text} has labels: ${JSON.stringify(item.post.record.labels)}`);    
     } else if (MILD_HASHTAGS_REGEX.test(item.post.record.text)) {
       safeForWorkScore = Math.min(safeForWorkScore, 5);
-      console.log(`[SFW score] Post ${item.post.record.text} has labels: ${JSON.stringify(item.post.record.labels)}`);    
+      DEBUG && console.log(`[SFW score] Post ${item.post.record.text} has labels: ${JSON.stringify(item.post.record.labels)}`);    
     }
   }
 

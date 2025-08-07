@@ -26,6 +26,7 @@ import { FEEDGEN_CONFIG as TREESCAPE } from '../algo/treescape.mjs';
 import { FEEDGEN_CONFIG as budapestAll } from '../algo/budapest-all.mjs';
 import { FEEDGEN_CONFIG as budapestMeetings } from '../algo/budapest-meetings.mjs';
 import { FEEDGEN_CONFIG as budapestJobs } from '../algo/budapest-jobsearch.mjs';
+import { FEEDGEN_CONFIG as railway } from '../algo/railway.mjs';
 
 export async function publish(commandString) {
     const match = /^publish\b +(\S+)/.exec(commandString) || [commandString, null];
@@ -104,6 +105,9 @@ export async function publish(commandString) {
     }
     if(feedName == 'budapest-jobs') {   
         await publisFeed(budapestJobs);
+    }
+    if(feedName == 'railway') {
+        await publisFeed(railway);
     }
     process.emit('exit_event');
 }
@@ -187,6 +191,9 @@ export async function unpublish(commandString) {
     if(feedName == 'budapest-jobs') {       
         await unpublisFeed(budapestJobs);
     }
+    if(feedName == 'railway') {
+        await unpublisFeed(railway);
+    }
     process.emit('exit_event');
 }
 
@@ -268,6 +275,9 @@ export async function republish(commandString) {
     }
     if(feedName == 'budapest-jobs') {       
         await updateFeed(budapestJobs);
+    }
+    if(feedName == 'railway') {
+        await updateFeed(railway);
     }
     process.emit('exit_event');
 

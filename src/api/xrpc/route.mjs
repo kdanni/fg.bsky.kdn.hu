@@ -30,6 +30,7 @@ import treescape from './getFeedSkeleton/mw/treescape.mjs';
 import budapestAll from './getFeedSkeleton/mw/budapest-all.mjs';
 import budapestMeetings from './getFeedSkeleton/mw/budapest-meeting.mjs';
 import budapestJobs from './getFeedSkeleton/mw/budapest-jobs.mjs';
+import railway from './getFeedSkeleton/mw/railway.mjs';
 
 const getFeedSkeletonChain = [
     mw000,
@@ -57,6 +58,7 @@ const getFeedSkeletonChain = [
     budapestMeetings,
     budapestJobs,
     treescape,
+    railway,
 ];
 // Make sure to keep the order of the chain
 getFeedSkeletonChain.push(redisz);

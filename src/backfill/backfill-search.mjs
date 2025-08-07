@@ -17,6 +17,7 @@ import { TAGS as TAGS2 } from '../algo/socialist-modernism.mjs';
 import { TAGS as TAGS3 } from '../algo/food-images.mjs'; 
 import { TAGS as TAGS4 } from '../algo/landscape.mjs'; 
 import { TAGS as TAGS5 } from '../algo/treescape.mjs';
+import { TAGS as TAGS6 } from '../algo/railway.mjs';
 
 export const BACKFILL_SEARCH_QUERIES = [
     '#Budapest',
@@ -36,6 +37,7 @@ BACKFILL_SEARCH_QUERIES.push(...TAGS2);
 BACKFILL_SEARCH_QUERIES.push(...TAGS3);
 BACKFILL_SEARCH_QUERIES.push(...TAGS4);
 BACKFILL_SEARCH_QUERIES.push(...TAGS5);
+BACKFILL_SEARCH_QUERIES.push(...TAGS6);
 
 // const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 const BSKY_SOCIAL_ROOT = process.env.BSKY_SOCIAL_ROOT || 'https://bsky.social';
@@ -71,6 +73,7 @@ import { runAlgo as sm } from '../algo/socialist-modernism.mjs';
 import { runAlgo as tractor } from '../algo/tractor-hashtag.mjs';
 import { runAlgo as treescape } from '../algo/treescape.mjs';
 import { runAlgo as UBT } from '../algo/urban-brutal-tractor.mjs';
+import { runAlgo as railway } from '../algo/railway.mjs';
 
 export async function backfillSearchAlgoRunner () {
     console.log('[backfillSearch] Running algos');
@@ -86,6 +89,7 @@ export async function backfillSearchAlgoRunner () {
         treescape(),
         budapestAll(),
         UBT(),
+        railway(),
     ]).catch((e) => {
         console.error('[backfillSearch] Algo Error', e);
     });

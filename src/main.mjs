@@ -18,6 +18,8 @@ if (/^no[- ]operation\b/.test(commandString)) {
     unpublish(commandString);
 } else if (/^republish\b/.test(commandString)) {
     republish(commandString);
+} else if (/^refill[- ]?nsfw\b/.test(commandString)) {
+    refillNsfw();
 } else if (/^backfill[- ]?kdanni\b/.test(commandString)) {
     backfillKdanni();
 } else if (/^backfill[- ]?followed\b/.test(commandString)) {
@@ -156,6 +158,21 @@ async function republish(commandString) {
     
     await republish(commandString);
 }
+
+
+async function refillNsfw() {
+    await import('./log/event-logger.mjs');
+    const emitter = (await import('./event-emitter.mjs')).default;
+    emitter.on('main', () => {/* NOP */ });
+
+    await import('./backfill/refill-nsfw.mjs');
+    const { refillSfwScore } = await import('./backfill/refill-nsfw.mjs');
+
+    await refillSfwScore();
+
+    setTimeout(() => { process.emit('exit_event');}, 1000);
+}
+
 
 
 /** Installer */

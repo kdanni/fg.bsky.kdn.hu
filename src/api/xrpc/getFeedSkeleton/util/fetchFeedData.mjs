@@ -42,7 +42,7 @@ export async function fetchFeedDataBySql(sql, params, cursorDate) {
   };
 }
 
-export async function getInitialFeedData(shortname, sfw = false) {
+export async function getInitialFeedData(shortname, sfw = 0) {
   try {
     const datePlus1Hour = new Date();
     datePlus1Hour.setHours(datePlus1Hour.getHours() + 1);

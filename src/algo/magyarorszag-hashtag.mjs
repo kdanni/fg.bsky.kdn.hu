@@ -48,7 +48,6 @@ export async function runAlgo() {
                         const params = [
                             `${shortname}`,
                             post.url,
-                            post.sfw,
                             post.posted_at
                         ];
                         await pool.query(sql, params);
@@ -59,7 +58,7 @@ export async function runAlgo() {
         }
 
         console.log(`[${shortname}] Finished algo`);
-        await initFeedCache(shortname, true);
+        await initFeedCache(shortname, 7);
         console.log(`[${shortname}] Cache initialized`);
     } catch (error) {
         console.error(`[${shortname}] `, 'Error in runAlgo:', error);

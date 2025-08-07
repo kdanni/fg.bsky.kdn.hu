@@ -4,7 +4,7 @@ import { isRedisConnected, redisSet } from '../../redis/redis-io-connection.mjs'
 
 import { shortname as shortnameNSFW, getInitialFeedData as getInitialFeedDataNSFW } from '../../api/xrpc/getFeedSkeleton/mw/nsfw.mjs';
 
-export async function initFeedCache(shortname, shortnameArray, sfw = false) {
+export async function initFeedCache(shortname, shortnameArray, sfw = 0) {
     if(!shortname){
         return;
     }

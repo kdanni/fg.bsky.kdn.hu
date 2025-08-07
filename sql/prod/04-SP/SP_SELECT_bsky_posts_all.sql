@@ -15,6 +15,7 @@ BEGIN
         a.did as a_author_did, a.handle as author_handle, a.displayName as author_displayName,
         a.avatar as author_avatar, p.reply_to_cid as reply_to_cid, p.text as text, p.langs as langs,
         p.facets as facets, p.embeds as embeds, p.has_image as has_image,
+        p.sfw as sfw, a.sfw as author_sfw,
         p.posted_at as posted_at, p.created_at as created_at, p.updated_at as updated_at
     FROM bsky_post p
     LEFT JOIN bsky_author a ON p.author_did = a.did

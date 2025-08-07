@@ -10,7 +10,7 @@ import { getSafeForWorkScore } from './util.mjs';
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 
 
-export async function refillSfwScore() {
+export async function refillSfwScore_FeedPosts() {
     try {
 
         let cursor = new Date();
@@ -95,6 +95,92 @@ export async function refillSfwScore() {
             // cursor = null; 
         }
 
+    } catch (error) {
+        console.error(`[refillPosts] refillPosts() ERROR ${error}`);
+    }
+}
+
+export async function refillSfwScore_BskyPosts() {
+    try {
+
+        let cursor = new Date();
+        cursor.setFullYear(cursor.getFullYear() - 100);
+
+        while (cursor) {
+            const urls = [];
+            const sql = `call ${'SP_SELECT_bsky_posts_all'}(?,?)`;
+            const params = [cursor, 25];
+
+            const rows= await pool.query(sql, params);
+
+            if (rows[0] && rows[0][0]) {
+                // console.log('[refillPosts] Processing rows:', rows[0]);
+                for (const row of rows[0][0] || []) {
+                    if (row) {
+                        urls.push( `${row.post_url}` );
+                        cursor = row.posted_at ? new Date(row.posted_at) : null;
+                    }
+                }
+            } else {
+                console.log('[refillPosts] No rows found for cursor:', cursor, rows);
+            }
+
+            // console.log('[refillPosts] Processing URLs:', urls);
+
+            const qparams = new URLSearchParams();
+            urls.forEach(uri => qparams.append('uris', uri));
+
+            // console.log('[refillPosts]', `${BSKY_PUBLIC_API_ROOT}/xrpc/app.bsky.feed.getPosts?${qparams.toString()}`);
+
+            let result = await got(`${BSKY_PUBLIC_API_ROOT}/xrpc/app.bsky.feed.getPosts?${qparams.toString()}`, {
+                responseType: 'json'
+            });
+
+            if (result && result.body && result.body.posts) {
+                console.log(`[refillPosts] Found ${result.body.posts.length} posts to update.`);
+                for (const post of result.body.posts || []) {
+
+                    // console.dir(post, { depth: 4, colors: true });
+
+                    const authorDid = post.author?.did;
+                    const bsky_author_SQL = `SELECT sfw FROM bsky_author WHERE did = ?`;
+                    const bsky_author_params = [authorDid];
+
+                    let autorSfwScore = 10;
+
+                    const bsky_author_rows = await pool.query(bsky_author_SQL, bsky_author_params);
+                    if (bsky_author_rows && bsky_author_rows[0] && bsky_author_rows[0][0]) {
+                        const bsky_author = bsky_author_rows[0][0];
+                        autorSfwScore = bsky_author.sfw;
+                    }
+
+
+                    let sfwScore = getSafeForWorkScore({post});
+                    sfwScore = Math.min(sfwScore, autorSfwScore);
+                    if (sfwScore < 7) {
+                        console.log(`[refillPosts] Post ${post.uri} is not safe for work, score: ${sfwScore}, Author SFW: ${autorSfwScore}`);
+                    }
+
+                    const updateSql = 'UPDATE bsky_post SET sfw = ? WHERE url = ?';
+                    const updateParams = [sfwScore, post.uri];
+
+                    await pool.query(updateSql, updateParams);
+
+                    // await for a 10 ms delay to avoid rate limiting
+                    await new Promise(resolve => setTimeout(resolve, 10));
+                }
+            } else {
+                console.log('[refillPosts]', result.body);
+            }
+
+            // await for a 1 second delay to avoid rate limiting
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            if (urls.length < 25) {
+                cursor = null; // No more posts to process
+            }
+        }
+        
     } catch (error) {
         console.error(`[refillPosts] refillPosts() ERROR ${error}`);
     }

@@ -166,9 +166,10 @@ async function refillNsfw() {
     emitter.on('main', () => {/* NOP */ });
 
     await import('./backfill/refill-nsfw.mjs');
-    const { refillSfwScore } = await import('./backfill/refill-nsfw.mjs');
+    const { refillSfwScore_FeedPosts, refillSfwScore_BskyPosts } = await import('./backfill/refill-nsfw.mjs');
 
-    await refillSfwScore();
+    // await refillSfwScore_BskyPosts();
+    await refillSfwScore_FeedPosts();
 
     setTimeout(() => { process.emit('exit_event');}, 1000);
 }

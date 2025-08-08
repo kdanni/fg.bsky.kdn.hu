@@ -24,7 +24,7 @@ async function handleRequest (req, res, next) {
   
   let cursorDate = req.locals.cursorDate;
     
-  const feedData = await fetchFeedData(shortname, cursorDate);
+  const feedData = await fetchFeedData(shortname, cursorDate, 30, 1);
   res.locals.feedData = feedData;
   next();
 }

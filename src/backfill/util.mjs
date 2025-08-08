@@ -29,6 +29,19 @@ const NSFW_HASHTAGS = [
   '#graphicmedia',
   '#dick',
   '#fatcockfriday',
+  '#zoofilia', 
+  '#whore', 
+  '#anal', 
+  '#torture', 
+  '#bbc',
+  '#blackcock',
+  '#cumtribute', 
+  '#cocktribute', 
+  '#facefuck', 
+  '#slutdiaries',
+  '#exhib',
+  '#hardon',
+  '#bigcock',
 ];
 
 const NSFW_HASHTAGS_REGEX = new RegExp(
@@ -38,10 +51,17 @@ const NSFW_HASHTAGS_REGEX = new RegExp(
 
 const MILD_HASHTAGS = [
   '#nudity',
+  '#nudist',
   '#nude',
+  '#nudeart',
+  '#nudeartphotography',
+  '#eroticphotography',
+  '#eroticnude',
+  '#pornart',
   '#sexual',
   '#sex',
   '#onlyfans',
+  'onlyfans.com',
   '#kink',
 ];
 

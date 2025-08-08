@@ -1,7 +1,7 @@
 import { pool } from './connection.mjs';
 import crypto from 'crypto';
 
-export async function fetchFeedData(shortname, cursorDate, limit = 30, sfw = 0) {
+export async function fetchFeedData(shortname, cursorDate, limit = 30, sfw = 2) {
   let sql = `call ${'sp_SELECT_feed_posts_by_name'}(?,?,?,?)`;
   if (Array.isArray(shortname)) {
     sql = `call ${'sp_SELECT_feed_posts_by_nameInArray'}(?,?,?,?)`;
@@ -42,7 +42,7 @@ export async function fetchFeedDataBySql(sql, params, cursorDate) {
   };
 }
 
-export async function getInitialFeedData(shortname, sfw = 0) {
+export async function getInitialFeedData(shortname, sfw = 2) {
   try {
     const datePlus1Hour = new Date();
     datePlus1Hour.setHours(datePlus1Hour.getHours() + 1);

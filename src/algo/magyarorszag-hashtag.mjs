@@ -48,6 +48,7 @@ export async function runAlgo() {
                         const params = [
                             `${shortname}`,
                             post.url,
+                            post.sfw,
                             post.posted_at
                         ];
                         await pool.query(sql, params);

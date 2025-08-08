@@ -27,6 +27,8 @@ const NSFW_HASHTAGS = [
   '#xxx',
   '#porn',
   '#graphicmedia',
+  '#dick',
+  '#fatcockfriday',
 ];
 
 const NSFW_HASHTAGS_REGEX = new RegExp(
@@ -39,6 +41,8 @@ const MILD_HASHTAGS = [
   '#nude',
   '#sexual',
   '#sex',
+  '#onlyfans',
+  '#kink',
 ];
 
 const MILD_HASHTAGS_REGEX = new RegExp(

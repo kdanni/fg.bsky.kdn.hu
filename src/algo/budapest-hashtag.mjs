@@ -51,7 +51,7 @@ export async function runAlgo() {
         }
 
         console.log(`[${shortname}] Finished algo`);
-        await initFeedCache(shortname, 7);
+        await initFeedCache(shortname, null, 7);
         console.log(`[${shortname}] Cache initialized`);
     } catch (error) {
         console.error(`[${shortname}] `, 'Error in runAlgo:', error);

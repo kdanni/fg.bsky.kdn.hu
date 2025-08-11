@@ -17,7 +17,9 @@ BEGIN
             @at_now,
             @at_now
         FROM bsky_post p
-        WHERE p.author_did = author_did;    
+        WHERE p.author_did = author_did
+            AND NOT ( JSON_EXTRACT(embeds, '$.$type') = 'app.bsky.embed.record' AND text = '' )
+        ;    
     END IF;   
 
 END

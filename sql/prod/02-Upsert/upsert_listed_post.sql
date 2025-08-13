@@ -11,6 +11,10 @@ CREATE PROCEDURE sp_UPSERT_listed_post (
 BEGIN
   SET @at_now = now();
 
+  IF (list_name = 'NSFW') THEN
+    SET sfw = 0;
+  END IF;
+
   INSERT INTO listed_post (
     url,
     list_name,

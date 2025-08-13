@@ -9,10 +9,11 @@ BEGIN
     IF (author_did IS NOT NULL OR author_did <> '') THEN
         SET @at_now = now();
         
-        INSERT IGNORE INTO followed_post (url, has_image, posted_at, created_at, updated_at)
+        INSERT IGNORE INTO followed_post (url, has_image, sfw, posted_at, created_at, updated_at)
         SELECT
             SUBSTRING( p.url, 1, 200),
             p.has_image,
+            p.sfw,
             p.posted_at,
             @at_now,
             @at_now

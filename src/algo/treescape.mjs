@@ -57,21 +57,19 @@ export async function runAlgo() {
                         || post.text.toLowerCase().includes('#people')
                         || post.text.toLowerCase().includes('#human')
                         || post.text.toLowerCase().includes('#person')
-                        || post.text.toLowerCase().includes('onlyfans')
-                        || /nude\b/i.test(post.text)
-                        || /nsfw\b/i.test(post.text)
                         ) {
                         DEV_ENV && console.log(`[${shortname}]`,'Skipped Post:', post);
                         continue;
                     }
                     else if (tagsRegex.test(post.text)){
+                        let sfw = getSafeForWorkScore(post, 1);
                         DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
 
                         const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?,?)`;
                         const params = [
                             `${shortname}`,
                             post.url,
-                            post.sfw,
+                            sfw,
                             post.posted_at
                         ];
                         await pool.query(sql, params);

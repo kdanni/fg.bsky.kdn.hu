@@ -42,6 +42,8 @@ export async function runAlgo() {
     console.log(`[${shortname}] Running algo...`);
     try {
         const posts = [];
+        TAGS.push('#landscape');
+        TAGS.push('#treescape');
         for (const tag of TAGS) {
             const posts1 = await pool.query(
                 `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
@@ -50,14 +52,19 @@ export async function runAlgo() {
             if (posts1[0] && posts1[0][0]) {
                 posts.push(...posts1[0][0]);
             }
-        }        
+        }      
                
         if(posts && posts.length > 0) {
             for (const post of posts || []) {
                 // console.log(`[${shortname}]`, post.text);
                 // console.log(`[${shortname}]`,'Filtered Post:', post);
                 if(/^image\//.test(`${post.has_image}`)) {
-                    if (tagsRegex.test(post.text)){
+                    if (tagsRegex.test(post.text)
+                        || (/urban/i.test(post.text) && post.text.toLowerCase().includes('#landscape'))
+                        || (/urban/i.test(post.text) && post.text.toLowerCase().includes('#treescape'))
+                        || (/city/i.test(post.text) && post.text.toLowerCase().includes('#landscape'))
+                        || (/city/i.test(post.text) && post.text.toLowerCase().includes('#treescape'))
+                    ){
                         DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
 
                         const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?,?)`;

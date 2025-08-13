@@ -32,8 +32,7 @@ const NSFW_HASHTAGS = [
   '#zoofilia', 
   '#whore', 
   '#anal', 
-  '#torture', 
-  '#bbc',
+  '#torture',
   '#blackcock',
   '#cumtribute', 
   '#cocktribute', 
@@ -70,7 +69,7 @@ const MILD_HASHTAGS_REGEX = new RegExp(
   'i'
 );
 
-export function getSafeForWorkScore(item) {
+export function getSafeForWorkScore(item, mildScore = 5) {
   let safeForWorkScore = 10;
   if (!item?.post?.uri) {
     return -1;
@@ -89,7 +88,7 @@ export function getSafeForWorkScore(item) {
         break;
       }
       if (MILD_LABELS.includes(label.val)) {
-        safeForWorkScore = Math.min(safeForWorkScore, 5);
+        safeForWorkScore = Math.min(safeForWorkScore, mildScore);
       }
     }
   }  
@@ -101,7 +100,7 @@ export function getSafeForWorkScore(item) {
         break;
       }      
       if (MILD_LABELS.includes(label.val)) {
-        safeForWorkScore = Math.min(safeForWorkScore, 5);
+        safeForWorkScore = Math.min(safeForWorkScore, mildScore);
       }
     }
   }
@@ -110,7 +109,7 @@ export function getSafeForWorkScore(item) {
       safeForWorkScore = 0;
       DEBUG && console.log(`[SFW score] Post ${item.post.record.text} has labels: ${JSON.stringify(item.post.record.labels)}`);    
     } else if (MILD_HASHTAGS_REGEX.test(item.post.record.text)) {
-      safeForWorkScore = Math.min(safeForWorkScore, 5);
+      safeForWorkScore = Math.min(safeForWorkScore, mildScore);
       DEBUG && console.log(`[SFW score] Post ${item.post.record.text} has labels: ${JSON.stringify(item.post.record.labels)}`);    
     }
   }

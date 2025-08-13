@@ -1,5 +1,6 @@
 import { pool } from './connection/connection.mjs';
 import { initFeedCache } from './cache/init-cache.mjs';
+import { getSafeForWorkScore } from '../backfill/util.mjs';
 
 export const shortname = 'railway';
 
@@ -57,23 +58,15 @@ export async function runAlgo() {
                 // console.log(`[${shortname}]`, post.text);
                 // console.log(`[${shortname}]`,'Filtered Post:', post);
                 if(/^image\//.test(`${post.has_image}`)) {
-                    if(
-                        post.text.toLowerCase().includes('onlyfans')
-                        || /kinky?\b/i.test(post.text)                        
-                        || /nude\b/i.test(post.text)
-                        || /nsfw\b/i.test(post.text)
-                        ) {
-                        DEV_ENV && console.log(`[${shortname}]`,'Skipped Post:', post);
-                        continue;
-                    }
-                    else if (tagsRegex.test(post.text)){
+                    if (tagsRegex.test(post.text)){
+                        let sfw = getSafeForWorkScore(post, 1);
                         DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
 
                         const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?,?)`;
                         const params = [
                             `${shortname}`,
                             post.url,
-                            post.sfw,
+                            sfw,
                             post.posted_at
                         ];
                         await pool.query(sql, params);

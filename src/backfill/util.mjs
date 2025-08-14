@@ -73,11 +73,12 @@ export function getSafeForWorkScore(item, mildScore = 5) {
   let safeForWorkScore = 10;
   if (!item?.post?.uri) {
     if(item.url && (item.text || item.labels)) {
+      // console.dir(item, {depth: null});
       item.post = {
         uri: item.url,
         record : {
           text: item.text,
-          labels: JSON.parse(item.labels||'[]')
+          labels: item.labels
         }
       };
     }

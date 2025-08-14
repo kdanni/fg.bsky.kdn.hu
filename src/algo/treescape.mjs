@@ -1,5 +1,6 @@
 import { pool } from './connection/connection.mjs';
 import { initFeedCache } from './cache/init-cache.mjs';
+import { getSafeForWorkScore } from '../backfill/util.mjs';
 
 export const shortname = 'treescape';
 
@@ -62,7 +63,7 @@ export async function runAlgo() {
                         continue;
                     }
                     else if (tagsRegex.test(post.text)){
-                        let sfw = getSafeForWorkScore(post, 1);
+                        let sfw = getSafeForWorkScore({post}, 1);
                         DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
 
                         const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?,?)`;

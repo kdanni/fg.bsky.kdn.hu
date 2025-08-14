@@ -63,7 +63,7 @@ export async function runAlgo() {
                         continue;
                     }
                     else if (tagsRegex.test(post.text)){
-                        let sfw = getSafeForWorkScore(post, 1);
+                        let sfw = getSafeForWorkScore({post}, 1);
 
                         DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
 

@@ -72,7 +72,18 @@ const MILD_HASHTAGS_REGEX = new RegExp(
 export function getSafeForWorkScore(item, mildScore = 5) {
   let safeForWorkScore = 10;
   if (!item?.post?.uri) {
-    return -1;
+    if(item.url && (item.text || item.labels)) {
+      item.post = {
+        uri: item.url,
+        record : {
+          text: item.text,
+          labels: JSON.parse(item.labels||'[]')
+        }
+      };
+    }
+    else {
+      return -1;
+    }
   }
 
   if (!item?.post?.record?.labels && item?.post?.labels) {

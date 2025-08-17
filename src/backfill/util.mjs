@@ -25,47 +25,47 @@ const NSFW_HASHTAGS = [
   '#nsfw',
   '#nsfwbluesky',
   '#xxx',
-  '#porn',
+  '#porn\b',
   '#graphicmedia',
-  '#dick',
+  '#dick\b',
   '#fatcockfriday',
   '#zoofilia', 
   '#whore', 
-  '#anal', 
+  '#anal\b', 
   '#torture',
   '#blackcock',
   '#cumtribute', 
   '#cocktribute', 
   '#facefuck', 
   '#slutdiaries',
-  '#exhib',
+  '#exhib\b',
   '#hardon',
   '#bigcock',
 ];
 
 const NSFW_HASHTAGS_REGEX = new RegExp(
-  `(${NSFW_HASHTAGS.map(tag => tag.replace('#', '')).join('|')})`,
+  `(${NSFW_HASHTAGS.join('|')})`,
   'i'
 );
 
 const MILD_HASHTAGS = [
   '#nudity',
   '#nudist',
-  '#nude',
+  '#nude\b',
   '#nudeart',
   '#nudeartphotography',
   '#eroticphotography',
   '#eroticnude',
   '#pornart',
-  '#sexual',
-  '#sex',
+  '#sexual\b',
+  '#sex\b',
   '#onlyfans',
   'onlyfans.com',
-  '#kink',
+  '#kink\b',
 ];
 
 const MILD_HASHTAGS_REGEX = new RegExp(
-  `(${MILD_HASHTAGS.map(tag => tag.replace('#', '')).join('|')})`,
+  `(${MILD_HASHTAGS.join('|')})`,
   'i'
 );
 

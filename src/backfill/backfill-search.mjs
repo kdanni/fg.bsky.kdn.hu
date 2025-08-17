@@ -18,6 +18,7 @@ import { TAGS as TAGS3 } from '../algo/food-images.mjs';
 import { TAGS as TAGS4 } from '../algo/landscape.mjs'; 
 import { TAGS as TAGS5 } from '../algo/treescape.mjs';
 import { TAGS as TAGS6 } from '../algo/railway.mjs';
+import { TAGS as TAGS7 } from '../algo/waterscape.mjs';
 
 export const BACKFILL_SEARCH_QUERIES = [
     '#Budapest',
@@ -38,6 +39,7 @@ BACKFILL_SEARCH_QUERIES.push(...TAGS3);
 BACKFILL_SEARCH_QUERIES.push(...TAGS4);
 BACKFILL_SEARCH_QUERIES.push(...TAGS5);
 BACKFILL_SEARCH_QUERIES.push(...TAGS6);
+BACKFILL_SEARCH_QUERIES.push(...TAGS7);
 
 // const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 const BSKY_SOCIAL_ROOT = process.env.BSKY_SOCIAL_ROOT || 'https://bsky.social';

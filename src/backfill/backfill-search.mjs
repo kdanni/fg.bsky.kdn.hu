@@ -74,6 +74,8 @@ import { runAlgo as tractor } from '../algo/tractor-hashtag.mjs';
 import { runAlgo as treescape } from '../algo/treescape.mjs';
 import { runAlgo as UBT } from '../algo/urban-brutal-tractor.mjs';
 import { runAlgo as railway } from '../algo/railway.mjs';
+import { runAlgo as waterscape } from '../algo/waterscape.mjs';
+import { runAlgo as treelandwater } from '../algo/treescape-landscape-waterscape.mjs';
 
 export async function backfillSearchAlgoRunner () {
     console.log('[backfillSearch] Running algos');
@@ -90,6 +92,8 @@ export async function backfillSearchAlgoRunner () {
         budapestAll(),
         UBT(),
         railway(),
+        waterscape(),
+        treelandwater(),
     ]).catch((e) => {
         console.error('[backfillSearch] Algo Error', e);
     });

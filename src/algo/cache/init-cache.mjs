@@ -5,7 +5,7 @@ import { shortname as shortnameFavorites, getInitialFeedData as getInitialFeedDa
 
 import { shortname as shortnameNSFW, getInitialFeedData as getInitialFeedDataNSFW } from '../../api/xrpc/getFeedSkeleton/mw/nsfw.mjs';
 
-export async function initFeedCache(shortname, shortnameArray, sfw = 0) {
+export async function initFeedCache(shortname, shortnameArray, sfw = 2) {
     if(!shortname){
         return;
     }

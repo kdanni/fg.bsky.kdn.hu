@@ -5,6 +5,7 @@ import { updateFeed } from '../bsky-social/update-feed-repo-object.mjs';
 
 import {FEEDGEN_CONFIG as followed} from '../algo/followed.mjs';
 import {FEEDGEN_CONFIG as listed} from '../algo/listed.mjs';
+import {FEEDGEN_CONFIG as favorites } from '../algo/favorites.mjs';
 import {FEEDGEN_CONFIG as f_l} from '../algo/followed_or_listed.mjs';
 import {FEEDGEN_CONFIG as kdBud} from '../algo/kdanni-Bud.mjs';
 import {FEEDGEN_CONFIG as kdPhoto} from '../algo/kdanni-Photo.mjs';
@@ -118,6 +119,9 @@ export async function publish(commandString) {
     if(feedName == 'treelandwater') {
         await publisFeed(treelandwater);
     }
+    if(feedName == 'favorites') {
+        await publisFeed(favorites);
+    }   
     process.emit('exit_event');
 }
 
@@ -209,6 +213,9 @@ export async function unpublish(commandString) {
     if(feedName == 'treelandwater') {
         await unpublisFeed(treelandwater);
     }
+    if(feedName == 'favorites') {
+        await unpublisFeed(favorites);
+    }
     process.emit('exit_event');
 }
 
@@ -299,6 +306,9 @@ export async function republish(commandString) {
     }
     if(feedName == 'treelandwater') {
         await updateFeed(treelandwater);
+    }
+    if(feedName == 'favorites') {
+        await updateFeed(favorites);
     }
     process.emit('exit_event');
 

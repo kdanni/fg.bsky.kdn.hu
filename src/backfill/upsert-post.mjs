@@ -7,8 +7,8 @@ export async function upsertPost(item, p_sfw = 10) {
     let has_image = getMimeStringOrNull(item?.post?.record?.embed);
     let langs = getLanguageOrEn(item?.post?.record);
 
-    let replyParent = item?.post?.record.reply?.parent.uri || null;
-    let replyRoot = item?.post?.record.reply?.root.uri || null;
+    let replyParent = item?.post?.record?.reply?.parent?.uri || null;
+    let replyRoot = item?.post?.record?.reply?.root?.uri || null;
 
     let safeForWorkScore = getSafeForWorkScore(item);
     safeForWorkScore = Math.min(safeForWorkScore, p_sfw);

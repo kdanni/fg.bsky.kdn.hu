@@ -13,6 +13,7 @@ import kdanniBudOutofBud from './getFeedSkeleton/mw/kdanni-Bud-Out-of-Bud.mjs';
 import kdanniPhoto from './getFeedSkeleton/mw/kdanni-Photo.mjs';
 import kdanniFollowed from './getFeedSkeleton/mw/followed.mjs';
 import kdanniListed from './getFeedSkeleton/mw/listed.mjs';
+import kdanniFavorites from './getFeedSkeleton/mw/favorites.mjs';
 import kdanniFollowedOrListed from './getFeedSkeleton/mw/followed_or_listed.mjs';
 import budapestHashtag from './getFeedSkeleton/mw/budapest-hashtag.mjs';
 import magyaroHashtag from './getFeedSkeleton/mw/magyaro-hashtag.mjs';
@@ -43,6 +44,7 @@ const getFeedSkeletonChain = [
     kdanniPhoto,
     kdanniFollowed,
     kdanniListed,
+    kdanniFavorites,
     kdanniFollowedOrListed,
     budapestHashtag,
     magyaroHashtag,

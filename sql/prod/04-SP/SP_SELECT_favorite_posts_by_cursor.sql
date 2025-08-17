@@ -1,6 +1,6 @@
-DROP PROCEDURE IF EXISTS sp_SELECT_favorites_posts_by_name;
+DROP PROCEDURE IF EXISTS sp_SELECT_favorites_posts_by_cursor;
 
-CREATE PROCEDURE sp_SELECT_favorites_posts_by_name ( 
+CREATE PROCEDURE sp_SELECT_favorites_posts_by_cursor ( 
     cursor_date datetime,
     p_limit INT,
     p_sfw INT,

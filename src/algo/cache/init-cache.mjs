@@ -1,6 +1,7 @@
 import { constructCacheKey } from '../../api/xrpc/getFeedSkeleton/000.mjs';
 import { getInitialFeedData } from '../../api/xrpc/getFeedSkeleton/util/fetchFeedData.mjs';
 import { isRedisConnected, redisSet } from '../../redis/redis-io-connection.mjs';
+import { shortname as shortnameFavorites, getInitialFeedData as getInitialFeedDataFavorites } from '../../api/xrpc/getFeedSkeleton/mw/favorites.mjs';
 
 import { shortname as shortnameNSFW, getInitialFeedData as getInitialFeedDataNSFW } from '../../api/xrpc/getFeedSkeleton/mw/nsfw.mjs';
 
@@ -31,6 +32,21 @@ export async function initFeedNSFW() {
             }
         } catch (error) {
             console.error('[initFeedNSFW] Error:', error);
+        }
+    }
+}
+
+export async function initFavoritesFeedCache() {
+    if (await isRedisConnected()) {
+        try {
+            let initialFeedDataFavorites = await getInitialFeedDataFavorites();
+            if (initialFeedDataFavorites && initialFeedDataFavorites.feed) {
+                let cacheKey = constructCacheKey(shortnameFavorites);
+                await redisSet(cacheKey, JSON.stringify(initialFeedDataFavorites), ['EX', 3000]);
+                console.log(`[initCache] Cached initial feed data for ${cacheKey}`);
+            }
+        } catch (error) {
+            console.error('[initFavoritesFeedCache] Error:', error);
         }
     }
 }

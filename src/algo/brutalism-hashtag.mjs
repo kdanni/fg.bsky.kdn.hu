@@ -3,6 +3,13 @@ import { initFeedCache } from './cache/init-cache.mjs';
 
 export const shortname = 'brutalisHashtag';
 
+export const TAGS = [    
+    '#brutalism',
+    '#brutalista',
+    '#brutalist',
+    '#brutalisky',
+]
+
 export const FEEDGEN_CONFIG = {
   publisherDid: `${process.env.FEEDGEN_PUBLISHER_DID}`,
   feeds: [
@@ -23,10 +30,16 @@ const DEV_ENV = process.env.ENV === 'DEV';
 export async function runAlgo() {    
     console.log(`[${shortname}] Running algo...`);
     try {
-        const posts = await pool.query(
-            `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
-            ['%#brutali%']
-        );
+        const posts = [];
+        for (const tag of TAGS) {
+            const posts1 = await pool.query(
+                `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
+                [`%${tag}%`]
+            );
+            if (posts1[0] && posts1[0][0]) {
+                posts.push(...posts1[0][0]);
+            }
+        }
         
         if(posts[0] && posts[0][0]) {            
             for (const post of posts[0][0] || []) {

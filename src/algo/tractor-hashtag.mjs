@@ -3,6 +3,17 @@ import { initFeedCache } from './cache/init-cache.mjs';
 
 export const shortname = 'tractorHashtag';
 
+export const TAGS = [    
+    '#tractor',
+    '#TractorSky',
+    '#combineharvester',
+    '#combine harvest',
+    '#combine farm',
+    '#harvester agriculture',
+    '#harvester farm',
+    '#harvester harvesting',
+]
+
 export const FEEDGEN_CONFIG = {
   publisherDid: `${process.env.FEEDGEN_PUBLISHER_DID}`,
   feeds: [
@@ -23,14 +34,16 @@ const DEV_ENV = process.env.ENV === 'DEV';
 export async function runAlgo() {    
     console.log(`[${shortname}] Running algo...`);
     try {
-        const posts1 = await pool.query(
-            `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
-            ['%#traktor%']
-        );
-        const posts = await pool.query(
-            `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
-            ['%#tractor%']
-        );
+        const posts = [];
+        for (const tag of TAGS) {
+            const posts1 = await pool.query(
+                `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
+                [`%${tag}%`]
+            );
+            if (posts1[0] && posts1[0][0]) {
+                posts.push(...posts1[0][0]);
+            }
+        }
         
         if(posts[0] && posts[0][0]) {
             if(posts1[0] && posts1[0][0]) {
@@ -45,7 +58,14 @@ export async function runAlgo() {
                         || /#traktor\b/i.test(post.text)
                         || /#TractorSky\b/i.test(post.text)
                         || /#TraktorSky\b/i.test(post.text)
+                        || /#combineharvester\b/i.test(post.text)
+                        || /(farm)|(harvest)|(agric)/i.test(post.text)
                     ) {
+                        if(/((farm)|(harvest)|(agric))/i.test(post.text)) {
+                            if(!/(#combine)|(harvester\b)/i.test(post.text)) {
+                                continue;
+                            }
+                        }
                         DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
 
                         const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?,?)`;

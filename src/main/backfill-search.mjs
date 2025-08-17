@@ -5,11 +5,11 @@ export async function main() {
     // BlueSky API calls
     // Sequential for respect rate limits and quotas
 
-    console.log('[backfill-search-main] Backfilling feed_publishers_posts');
+    console.log('[backfill-search-main] Backfilling by search.');
     try {
         await backfillSearchRunner();
 
-        console.log('[backfill-search-main] Backfilling feed_publishers_posts done');
+        console.log('[backfill-search-main] Backfilling by search done.');
     } catch (e) {
         console.error('[backfill-search-main] Backfill Error', e);
     }

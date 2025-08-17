@@ -19,18 +19,15 @@ import { TAGS as TAGS4 } from '../algo/landscape.mjs';
 import { TAGS as TAGS5 } from '../algo/treescape.mjs';
 import { TAGS as TAGS6 } from '../algo/railway.mjs';
 import { TAGS as TAGS7 } from '../algo/waterscape.mjs';
+import { TAGS as TAGS8 } from '../algo/tractor-hashtag.mjs';
+import { TAGS as TAGS9 } from '../algo/brutalism-hashtag.mjs';
+
 
 export const BACKFILL_SEARCH_QUERIES = [
     '#Budapest',
     '📍Budapest',
     '#Magyarország',
     '#magyar',
-    '#tractor',
-    '#TractorSky',
-    '#brutalism',
-    '#brutalista',
-    '#blrutalist',
-    '#brutalisky',
 ]
 
 BACKFILL_SEARCH_QUERIES.push(...TAGS);
@@ -40,6 +37,8 @@ BACKFILL_SEARCH_QUERIES.push(...TAGS4);
 BACKFILL_SEARCH_QUERIES.push(...TAGS5);
 BACKFILL_SEARCH_QUERIES.push(...TAGS6);
 BACKFILL_SEARCH_QUERIES.push(...TAGS7);
+BACKFILL_SEARCH_QUERIES.push(...TAGS8);
+BACKFILL_SEARCH_QUERIES.push(...TAGS9);
 
 // const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 const BSKY_SOCIAL_ROOT = process.env.BSKY_SOCIAL_ROOT || 'https://bsky.social';

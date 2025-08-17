@@ -32,7 +32,9 @@ if (/^no[- ]operation\b/.test(commandString)) {
     backfillSearchRunner();
 } else if (/^backfill[- ]?search\b/.test(commandString)) {
     backfillSearch();
-} else if (/^algo[- ]?followed\b/.test(commandString)) {
+} else if (/^backfill[- ]?favorites?\b/.test(commandString)) {
+    backfillFavorites();
+}  else if (/^algo[- ]?followed\b/.test(commandString)) {
     algoFollowed();
 } else if (/^kdanni[- ]?bud\b/i.test(commandString)) {
     kdanniBud();
@@ -101,6 +103,18 @@ async function backfillSearch() {
     setTimeout(() => { process.emit('exit_event');}, 1000);
 }
 
+async function backfillFavorites() {
+    await import('./log/event-logger.mjs');
+    const emitter = (await import('./event-emitter.mjs')).default;
+    emitter.on('main', () => {/* NOP */ });
+
+    const favorites = await import('./main/backfill-favorites.mjs');
+
+    await favorites.main();
+
+    setTimeout(() => { process.emit('exit_event');}, 1000);
+}
+
 async function backfill() {
     await import('./log/event-logger.mjs');
     const emitter = (await import('./event-emitter.mjs')).default;
@@ -115,11 +129,13 @@ async function backfill() {
      */
     const actor = await import('./main/backfill-actor.mjs');
     const search = await import('./main/backfill-search.mjs');
+    const favorites = await import('./main/backfill-favorites.mjs');
 
     try {
         await Promise.all([
             actor.main(),
             search.main(),
+            favorites.main(),
         ]);
     } catch (error) {
         console.error('[main] Backfill Error:', error);

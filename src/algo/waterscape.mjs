@@ -35,7 +35,7 @@ export const FEEDGEN_CONFIG = {
       id: `${shortname}`,
       displayName: 'Waterscape images',
       description: `Hashtag included: ${TAGS.join(' ')}`,
-      avatarFile: 'avatars/waterscape.jpg.jpg',
+      avatarFile: 'avatars/waterscape.jpg',
     },
   ],
 }

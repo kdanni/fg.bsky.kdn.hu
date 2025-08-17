@@ -27,6 +27,9 @@ import { FEEDGEN_CONFIG as budapestAll } from '../algo/budapest-all.mjs';
 import { FEEDGEN_CONFIG as budapestMeetings } from '../algo/budapest-meetings.mjs';
 import { FEEDGEN_CONFIG as budapestJobs } from '../algo/budapest-jobsearch.mjs';
 import { FEEDGEN_CONFIG as railway } from '../algo/railway.mjs';
+import { FEEDGEN_CONFIG as waterscape } from '../algo/waterscape.mjs';
+import { FEEDGEN_CONFIG as treelandwater } from '../algo/treescape-landscape-waterscape.mjs';
+
 
 export async function publish(commandString) {
     const match = /^publish\b +(\S+)/.exec(commandString) || [commandString, null];
@@ -108,6 +111,12 @@ export async function publish(commandString) {
     }
     if(feedName == 'railway') {
         await publisFeed(railway);
+    }
+    if(feedName == 'waterscape') {
+        await publisFeed(waterscape);
+    }
+    if(feedName == 'treelandwater') {
+        await publisFeed(treelandwater);
     }
     process.emit('exit_event');
 }
@@ -194,6 +203,12 @@ export async function unpublish(commandString) {
     if(feedName == 'railway') {
         await unpublisFeed(railway);
     }
+    if(feedName == 'waterscape') {
+        await unpublisFeed(waterscape);
+    }
+    if(feedName == 'treelandwater') {
+        await unpublisFeed(treelandwater);
+    }
     process.emit('exit_event');
 }
 
@@ -278,6 +293,12 @@ export async function republish(commandString) {
     }
     if(feedName == 'railway') {
         await updateFeed(railway);
+    }
+    if(feedName == 'waterscape') {
+        await updateFeed(waterscape);
+    }
+    if(feedName == 'treelandwater') {
+        await updateFeed(treelandwater);
     }
     process.emit('exit_event');
 

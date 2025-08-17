@@ -33,9 +33,9 @@ export const FEEDGEN_CONFIG = {
     {
       uri: `at://${process.env.FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`,
       id: `${shortname}`,
-      displayName: 'Treescape images',
+      displayName: 'Waterscape images',
       description: `Hashtag included: ${TAGS.join(' ')}`,
-      avatarFile: 'avatars/treescape.jpg',
+      avatarFile: 'avatars/waterscape.jpg.jpg',
     },
   ],
 }
@@ -63,17 +63,7 @@ export async function runAlgo() {
                 // console.log(`[${shortname}]`, post.text);
                 // console.log(`[${shortname}]`,'Filtered Post:', post);
                 if(/^image\//.test(`${post.has_image}`)) {
-                    if(
-                        post.text.toLowerCase().includes('#urban') 
-                        || post.text.toLowerCase().includes('#city')
-                        || post.text.toLowerCase().includes('#people')
-                        || post.text.toLowerCase().includes('#human')
-                        || post.text.toLowerCase().includes('#person')
-                        ) {
-                        DEV_ENV && console.log(`[${shortname}]`,'Skipped Post:', post);
-                        continue;
-                    }
-                    else if (tagsRegex.test(post.text)){
+                    if (tagsRegex.test(post.text)){
                         let sfw = getSafeForWorkScore(post, 1);
                         DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
 

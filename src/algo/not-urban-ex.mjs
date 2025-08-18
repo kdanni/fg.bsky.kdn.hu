@@ -44,6 +44,7 @@ export async function runAlgo() {
         const posts = [];
         TAGS.push('#landscape');
         TAGS.push('#treescape');
+        TAGS.push('#abandoned');
         for (const tag of TAGS) {
             const posts1 = await pool.query(
                 `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
@@ -62,8 +63,14 @@ export async function runAlgo() {
                     if (tagsRegex.test(post.text)
                         || (/urban/i.test(post.text) && post.text.toLowerCase().includes('#landscape'))
                         || (/urban/i.test(post.text) && post.text.toLowerCase().includes('#treescape'))
+                        || (/urban/i.test(post.text) && post.text.toLowerCase().includes('#abandoned'))
+                        || (/factory/i.test(post.text) && post.text.toLowerCase().includes('#abandoned'))
+                        || (/industrial/i.test(post.text) && post.text.toLowerCase().includes('#abandoned'))
                         || (/city/i.test(post.text) && post.text.toLowerCase().includes('#landscape'))
                         || (/city/i.test(post.text) && post.text.toLowerCase().includes('#treescape'))
+                        || (/city/i.test(post.text) && post.text.toLowerCase().includes('#abandoned'))
+                        || (/factory/i.test(post.text) && post.text.toLowerCase().includes('#abandoned'))
+                        || (/industrial/i.test(post.text) && post.text.toLowerCase().includes('#abandoned'))
                     ){
                         DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
 

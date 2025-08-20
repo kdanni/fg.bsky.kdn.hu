@@ -4,7 +4,7 @@ import { URLSearchParams } from 'url';
 
 import { pool } from './connection/connection.mjs';
 // import { upsertPost } from './upsert-post.mjs';
-import { getSafeForWorkScore } from './util.mjs';
+import { getSafeForWorkScore, getMimeStringOrNull, isArtwork } from './util.mjs';
 
 // const BSKY_SOCIAL_ROOT = process.env.BSKY_SOCIAL_ROOT || 'https://bsky.social';
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
@@ -71,21 +71,24 @@ export async function refillSfwScore_FeedPosts() {
                     if (sfwScore < 7) {
                         console.log(`[refillPosts] Post ${post.uri} is not safe for work, score: ${sfwScore}, Author SFW: ${autorSfwScore}`);
                     }
+                    
+                    let has_image = getMimeStringOrNull(post.embed);
+                    has_image = isArtwork(post, has_image);
 
-                    const updateSql = 'UPDATE feed_post SET sfw = ? WHERE url = ?';
-                    const updateParams = [sfwScore, post.uri];
+                    const updateSql = 'UPDATE feed_post SET sfw = LEAST(?, sfw), has_image = ? WHERE url = ?';
+                    const updateParams = [sfwScore, has_image, post.uri];
 
                     await pool.query(updateSql, updateParams);
 
-                    // await for a 10 ms delay to avoid rate limiting
-                    await new Promise(resolve => setTimeout(resolve, 10));
+                    // await for a 2 ms delay to avoid rate limiting
+                    await new Promise(resolve => setTimeout(resolve, 2));
                 }
             } else {
                 console.log('[refillPosts]', result.body);
             }
 
-            // await for a 1 second delay to avoid rate limiting
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            // await for a 900 ms delay to avoid rate limiting
+            await new Promise(resolve => setTimeout(resolve, 900));
             
             if (urls.length < 25) {
                 cursor = null; // No more posts to process
@@ -160,22 +163,24 @@ export async function refillSfwScore_BskyPosts() {
                     if (sfwScore < 7) {
                         console.log(`[refillPosts] Post ${post.uri} is not safe for work, score: ${sfwScore}, Author SFW: ${autorSfwScore}`);
                     }
+                    let has_image = getMimeStringOrNull(post.embed);
+                    has_image = isArtwork(post, has_image);
 
-                    const updateSql = 'UPDATE bsky_post SET sfw = ? WHERE url = ?';
-                    const updateParams = [sfwScore, post.uri];
+                    const updateSql = 'UPDATE bsky_post SET sfw = ?, has_image = ? WHERE url = ?';
+                    const updateParams = [sfwScore, has_image, post.uri];
 
                     await pool.query(updateSql, updateParams);
 
-                    // await for a 10 ms delay to avoid rate limiting
-                    await new Promise(resolve => setTimeout(resolve, 10));
+                    // await for a 2 ms delay to avoid rate limiting
+                    await new Promise(resolve => setTimeout(resolve, 2));
                 }
             } else {
                 console.log('[refillPosts]', result.body);
             }
 
-            // await for a 1 second delay to avoid rate limiting
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
+            // await for a 900 ms delay to avoid rate limiting
+            await new Promise(resolve => setTimeout(resolve, 900));
+
             if (urls.length < 25) {
                 cursor = null; // No more posts to process
             }

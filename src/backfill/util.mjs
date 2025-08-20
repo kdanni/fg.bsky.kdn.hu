@@ -146,7 +146,7 @@ export function getMimeStringOrNull(embed) {
 
 const ARTWORK_TAGS = [
   '#artwork',
-  '#\\B+artwork',
+  '#[^ ]+artwork',
   '#oilpainting',
   '#watercolor',
   '#watercolour',
@@ -156,9 +156,9 @@ const ARTWORK_TAGS = [
   '#digitalart',
   '#traditionalart',
   '#painting',
-  '#\\B+painting',
+  '#[^ ]+painting',
   '#drawing',
-  '#\\B+drawing',
+  '#[^ ]+drawing',
   '#virtualphotography',
   '#illustration',
   '#conceptart',

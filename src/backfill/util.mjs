@@ -144,6 +144,71 @@ export function getMimeStringOrNull(embed) {
   return 'embed?';
 }
 
+const ARTWORK_TAGS = [
+  '#artwork',
+  '#\\B+artwork',
+  '#oilpainting',
+  '#watercolor',
+  '#watercolour',
+  '#acrylic',
+  '#sketch',
+  '\\bacrylic on\\b',
+  '#digitalart',
+  '#traditionalart',
+  '#painting',
+  '#\\B+painting',
+  '#drawing',
+  '#\\B+drawing',
+  '#virtualphotography',
+  '#illustration',
+  '#conceptart',
+  '#3dmodeling',
+  '#cartoon',
+];
+
+const ARTWORK_TAGS_REGEX = new RegExp(
+  `(${ARTWORK_TAGS.join('|')})`,
+  'i'
+);
+
+const AI_ARTWORK_TAGS = [
+  '#aiart',
+  '#ai\\b',
+  '#generativeart',
+  '#genart\\b',
+  '#genai\\b',
+  '#synthart\\b',
+  '#midjourney\\b',
+];
+
+const AI_ARTWORK_TAGS_REGEX = new RegExp(
+  `(${AI_ARTWORK_TAGS.join('|')})`,
+  'i'
+);
+
+export function isArtwork(item, mime) {
+  if (!item?.post?.record?.text) {
+    if(item?.record?.text) {
+      item = {post:item};
+    } else {
+      return false;
+    }
+  }
+  let isArtwork = ARTWORK_TAGS_REGEX.test(item.post.record.text);
+  let isAiArtwork = AI_ARTWORK_TAGS_REGEX.test(item.post.record.text);
+  let retString = '';
+  if(mime) {
+    retString = `${mime}`;
+  }
+  if (isArtwork) {
+    retString += '::ARTWORK';
+  }
+  if (isAiArtwork) {
+    retString += '::AIART';
+  }
+  return retString.trim();
+}
+
 export function getLanguageOrEn(record) {
   if (!record || !record.langs) {
     return 'en';

@@ -1,10 +1,11 @@
-import { getMimeStringOrNull, getLanguageOrEn, getSafeForWorkScore } from './util.mjs';
+import { getMimeStringOrNull, getLanguageOrEn, getSafeForWorkScore, isArtwork } from './util.mjs';
 import { pool } from './connection/connection.mjs';
 
 
 export async function upsertPost(item, p_sfw = 10) {
 
     let has_image = getMimeStringOrNull(item?.post?.record?.embed);
+    has_image = isArtwork(item, has_image);
     let langs = getLanguageOrEn(item?.post?.record);
 
     let replyParent = item?.post?.record?.reply?.parent?.uri || null;

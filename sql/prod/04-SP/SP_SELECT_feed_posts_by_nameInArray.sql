@@ -41,6 +41,8 @@ BEGIN
             FROM JSON_TABLE(p_feed_name_array, '$[*]' COLUMNS (value VARCHAR(54) PATH '$')) AS jt
         )
         AND sfw >= p_sfw
+        AND 
+         ((has_image NOT LIKE '%::ARTWORK%' AND has_image NOT LIKE '%::AIART%') OR has_image IS NULL)
     ) AS sub
     WHERE feed_name IN (
         SELECT value COLLATE utf8mb4_hungarian_ci AS value

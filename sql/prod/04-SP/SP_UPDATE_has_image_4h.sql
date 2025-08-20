@@ -1,6 +1,6 @@
-DROP PROCEDURE IF EXISTS sp_UPDATE_has_image;
+DROP PROCEDURE IF EXISTS sp_UPDATE_has_image_4h;
 
-CREATE PROCEDURE sp_UPDATE_has_image ()
+CREATE PROCEDURE sp_UPDATE_has_image_4h ()
 BEGIN
 
     DECLARE done INT DEFAULT FALSE;
@@ -9,8 +9,7 @@ BEGIN
     DECLARE cur CURSOR FOR
         SELECT p.url, p.has_image
         FROM bsky_post p
-        -- WHERE p.updated_at < now() - INTERVAL 4 HOUR
-        ;
+        WHERE p.updated_at > now() - INTERVAL 4 HOUR;
 
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 

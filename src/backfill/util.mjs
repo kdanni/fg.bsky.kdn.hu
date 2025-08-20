@@ -153,6 +153,7 @@ const ARTWORK_TAGS = [
   '#acrylic',
   '#sketch',
   '\\bacrylic on\\b',
+  '\\bon canvas\\b',
   '#digitalart',
   '#traditionalart',
   '#painting',

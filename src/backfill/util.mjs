@@ -165,6 +165,7 @@ const ARTWORK_TAGS = [
   '#conceptart',
   '#3dmodeling',
   '#cartoon',
+  '#fineart',
 ];
 
 const ARTWORK_TAGS_REGEX = new RegExp(
@@ -180,6 +181,7 @@ const AI_ARTWORK_TAGS = [
   '#genai\\b',
   '#synthart\\b',
   '#midjourney\\b',
+  '#dall-?e\\d?\\b',
 ];
 
 const AI_ARTWORK_TAGS_REGEX = new RegExp(

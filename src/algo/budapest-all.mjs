@@ -39,11 +39,12 @@ export async function runAlgo() {
                         || /\bmeetings?\b/i.test(post.text) || /\bconference\b/i.test(post.text)) {
                         DEV_ENV && console.log(`[${shortnameMeetings}]`,'Filtered Post:', post);
 
-                        const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?,?)`;
+                        const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?,?,?)`;
                         const params = [
                             `${shortnameMeetings}`,
                             post.url,
                             post.sfw,
+                            post.has_image,
                             post.posted_at
                         ];
                         await pool.query(sql, params);
@@ -53,11 +54,12 @@ export async function runAlgo() {
                     ) {
                         DEV_ENV && console.log(`[${shortnameJobsearch}]`,'Filtered Post:', post);
 
-                        const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?,?)`;
+                        const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?,?,?)`;
                         const params = [
                             `${shortnameJobsearch}`,
                             post.url,
                             post.sfw,
+                            post.has_image,
                             post.posted_at
                         ];
                         await pool.query(sql, params);
@@ -66,11 +68,12 @@ export async function runAlgo() {
                     else if (/#budapest/i.test(post.text) || /📍budapest/i.test(post.text)) {
                         DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
 
-                        const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?,?)`;
+                        const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?,?,?)`;
                         const params = [
                             `${shortname}`,
                             post.url,
                             post.sfw,
+                            post.has_image,
                             post.posted_at
                         ];
                         await pool.query(sql, params);

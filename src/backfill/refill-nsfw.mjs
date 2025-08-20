@@ -72,7 +72,7 @@ export async function refillSfwScore_FeedPosts() {
                         console.log(`[refillPosts] Post ${post.uri} is not safe for work, score: ${sfwScore}, Author SFW: ${autorSfwScore}`);
                     }
                     
-                    let has_image = getMimeStringOrNull(post.embed);
+                    let has_image = getMimeStringOrNull(post?.record?.embed);
                     has_image = isArtwork(post, has_image);
 
                     const updateSql = 'UPDATE feed_post SET sfw = LEAST(?, sfw), has_image = ? WHERE url = ?';
@@ -163,7 +163,7 @@ export async function refillSfwScore_BskyPosts() {
                     if (sfwScore < 7) {
                         console.log(`[refillPosts] Post ${post.uri} is not safe for work, score: ${sfwScore}, Author SFW: ${autorSfwScore}`);
                     }
-                    let has_image = getMimeStringOrNull(post.embed);
+                    let has_image = getMimeStringOrNull(post?.record?.embed);
                     has_image = isArtwork(post, has_image);
 
                     const updateSql = 'UPDATE bsky_post SET sfw = ?, has_image = ? WHERE url = ?';

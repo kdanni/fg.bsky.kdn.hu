@@ -36,11 +36,12 @@ export async function runAlgo() {
                     if (/#OutOfTheCity/i.test(post.text)) {
                         // DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
 
-                        const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?,?)`;
+                        const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?,?,?)`;
                         const params = [
                             `${shortname}`,
                             post.url,
                             post.sfw,
+                            post.has_image,
                             post.posted_at
                         ];
                         await pool.query(sql, params);

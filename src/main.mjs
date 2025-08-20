@@ -19,7 +19,9 @@ if (/^no[- ]operation\b/.test(commandString)) {
 } else if (/^republish\b/.test(commandString)) {
     republish(commandString);
 } else if (/^refill[- ]?nsfw\b/.test(commandString)) {
-    refillNsfw();
+    refill();
+} else if (/^refill$/.test(commandString)) {
+    refill();
 } else if (/^backfill[- ]?kdanni\b/.test(commandString)) {
     backfillKdanni();
 } else if (/^backfill[- ]?followed\b/.test(commandString)) {
@@ -178,7 +180,7 @@ async function republish(commandString) {
 }
 
 
-async function refillNsfw() {
+async function refill() {
     await import('./log/event-logger.mjs');
     const emitter = (await import('./event-emitter.mjs')).default;
     emitter.on('main', () => {/* NOP */ });

@@ -225,6 +225,8 @@ const FANTASY_ARTWORK_TAGS = [
   '#ocart',
   '#characterart',
   '#virtualphotography',
+  '#pokemon',
+  '#vtube',
 ];
 
 const FANTASY_ARTWORK_TAGS_REGEX = new RegExp(

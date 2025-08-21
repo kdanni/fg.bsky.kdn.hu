@@ -57,6 +57,7 @@ export async function backfillSearchRunner () {
     for(const q of BACKFILL_SEARCH_QUERIES || []) {
         try {
             await backfillSearch(`${q}`)
+            await new Promise((resolve) => { setTimeout( resolve , 1000 );});
         } catch (error) {
             console.error(`[backfillSearch] backfillSearchRunner() ERROR ${error}`)
         }
@@ -199,6 +200,7 @@ export async function backfillSearch(backfillSearchQuery) {
         console.log(`[backfillSearch] Finished backfilling.`);
     } catch (error) {
         console.error('[backfillSearch] Error:', error);
+        await new Promise((resolve) => { setTimeout( resolve , 4000 );});
     }
 }
 

@@ -42,7 +42,10 @@ BEGIN
         )
         AND sfw >= p_sfw
         AND 
-         ((has_image NOT LIKE '%::ARTWORK%' AND has_image NOT LIKE '%::AIART%') OR has_image IS NULL)
+         ((has_image NOT LIKE '%::ARTWORK%' 
+                AND has_image NOT LIKE '%::AIART%'
+                AND has_image NOT LIKE '%::FANTASY%'
+            ) OR has_image IS NULL)
     ) AS sub
     WHERE feed_name IN (
         SELECT value COLLATE utf8mb4_hungarian_ci AS value

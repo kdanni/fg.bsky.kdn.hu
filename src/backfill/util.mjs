@@ -151,7 +151,10 @@ const ARTWORK_TAGS = [
   '#watercolor',
   '#watercolour',
   '#acrylic',
+  'acrylic marker',
+  'acrylic pen',
   '#sketch',
+  '#[^ ]+sketch',
   '\\bacrylic on\\b',
   '\\bon canvas\\b',
   '#digitalart',
@@ -160,12 +163,36 @@ const ARTWORK_TAGS = [
   '#[^ ]+painting',
   '#drawing',
   '#[^ ]+drawing',
-  '#virtualphotography',
   '#illustration',
-  '#conceptart',
   '#3dmodeling',
-  '#cartoon',
   '#fineart',
+  '#mindcraft',
+  '#pixelart',
+  '#artshare',
+  '#artsell',
+  '#artsale',
+  '#buyart',
+  '#collectart',
+  '#3d\\b',
+  '#blender',
+  '#quilt',
+  '#[^ ]+quilt',
+  '#commissionart',
+  '#cartoon',
+  '#conceptart',
+  '#saturated',
+  '#abstractart',
+  '#3dprint',
+  '#miniature',
+  '#sculpture',
+  '#sculpting',
+  '#terrain',
+  '#diorama',
+  '#[^ ]+miniature',
+  '#[^ ]+sculpture',
+  '#[^ ]+sculpting',
+  '#[^ ]+terrain',
+  '#[^ ]+diorama',
 ];
 
 const ARTWORK_TAGS_REGEX = new RegExp(
@@ -189,6 +216,22 @@ const AI_ARTWORK_TAGS_REGEX = new RegExp(
   'i'
 );
 
+
+const FANTASY_ARTWORK_TAGS = [
+  '#fantasy',
+  '#furry',
+  '#dragon',
+  '#[^ ]+fantasy',
+  '#ocart',
+  '#characterart',
+  '#virtualphotography',
+];
+
+const FANTASY_ARTWORK_TAGS_REGEX = new RegExp(
+  `(${FANTASY_ARTWORK_TAGS.join('|')})`,
+  'i'
+);
+
 export function isArtwork(item, mime) {
   if (!item?.post?.record?.text) {
     if(item?.record?.text) {
@@ -199,6 +242,7 @@ export function isArtwork(item, mime) {
   }
   let isArtwork = ARTWORK_TAGS_REGEX.test(item.post.record.text);
   let isAiArtwork = AI_ARTWORK_TAGS_REGEX.test(item.post.record.text);
+  let isFantasyArtwork = FANTASY_ARTWORK_TAGS_REGEX.test(item.post.record.text);
   let retString = '';
   if(mime) {
     retString = `${mime}`;
@@ -208,6 +252,9 @@ export function isArtwork(item, mime) {
   }
   if (isAiArtwork) {
     retString += '::AIART';
+  }
+  if (isFantasyArtwork) {
+    retString += '::FANTASY';
   }
   return retString.trim();
 }

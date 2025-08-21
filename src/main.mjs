@@ -22,6 +22,8 @@ if (/^no[- ]operation\b/.test(commandString)) {
     refill();
 } else if (/^refill$/.test(commandString)) {
     refill();
+} else if (/jetstream/.test(commandString)) {
+    jetstream();
 } else if (/^backfill[- ]?kdanni\b/.test(commandString)) {
     backfillKdanni();
 } else if (/^backfill[- ]?followed\b/.test(commandString)) {
@@ -179,6 +181,18 @@ async function republish(commandString) {
     await republish(commandString);
 }
 
+async function jetstream() {
+    await import('./log/event-logger.mjs');
+    const emitter = (await import('./event-emitter.mjs')).default;
+    emitter.on('main', () => {/* NOP */ });
+
+    await import('./jetstream/jetstream-rabbit.mjs');
+    const { subscribeFollowed, subscribeListed } = await import('./jetstream/author-event-handlers.mjs');
+    await import('./jetstream/jetstream.mjs');
+
+    await subscribeFollowed();
+    await subscribeListed();
+}
 
 async function refill() {
     await import('./log/event-logger.mjs');

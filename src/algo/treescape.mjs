@@ -9,8 +9,12 @@ export const TAGS = [
     '#treescapephotography',
     '#hiking',
     '#hikingtrail',
+    '#tree',
     '#trees',
     '#forest',
+    '#cactus',
+    '#palm',
+    '#palmtree',
 ]
 
 const tagsRegexArray = TAGS.map(tag => `${tag}\\b`).join('|');

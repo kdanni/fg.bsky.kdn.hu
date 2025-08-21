@@ -206,6 +206,7 @@ const ARTWORK_TAGS = [
   '#[^ ]+sculpting',
   '#[^ ]+terrain',
   '#[^ ]+diorama',
+  '#icmphotography',
 ];
 
 const ARTWORK_TAGS_REGEX = new RegExp(

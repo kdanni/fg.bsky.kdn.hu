@@ -31,6 +31,7 @@ ws.on('message', (data) => {
         if (commit.record) {
           commit.record.authorDid = event.did; // Add author DID to the record
           commit.record.uri = `at://${event.did}/${event.commit.collection}/${event.commit.rkey}`;
+          commit.record.cid = event.commit.cid;
           emitter.emit('jetstream.post.created', commit.record);
           // emitter.emit('jetstream.post.created', event);
           authorDidEmitter.emit(event.did, commit.record);

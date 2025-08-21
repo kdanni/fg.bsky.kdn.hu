@@ -3,8 +3,8 @@ import got from 'got';
 import { URLSearchParams } from 'url';
 
 import { pool } from './connection/connection.mjs';
-// import { upsertPost } from './upsert-post.mjs';
-import { getSafeForWorkScore, getMimeStringOrNull, isArtwork } from './util.mjs';
+// import { upsertPost } from '../post-process/upsert-post.mjs';
+import { getSafeForWorkScore, getMimeStringOrNull, isArtwork } from '../post-process/util.mjs';
 
 // const BSKY_SOCIAL_ROOT = process.env.BSKY_SOCIAL_ROOT || 'https://bsky.social';
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';

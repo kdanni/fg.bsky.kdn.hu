@@ -2,6 +2,13 @@
 import authorDidEmitter from './author-did-event-emitter.mjs';
 import { getLists, getListedUsers } from '../backfill/backfill-listed.mjs'
 
+import { upsertPost } from '../post-process/upsert-post.mjs';
+import { listSfwScore } from '../post-process/util.mjs';
+
+import { initFollowedFeedCache, initFollowedOrListedFeedCache, initListedFeedCache, initFeedNSFW } from '../algo/cache/init-cache.mjs';
+import { runAlgo as algoF } from '../algo/followed.mjs';
+import { runAlgo as algoL } from '../algo/listed.mjs';
+
 import got from 'got';
 
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
@@ -95,7 +102,31 @@ export async function subscribeListed() {
 
 
 async function handleEvent(event) {
+    try {
+        console.log(`[jetstream handleEvent actor] New event for actor: ${event.actor.displayName}@${event.actor.handle}`);
+        DEBUG && console.dir(event, { depth: null });
 
-    console.log(`[jetstream followed] New event for actor: ${event.actor.displayName}@${event.actor.handle}`);
-    console.dir(event, { depth: null });
+
+        const item = { post : { record : event.record, author : event.actor } };
+        // item?.post?.record?.embed
+        item.post.uri = event.record.uri;
+        item.post.cid = 'jetstream::' + event.record.cid;
+        item.post.indexedAt = new Date(event.record.createdAt || event.record.indexedAt || new Date());
+
+        await upsertPost(item , listSfwScore(event.listName) );
+
+        if (event.listName === 'followed.users') {
+            await algoF(item.post.author.did);
+            await initFollowedFeedCache();
+            await initFollowedOrListedFeedCache();
+        } else if (event.listName === 'NSFW') {
+            await initFeedNSFW();
+        } else {
+            await algoL(item.post.author.did, event.listName);
+            await initListedFeedCache(event.listName);
+            await initFollowedOrListedFeedCache();
+        }
+    } catch (error) {
+        console.error(`[jetstream handleEvent actor] Error handling event for actor: ${event.actor.displayName}@${event.actor.handle} - ${error.message}`);
+    }
 }

@@ -11,6 +11,8 @@ async function jetstreamPostCreated(record) {
                 record.langs.includes('hu') ||
                 record.langs.includes('en') ||
                 record.langs.includes('ja') ||
+                record.langs.includes('de') ||
+                record.langs.includes('es') ||
                 record.langs.includes('fr')
             ) {
                 // OK

@@ -2,7 +2,7 @@ import got from 'got';
 import { getAuthToken } from '../bsky-social/auth.mjs';
 
 import { pool } from './connection/connection.mjs';
-import { upsertPost } from './upsert-post.mjs';
+import { upsertPost } from '../post-process/upsert-post.mjs';
 
 const SKIP_AUTHORS_ARRAY = [];
 const SKIP_KEYWORDS_ARRAY = [

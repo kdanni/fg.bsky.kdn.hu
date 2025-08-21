@@ -5,6 +5,12 @@ import { shortname as shortnameFavorites, getInitialFeedData as getInitialFeedDa
 
 import { shortname as shortnameNSFW, getInitialFeedData as getInitialFeedDataNSFW } from '../../api/xrpc/getFeedSkeleton/mw/nsfw.mjs';
 
+
+import { getInitialFeedData as getInitialFeedDataF, shortname as shortnameF } from '../../api/xrpc/getFeedSkeleton/mw/followed.mjs';
+import { getInitialFeedData as getInitialFeedDataL, shortname as shortnameL } from '../../api/xrpc/getFeedSkeleton/mw/listed.mjs';
+import { getInitialFeedData as getInitialFeedDataFL, shortname as shortnameFL } from '../../api/xrpc/getFeedSkeleton/mw/followed_or_listed.mjs';
+
+
 export async function initFeedCache(shortname, shortnameArray, sfw = 2) {
     if(!shortname){
         return;
@@ -47,6 +53,52 @@ export async function initFavoritesFeedCache() {
             }
         } catch (error) {
             console.error('[initFavoritesFeedCache] Error:', error);
+        }
+    }
+}
+
+
+export async function initFollowedFeedCache() {
+    if (await isRedisConnected()) {
+        try {
+            let initialFeedDataF = await getInitialFeedDataF();
+            if (initialFeedDataF && initialFeedDataF.feed) {
+                let cacheKey = constructCacheKey(shortnameF);
+                await redisSet(cacheKey, JSON.stringify(initialFeedDataF), ['EX', 3000]);
+                console.log(`[initFollowedFeedCache] Cached initial feed data for ${cacheKey}`);
+            }
+        } catch (error) {
+            console.error('[initFollowedFeedCache] Error:', error);
+        }
+    }
+}
+
+export async function initListedFeedCache() {
+    if (await isRedisConnected()) {
+        try {
+            let initialFeedDataL = await getInitialFeedDataL();
+            if (initialFeedDataL && initialFeedDataL.feed) {
+                let cacheKey = constructCacheKey(shortnameL);
+                await redisSet(cacheKey, JSON.stringify(initialFeedDataL), ['EX', 3000]);
+                console.log(`[initListedFeedCache] Cached initial feed data for ${cacheKey}`);
+            }
+        } catch (error) {
+            console.error('[initListedFeedCache] Error:', error);
+        }
+    }
+}
+
+export async function initFollowedOrListedFeedCache() {
+    if (await isRedisConnected()) {
+        try {
+            let initialFeedDataFL = await getInitialFeedDataFL();
+            if (initialFeedDataFL && initialFeedDataFL.feed) {
+                let cacheKey = constructCacheKey(shortnameFL);
+                await redisSet(cacheKey, JSON.stringify(initialFeedDataFL), ['EX', 3000]);
+                console.log(`[initFollowedOrListedFeedCache] Cached initial feed data for ${cacheKey}`);
+            }
+        } catch (error) {
+            console.error('[initFollowedOrListedFeedCache] Error:', error);
         }
     }
 }

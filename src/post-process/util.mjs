@@ -131,6 +131,19 @@ export function getSafeForWorkScore(item, mildScore = 5) {
   return safeForWorkScore;
 }
 
+export function listSfwScore(listName, safeForWorkScore = 10) {
+  if (/NSFW/i.test(`${listName}`)) {
+    safeForWorkScore = 0;
+  } else
+  if (/Not Listed/i.test(`${listName}`)) {
+    safeForWorkScore = 5;
+  } else
+  if (/^Pol$/i.test(`${listName}`)) {
+    safeForWorkScore = 5;
+  }
+  return safeForWorkScore;
+}
+
 export function getMimeStringOrNull(embed) {
   if (!embed) return null;
   if (embed.$type === 'app.bsky.embed.images') {

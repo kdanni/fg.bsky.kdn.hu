@@ -1,7 +1,7 @@
 import got from 'got';
 import { getAuthToken } from '../bsky-social/auth.mjs';
 
-import { getMimeStringOrNull, getLanguageOrEn, getSafeForWorkScore, isArtwork } from './util.mjs';
+import { getMimeStringOrNull, getLanguageOrEn, getSafeForWorkScore, isArtwork } from '../post-process/util.mjs';
 
 // const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 const BSKY_SOCIAL_ROOT = process.env.BSKY_SOCIAL_ROOT || 'https://bsky.social';

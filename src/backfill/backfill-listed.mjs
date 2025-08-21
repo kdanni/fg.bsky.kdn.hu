@@ -7,6 +7,8 @@ import { getInitialFeedData } from '../api/xrpc/getFeedSkeleton/mw/listed.mjs';
 import { constructCacheKey } from '../api/xrpc/getFeedSkeleton/000.mjs';
 import { isRedisConnected, redisSet } from '../redis/redis-io-connection.mjs';
 
+import { listSfwScore } from '../post-process/util.mjs'; 
+
 
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 
@@ -24,16 +26,7 @@ export async function backfillListed() {
         for (const list of listUrls || []) {
             DEV_ENV && console.log(`[backfillListed] List: ${list.uri} - ${list.name}`);
 
-            let safeForWorkScore = 10;
-            if (/NSFW/i.test(`${list.name}`)) {
-                safeForWorkScore = 0;
-            } else 
-            if (/Not Listed/i.test(`${list.name}`)) {
-                safeForWorkScore = 5;
-            } else 
-            if (/^Pol$/i.test(`${list.name}`)) {
-                safeForWorkScore = 5;
-            }
+            let safeForWorkScore = listSfwScore(list.name);
 
             const listUsers = await getListedUsers(list.uri);
 

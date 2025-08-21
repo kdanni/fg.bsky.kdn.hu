@@ -1,8 +1,8 @@
-import { getMimeStringOrNull, getLanguageOrEn } from './util.mjs';
+import { getMimeStringOrNull, getLanguageOrEn } from '../post-process/util.mjs';
 import got from 'got';
 
 import { pool } from './connection/connection.mjs';
-import { upsertPost } from './upsert-post.mjs';
+import { upsertPost } from '../post-process/upsert-post.mjs';
 
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 const LIMIT = process.env.PUBLISHER_AUTHOR_FEED_LIMIT || 50;

@@ -143,6 +143,7 @@ export async function backfillSearch(backfillSearchQuery) {
                 resolveBodyOnly: true,
                 retry: {
                     limit: 1,
+                    calculateDelay: () => { return 4000; },
                 },
                 timeout: {
                     request: 10000,

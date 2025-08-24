@@ -11,6 +11,7 @@ export const TAGS = [
     '#abandoned',
     '#sunset',
     '#sunrise',
+    '#haybale',
     '#haybales',
     '#haystack',
     '#desert',

@@ -5,7 +5,10 @@ export const shortname = 'tractorHashtag';
 
 export const TAGS = [    
     '#tractor',
+    '#traktor',
+    '#tractors',
     '#TractorSky',
+    '#TraktorSky',
     '#combineharvester',
     '#combine harvest',
     '#combine farm',
@@ -54,7 +57,7 @@ export async function runAlgo() {
                 // console.log(`[${shortname}]`, post.text);
                 // console.log(`[${shortname}]`,'Filtered Post:', post);
                 // if(/^image\//.test(`${post.has_image}`)) {
-                    if (/#tractor\b/i.test(post.text)
+                    if (/#tractors?\b/i.test(post.text)
                         || /#traktor\b/i.test(post.text)
                         || /#TractorSky\b/i.test(post.text)
                         || /#TraktorSky\b/i.test(post.text)

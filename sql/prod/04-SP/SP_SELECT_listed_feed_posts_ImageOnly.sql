@@ -1,7 +1,7 @@
 
-DROP PROCEDURE IF EXISTS SP_SELECT_nsfw_listed_posts;
+DROP PROCEDURE IF EXISTS SP_SELECT_listed_feed_posts_ImageOnly;
 
-CREATE PROCEDURE SP_SELECT_nsfw_listed_posts ( 
+CREATE PROCEDURE SP_SELECT_listed_feed_posts_ImageOnly ( 
     cursor_date datetime,
     p_limit INT,
     p_sfw INT,
@@ -22,9 +22,9 @@ BEGIN
     -- end if;
 
     SELECT *
-    FROM VIEW_nsfw_listed_or_feed
-    WHERE posted_at < cursor_date
-    -- AND (has_image = 'image/' OR has_image = 'feed_post' OR image_only = false OR image_only IS NULL)
+    FROM listed_post
+    WHERE posted_at < cursor_date AND list_name <> 'NSFW' AND list_name <> 'Not Listed'
+    AND has_image LIKE 'image/%'
     ORDER BY posted_at DESC
     LIMIT p_limit;
 

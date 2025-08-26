@@ -1,7 +1,7 @@
 
-DROP PROCEDURE IF EXISTS SP_SELECT_followed_or_listed_feed_posts;
+DROP PROCEDURE IF EXISTS SP_SELECT_followed_or_listed_feed_posts_ImageOnly;
 
-CREATE PROCEDURE SP_SELECT_followed_or_listed_feed_posts ( 
+CREATE PROCEDURE SP_SELECT_followed_or_listed_feed_posts_ImageOnly ( 
     cursor_date datetime,
     p_limit INT,
     p_sfw INT,
@@ -30,7 +30,7 @@ BEGIN
         FROM followed_post
     ) u
     WHERE u.posted_at < cursor_date
-    -- AND (u.has_image = 'image/' OR image_only = false OR image_only IS NULL)
+    AND u.has_image LIKE 'image/%'
     ORDER BY u.posted_at DESC
     LIMIT p_limit;
 

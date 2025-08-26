@@ -16,7 +16,7 @@ shortnameSPs[fav] = 'sp_FETCH_favorites_posts_by_cursor';
 shortnameSPs[snL] = 'SP_SELECT_listed_feed_posts';
 shortnameSPs[snFL] = 'SP_SELECT_followed_or_listed_feed_posts';
 shortnameSPs[snF] = 'SP_SELECT_followd_feed_posts';
-shortnameSPs[nsfw] = 'SP_SELECT_nsfw_feed_posts';
+shortnameSPs[nsfw] = 'SP_SELECT_nsfw_listed_posts';
 
 async function fetchFeedData(shortname, cursorDate) {
   const sql = `call ${shortnameSPs[shortname]}(?,?,?,?)`;

@@ -1,13 +1,11 @@
 import got from 'got';
 
 import { backfillActor } from './backfill-actor.mjs';
-import { runAlgo, shortname } from '../algo/listed.mjs';
-
-import { getInitialFeedData } from '../api/xrpc/getFeedSkeleton/mw/listed.mjs';
-import { constructCacheKey } from '../api/xrpc/getFeedSkeleton/000.mjs';
-import { isRedisConnected, redisSet } from '../redis/redis-io-connection.mjs';
+import { runAlgo } from '../algo/listed.mjs';
 
 import { listSfwScore } from '../post-process/util.mjs'; 
+
+import { initListedFeedCache, initFollowedOrListedFeedCache } from '../algo/cache/init-cache.mjs';
 
 
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
@@ -37,18 +35,10 @@ export async function backfillListed() {
                 await backfillActor(user.did, safeForWorkScore);
                 await runAlgo(user.did, list.name);
             }
-        }
+        }       
 
-        
-
-        if(await isRedisConnected()) {
-            let initialFeedData = await getInitialFeedData();
-            if (initialFeedData && initialFeedData.feed) {
-                let cacheKey = constructCacheKey(shortname);
-                await redisSet(cacheKey, JSON.stringify(initialFeedData), ['EX', 3000]); 
-                console.log(`[backfillListed] Cached initial feed data for ${cacheKey}`);
-            }
-        }
+        await initListedFeedCache();
+        await initFollowedOrListedFeedCache();
     } catch (error) {
         console.error(`[backfillListed] Error: ${error.message}`);
     }

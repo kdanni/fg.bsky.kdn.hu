@@ -6,8 +6,8 @@ import { upsertPost } from '../post-process/upsert-post.mjs';
 
 const SKIP_AUTHORS_ARRAY = [];
 const SKIP_KEYWORDS_ARRAY = [
-    '#nft\b',
-    '#nfts\b',
+    '#nft\\b',
+    '#nfts\\b',
     '#nfttool',
     '#web3',
 ];
@@ -111,6 +111,14 @@ export async function backfillSearch(backfillSearchQuery) {
             console.error('[backfillSearch] No actor provided');
             return;
         }
+
+        // const sql = 'call upsert_backfill_search_query(?,?,?)';
+        // const params = [`${backfillSearchQuery}`, JSON.stringify({ source : '[backfillSearch]' }), 10];
+        // try {
+        //     await pool.query(sql, params);
+        // } catch (err) {
+        //     console.error(`[backfillSearch] [err-BACKFILL-SEARCH-QUERY-UPSERT] ${err}`, err);
+        // }
 
         const auth = await getAuthToken(SEARCH_APP_HANDLE, SEARCH_APP_PASSWORD);
         if (!auth || !auth.accessJwt) {

@@ -60,6 +60,8 @@ if (/^no[- ]operation\b/.test(commandString)) {
     runAlgos();
 } else if (/^list[- ]?blocked[- ]?users\b/.test(commandString)) {
     listBlockedUsers();
+} else if (/^wiki[- ]?search[- ]?query?\b/i.test(commandString)) {
+    upsertQuerySearchTerms();
 } else if (/^display[- ]?posts?\b/i.test(commandString)) {
     displayPosts();
 } else {
@@ -208,6 +210,19 @@ async function refill() {
     setTimeout(() => { process.emit('exit_event');}, 1000);
 }
 
+
+async function upsertQuerySearchTerms() {    
+    await import('./log/event-logger.mjs');
+    const emitter = (await import('./event-emitter.mjs')).default;
+    emitter.on('main', () => {/* NOP */ });
+
+    await import('./mediawiki/media-wiki-bot.mjs');
+    const { upsertQuerySearchTerms } = await import('./mediawiki/media-wiki-bot.mjs');
+
+    await upsertQuerySearchTerms();
+
+    setTimeout(() => { process.emit('exit_event');}, 1000);
+}
 
 
 /** Installer */

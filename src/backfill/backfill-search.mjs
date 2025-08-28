@@ -1,6 +1,8 @@
 import got from 'got';
 import { getAuthToken } from '../bsky-social/auth.mjs';
 
+import { upsertQuerySearchTerms } from '../mediawiki/media-wiki-bot.mjs';
+
 import { pool } from './connection/connection.mjs';
 import { upsertPost } from '../post-process/upsert-post.mjs';
 
@@ -12,34 +14,7 @@ const SKIP_KEYWORDS_ARRAY = [
     '#web3',
 ];
 
-import { TAGS } from '../algo/not-urban-ex.mjs'; 
-import { TAGS as TAGS2 } from '../algo/socialist-modernism.mjs'; 
-import { TAGS as TAGS3 } from '../algo/food-images.mjs'; 
-import { TAGS as TAGS4 } from '../algo/landscape.mjs'; 
-import { TAGS as TAGS5 } from '../algo/treescape.mjs';
-import { TAGS as TAGS6 } from '../algo/railway.mjs';
-import { TAGS as TAGS7 } from '../algo/waterscape.mjs';
-import { TAGS as TAGS8 } from '../algo/tractor-hashtag.mjs';
-import { TAGS as TAGS9 } from '../algo/brutalism-hashtag.mjs';
-
-
-export const BACKFILL_SEARCH_QUERIES = [
-    '#Budapest',
-    '📍Budapest',
-    '#Magyarország',
-    '#magyar',
-    '#🇭🇺',
-]
-
-BACKFILL_SEARCH_QUERIES.push(...TAGS);
-BACKFILL_SEARCH_QUERIES.push(...TAGS2);
-BACKFILL_SEARCH_QUERIES.push(...TAGS3);
-BACKFILL_SEARCH_QUERIES.push(...TAGS4);
-BACKFILL_SEARCH_QUERIES.push(...TAGS5);
-BACKFILL_SEARCH_QUERIES.push(...TAGS6);
-BACKFILL_SEARCH_QUERIES.push(...TAGS7);
-BACKFILL_SEARCH_QUERIES.push(...TAGS8);
-BACKFILL_SEARCH_QUERIES.push(...TAGS9);
+const BACKFILL_SEARCH_QUERIES = [];
 
 // const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 const BSKY_SOCIAL_ROOT = process.env.BSKY_SOCIAL_ROOT || 'https://bsky.social';
@@ -55,9 +30,15 @@ const SEARCH_APP_HANDLE = process.env.SEARCH_APP_HANDLE ;
 const SEARCH_APP_PASSWORD = process.env.SEARCH_APP_PASSWORD;
 
 export async function backfillSearchRunner () {
+    await upsertQuerySearchTerms();
+    const querySearchTerms = await pool.execute('call SP_SELECT_backfill_search_queries()');
+    if(querySearchTerms[0] && querySearchTerms[0][0]?.length) {
+        BACKFILL_SEARCH_QUERIES.push(...querySearchTerms[0][0]);
+    }
     for(const q of BACKFILL_SEARCH_QUERIES || []) {
         try {
-            await backfillSearch(`${q}`)
+            // console.log(`[backfillSearch] Running backfillSearch for query: ${JSON.stringify(q)}`);
+            await backfillSearch(`${q.query}`, q.sfw);
             await new Promise((resolve) => { setTimeout( resolve , 1000 );});
         } catch (error) {
             console.error(`[backfillSearch] backfillSearchRunner() ERROR ${error}`)
@@ -103,10 +84,10 @@ export async function backfillSearchAlgoRunner () {
     console.log('[backfillSearch] Running algos done');
 }
 
-export async function backfillSearch(backfillSearchQuery) {
+export async function backfillSearch(backfillSearchQuery, sfw = 10) {
     try {
 
-        console.log(`[backfillSearch] Searching posts by query: ${backfillSearchQuery}`);
+        console.log(`[backfillSearch] Searching posts by query: ${backfillSearchQuery} sfw: ${sfw}`);
 
         if (!backfillSearchQuery || (backfillSearchQuery?.length || 0) < 2) {
             console.error('[backfillSearch] No actor provided');
@@ -189,7 +170,7 @@ export async function backfillSearch(backfillSearchQuery) {
                     continue;
                 }
 
-                let safeForWorkScore = await upsertPost(item);
+                let safeForWorkScore = await upsertPost(item, sfw);
                 
                 const authorSql = `call ${'sp_UPSERT_bsky_author'}(?, ?, ?, ?, ?, ?)`;
                 const authorParams = [

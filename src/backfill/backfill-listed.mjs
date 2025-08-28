@@ -32,8 +32,10 @@ export async function backfillListed() {
 
             for (const user of listUsers || []) {
                 DEV_ENV && console.log(`[backfillListed] User: ${user.did} - ${user.handle} - ${user.displayName}`);
-                await backfillActor(user.did, safeForWorkScore);
-                await runAlgo(user.did, list.name);
+                if( !`${list.name}`.startsWith('!') ) {
+                    await backfillActor(user.did, safeForWorkScore);
+                    await runAlgo(user.did, list.name);
+                }                
             }
         }       
 

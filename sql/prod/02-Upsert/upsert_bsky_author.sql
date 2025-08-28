@@ -6,7 +6,7 @@ CREATE PROCEDURE sp_UPSERT_bsky_author (
   handle VARCHAR(255),
   displayName VARCHAR(255),
   avatar VARCHAR(255),
-  data JSON,
+  p_data JSON,
   sfw INT
 )
 BEGIN
@@ -24,14 +24,14 @@ BEGIN
     handle,
     displayName,
     avatar,
-    data,
+    p_data,
     sfw
   )
   ON DUPLICATE KEY UPDATE  
     handle = handle,
     displayName = displayName,
     avatar = avatar,
-    data = data,
+    data = IF(p_data IS NOT NULL, p_data, data),
     sfw = sfw,
     updated_at = @at_now;
 

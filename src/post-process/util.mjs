@@ -135,6 +135,9 @@ export function listSfwScore(listName, safeForWorkScore = 10) {
   if (/NSFW/i.test(`${listName}`)) {
     safeForWorkScore = 0;
   } else
+  if (/!nsfw/i.test(`${listName}`)) {
+    safeForWorkScore = 0;
+  } else
   if (/Not Listed/i.test(`${listName}`)) {
     safeForWorkScore = 5;
   } else

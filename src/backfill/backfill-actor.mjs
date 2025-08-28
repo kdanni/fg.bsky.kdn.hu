@@ -53,7 +53,7 @@ export async function backfillActor(backfillActor, sfw = 10) {
                     response.handle || null,
                     response.displayName || response.handle || null,
                     response.avatar || null,
-                    JSON.stringify({}),
+                    null,
                     sfw,
                 ];
                 pool.execute(sql, params);

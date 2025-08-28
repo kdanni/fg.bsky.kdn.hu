@@ -1,4 +1,5 @@
 -- UPSERT SP update or insert
+DROP PROCEDURE IF EXISTS upsert_backfill_search_query;
 
 CREATE PROCEDURE upsert_backfill_search_query (
   IN p_query VARCHAR(255),

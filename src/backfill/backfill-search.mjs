@@ -28,6 +28,7 @@ export const BACKFILL_SEARCH_QUERIES = [
     '📍Budapest',
     '#Magyarország',
     '#magyar',
+    '#🇭🇺',
 ]
 
 BACKFILL_SEARCH_QUERIES.push(...TAGS);
@@ -196,7 +197,7 @@ export async function backfillSearch(backfillSearchQuery) {
                     post.author?.handle || null,
                     post.author?.displayName || post.handle || null,
                     post.author?.avatar || null,
-                    JSON.stringify({}),
+                    null,
                     safeForWorkScore != 10 ? 8 : 10, // default to 10 if not provided
                 ];
                 pool.execute(authorSql, authorParams);

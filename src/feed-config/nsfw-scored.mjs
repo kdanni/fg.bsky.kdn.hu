@@ -13,5 +13,5 @@ export const FEEDGEN_CONFIG = {
     },
   ],
   shortname,
-  commandlineRegex: /nsfw$/i,
+  commandlineRegex: /(nsfw2|nsfw-scored|nsfw-feed)$/i,
 }

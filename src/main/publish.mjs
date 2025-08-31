@@ -31,6 +31,8 @@ import { FEEDGEN_CONFIG as railway } from '../algo/railway.mjs';
 import { FEEDGEN_CONFIG as waterscape } from '../algo/waterscape.mjs';
 import { FEEDGEN_CONFIG as treelandwater } from '../algo/treescape-landscape-waterscape.mjs';
 
+import { FEEDGEN_CONFIG as nsfw_scored } from '../feed-config/nsfw-scored.mjs';
+
 
 async function doPublishCommand(feedConfig, command) {
     if(command === 'publish') {
@@ -135,6 +137,9 @@ export async function doPublish(commandString) {
     if(feedName == 'favorites') {
         await doPublishCommand(favorites, command);
     }   
+    if(nsfw_scored.commandlineRegex.test(feedName)) {
+        await doPublishCommand(nsfw_scored, command);
+    }
     process.emit('exit_event');
 }
 
@@ -157,7 +162,7 @@ export async function unpublish(commandString) {
         process.emit('exit_event');
     }
 
-    await doUnpublish(commandString);
+    await doPublish(commandString);
 }
 
 export async function republish(commandString) {

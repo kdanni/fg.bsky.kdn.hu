@@ -1,7 +1,7 @@
 import {
     isRedisConnected,
     redisSet,
-} from '../../../redis/redis-io-connection.mjs';
+} from '../../../../redis/redis-io-connection.mjs';
 
 const DEV_ENV = process.env.ENV === 'DEV';
 const DEBUG = process.env.DEBUG === 'true' || false;

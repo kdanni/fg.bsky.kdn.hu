@@ -1,4 +1,4 @@
-import { constructCacheKey } from '../../api/xrpc/getFeedSkeleton/000.mjs';
+import { constructCacheKey } from '../../api/xrpc/getFeedSkeleton/util/000.mjs';
 import { getInitialFeedData } from '../../api/xrpc/getFeedSkeleton/util/fetchFeedData.mjs';
 import { getInitialFeedData as getInitialFeedDataSP } from '../../api/xrpc/getFeedSkeleton/sp-fetch.mjs';
 import { isRedisConnected, redisSet } from '../../redis/redis-io-connection.mjs';

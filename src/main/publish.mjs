@@ -32,97 +32,121 @@ import { FEEDGEN_CONFIG as waterscape } from '../algo/waterscape.mjs';
 import { FEEDGEN_CONFIG as treelandwater } from '../algo/treescape-landscape-waterscape.mjs';
 
 
+async function doPublishCommand(feedConfig, command) {
+    if(command === 'publish') {
+        await publisFeed(feedConfig);
+    }
+    if(command === 'unpublish') {
+        await unpublisFeed(feedConfig);
+    }
+    if(command === 'republish') {
+        await updateFeed(feedConfig);
+    }    
+}
+
+
+export async function doPublish(commandString) {
+    const match = /^((re|un)?publish)\b +(\S+)/.exec(commandString) || [commandString, null];
+
+    if(match[3] === null) {
+        process.emit('exit_event');
+    }
+    const feedName = `${match[3]}`.trim();
+    const command = match[1];
+
+    if(feedName == 'followed') {
+        await doPublishCommand(followed, command);
+    }
+    if(feedName == 'listed') {
+        await doPublishCommand(listed, command);
+    }
+    if(feedName == 'f_l') {
+        await doPublishCommand(f_l, command);
+    }
+    if(feedName == 'kdBud') {
+        await doPublishCommand(kdBud, command);
+    }
+    if(feedName == 'kdPhoto') {
+        await doPublishCommand(kdPhoto, command);
+    }
+    if(feedName == 'bud_hash') {
+        await doPublishCommand(budHash, command);
+    }
+    if(feedName == 'magyaro_hash') {
+        await doPublishCommand(magyaroHash, command);
+    }
+    if(feedName == 'kdCustomFeed') {
+        await doPublishCommand(cf, command);
+    }
+    if(feedName == 'tractor') {
+        await doPublishCommand(tractor, command);
+    }
+    if(/notUrbanEx/i.test(feedName)) {
+        await doPublishCommand(notUrbanEx, command);
+    }
+    if(feedName == 'musEj') {
+        await doPublishCommand(musEj, command);
+    }
+    if(feedName == 'nsfw') {
+        await doPublishCommand(nsfw, command);
+    }
+    if(feedName == 'brutalism') {
+        await doPublishCommand(brutalism, command);
+    }
+    if(feedName == 'urban-brutal-tractor' || feedName == 'UBT') {
+        await doPublishCommand(UBT, command);
+    }
+    if(feedName == 'socialist-modernism' || feedName == 'SM') {
+        await doPublishCommand(SM, command);
+    }
+    if(feedName == 'food-images' || feedName == 'FOOD') {
+        await doPublishCommand(FOOD, command);
+    }
+    if(feedName == 'kdanni-out-of-Bud') {
+        await doPublishCommand(kdOutofBud, command);
+    }
+    if(feedName == 'kdanni-Bud-Out-of-Bud') {
+        await doPublishCommand(kdBudOutofBud, command);
+    }
+    if(feedName == 'landscape') {
+        await doPublishCommand(LANDSCAPE, command);
+    }
+    if(feedName == 'treescape') {
+        await doPublishCommand(TREESCAPE, command);
+    }
+    if(feedName == 'budapest-all') {
+        await doPublishCommand(budapestAll, command);
+    }
+    if(feedName == 'budapest-meetings') {
+        await doPublishCommand(budapestMeetings, command);
+    }
+    if(feedName == 'budapest-jobs') {   
+        await doPublishCommand(budapestJobs, command);
+    }
+    if(feedName == 'railway') {
+        await doPublishCommand(railway, command);
+    }
+    if(feedName == 'waterscape') {
+        await doPublishCommand(waterscape, command);
+    }
+    if(feedName == 'treelandwater') {
+        await doPublishCommand(treelandwater, command);
+    }
+    if(feedName == 'favorites') {
+        await doPublishCommand(favorites, command);
+    }   
+    process.emit('exit_event');
+}
+
+
 export async function publish(commandString) {
     const match = /^publish\b +(\S+)/.exec(commandString) || [commandString, null];
 
     if(match[1] === null) {
         process.emit('exit_event');
     }
-    const feedName = `${match[1]}`.trim();
 
-    
-    if(feedName == 'followed') {
-        await publisFeed(followed);
-    }
-    if(feedName == 'listed') {
-        await publisFeed(listed);
-    }    
-    if(feedName == 'f_l') {
-        await publisFeed(f_l);
-    }
-    if(feedName == 'kdBud') {
-        await publisFeed(kdBud);
-    }
-    if(feedName == 'kdPhoto') {
-        await publisFeed(kdPhoto);
-    }
-    if(feedName == 'bud_hash') {
-        await publisFeed(budHash);
-    }
-    if(feedName == 'magyaro_hash') {
-        await publisFeed(magyaroHash);
-    }
-    if(feedName == 'kdCustomFeed') {
-        await publisFeed(cf);
-    }
-    if(feedName == 'tractor') {
-        await publisFeed(tractor);
-    }
-    if(/notUrbanEx/i.test(feedName)) {
-        await publisFeed(notUrbanEx);
-    }
-    if(feedName == 'musEj') {
-        await publisFeed(musEj);
-    }
-    if(feedName == 'nsfw') {
-        await publisFeed(nsfw);
-    }
-    if(feedName == 'brutalism') {
-        await publisFeed(brutalism);
-    }
-    if(feedName == 'urban-brutal-tractor' || feedName == 'UBT') {
-        await publisFeed(UBT);
-    }
-    if(feedName == 'socialist-modernism' || feedName == 'SM') {
-        await publisFeed(SM);
-    }
-    if(feedName == 'food-images' || feedName == 'FOOD') {
-        await publisFeed(FOOD);
-    }
-    if(feedName == 'kdanni-out-of-Bud') {
-        await publisFeed(kdOutofBud);
-    }
-    if(feedName == 'kdanni-Bud-Out-of-Bud') {
-        await publisFeed(kdBudOutofBud);
-    }
-    if(feedName == 'landscape') {
-        await publisFeed(LANDSCAPE);
-    }
-    if(feedName == 'treescape') {
-        await publisFeed(TREESCAPE);
-    }
-    if(feedName == 'budapest-all') {
-        await publisFeed(budapestAll);
-    }
-    if(feedName == 'budapest-meetings') {
-        await publisFeed(budapestMeetings);
-    }
-    if(feedName == 'budapest-jobs') {   
-        await publisFeed(budapestJobs);
-    }
-    if(feedName == 'railway') {
-        await publisFeed(railway);
-    }
-    if(feedName == 'waterscape') {
-        await publisFeed(waterscape);
-    }
-    if(feedName == 'treelandwater') {
-        await publisFeed(treelandwater);
-    }
-    if(feedName == 'favorites') {
-        await publisFeed(favorites);
-    }   
-    process.emit('exit_event');
+    await doPublish(commandString);
 }
 
 
@@ -132,91 +156,8 @@ export async function unpublish(commandString) {
     if(match[1] === null) {
         process.emit('exit_event');
     }
-    const feedName = `${match[1]}`.trim();
 
-
-    if(feedName == 'followed') {
-        await unpublisFeed(followed);
-    }
-    if(feedName == 'listed') {
-        await unpublisFeed(listed);
-    }    
-    if(feedName == 'f_l') {
-        await unpublisFeed(f_l);
-    }
-    if(feedName == 'kdBud') {
-        await unpublisFeed(kdBud);
-    }
-    if(feedName == 'kdPhoto') {
-        await unpublisFeed(kdPhoto);
-    }
-    if(feedName == 'bud_hash') {
-        await unpublisFeed(budHash);
-    }    
-    if(feedName == 'magyaro_hash') {
-        await unpublisFeed(magyaroHash);
-    }
-    if(feedName == 'kdCustomFeed') {
-        await unpublisFeed(cf);
-    }
-    if(feedName == 'tractor') {
-        await unpublisFeed(tractor);
-    }
-    if(/notUrbanEx/i.test(feedName)) {
-        await unpublisFeed(notUrbanEx);
-    }
-    if(feedName == 'musEj') {
-        await unpublisFeed(musEj);
-    }
-    if(feedName == 'nsfw') {
-        await unpublisFeed(nsfw);
-    }
-    if(feedName == 'brutalism') {
-        await unpublisFeed(brutalism);
-    }
-    if(feedName == 'urban-brutal-tractor' || feedName == 'UBT') {
-        await unpublisFeed(UBT);
-    }
-    if(feedName == 'socialist-modernism' || feedName == 'SM') {
-        await unpublisFeed(SM);
-    }
-    if(feedName == 'food-images' || feedName == 'FOOD') {
-        await unpublisFeed(FOOD);
-    }
-    if(feedName == 'kdanni-out-of-Bud') {
-        await unpublisFeed(kdOutofBud);
-    }
-    if(feedName == 'kdanni-Bud-Out-of-Bud') {
-        await unpublisFeed(kdBudOutofBud);
-    }
-    if(feedName == 'landscape') {
-        await unpublisFeed(LANDSCAPE);
-    }
-    if(feedName == 'treescape') {
-        await unpublisFeed(TREESCAPE);
-    }
-    if(feedName == 'budapest-all') {
-        await unpublisFeed(budapestAll);
-    }
-    if(feedName == 'budapest-meetings') {
-        await unpublisFeed(budapestMeetings);
-    }
-    if(feedName == 'budapest-jobs') {       
-        await unpublisFeed(budapestJobs);
-    }
-    if(feedName == 'railway') {
-        await unpublisFeed(railway);
-    }
-    if(feedName == 'waterscape') {
-        await unpublisFeed(waterscape);
-    }
-    if(feedName == 'treelandwater') {
-        await unpublisFeed(treelandwater);
-    }
-    if(feedName == 'favorites') {
-        await unpublisFeed(favorites);
-    }
-    process.emit('exit_event');
+    await doUnpublish(commandString);
 }
 
 export async function republish(commandString) {
@@ -226,90 +167,6 @@ export async function republish(commandString) {
     if(match[1] === null) {
         process.emit('exit_event');
     }
-    const feedName = `${match[1]}`.trim();
 
-    
-    if(feedName == 'followed') {
-        await updateFeed(followed);
-    }
-    if(feedName == 'listed') {
-        await updateFeed(listed);
-    }    
-    if(feedName == 'f_l') {
-        await updateFeed(f_l);
-    }
-    if(feedName == 'kdBud') {
-        await updateFeed(kdBud);
-    }
-    if(feedName == 'kdPhoto') {
-        await updateFeed(kdPhoto);
-    }
-    if(feedName == 'bud_hash') {
-        await updateFeed(budHash);
-    }
-    if(feedName == 'magyaro_hash') {
-        await updateFeed(magyaroHash);
-    }
-    if(feedName == 'kdCustomFeed') {
-        await updateFeed(cf);
-    }
-    if(feedName == 'tractor') {
-        await updateFeed(tractor);
-    }
-    if(/notUrbanEx/i.test(feedName)) {
-        await updateFeed(notUrbanEx);
-    }
-    if(feedName == 'musEj') {
-        await updateFeed(musEj);
-    }
-    if(feedName == 'nsfw') {
-        await updateFeed(nsfw);
-    }
-    if(feedName == 'brutalism') {
-        await updateFeed(brutalism);
-    }
-    if(feedName == 'urban-brutal-tractor' || feedName == 'UBT') {
-        await updateFeed(UBT);
-    }
-    if(feedName == 'socialist-modernism' || feedName == 'SM') {
-        await updateFeed(SM);
-    }
-    if(feedName == 'food-images' || feedName == 'FOOD') {
-        await updateFeed(FOOD);
-    }
-    if(feedName == 'kdanni-out-of-Bud') {
-        await updateFeed(kdOutofBud);
-    }
-    if(feedName == 'kdanni-Bud-Out-of-Bud') {
-        await updateFeed(kdBudOutofBud);
-    }
-    if(feedName == 'landscape') {
-        await updateFeed(LANDSCAPE);
-    }
-    if(feedName == 'treescape') {
-        await updateFeed(TREESCAPE);
-    }
-    if(feedName == 'budapest-all') {
-        await updateFeed(budapestAll);
-    }
-    if(feedName == 'budapest-meetings') {
-        await updateFeed(budapestMeetings);
-    }
-    if(feedName == 'budapest-jobs') {       
-        await updateFeed(budapestJobs);
-    }
-    if(feedName == 'railway') {
-        await updateFeed(railway);
-    }
-    if(feedName == 'waterscape') {
-        await updateFeed(waterscape);
-    }
-    if(feedName == 'treelandwater') {
-        await updateFeed(treelandwater);
-    }
-    if(feedName == 'favorites') {
-        await updateFeed(favorites);
-    }
-    process.emit('exit_event');
-
+    await doPublish(commandString);
 }

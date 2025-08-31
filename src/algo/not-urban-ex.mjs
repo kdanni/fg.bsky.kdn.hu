@@ -18,6 +18,7 @@ export const TAGS = [
     '#skyline',
     '#dam',
     '#weathered',
+    '#lighthouse',
 ]
 
 const tagsRegexArray = TAGS.map(tag => `${tag}\\b`).join('|');

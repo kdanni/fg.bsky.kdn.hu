@@ -4,6 +4,7 @@ const WIKI_BOT_PASS = process.env.WIKI_BOT_PASS
 
 const WIKI_NAMESPACENUM = process.env.WIKI_NAMESPACENUM;
 const WIKI_SEARCH_QUERY_PAGE_PREFIX = process.env.WIKI_SEARCH_QUERY_PAGE_PREFIX || 'Bsky:App/SearchQuery/';
+const WIKI_CUSTOM_FEED_LOGIC_PAGE_PREFIX = process.env.WIKI_CUSTOM_FEED_LOGIC_PAGE_PREFIX || 'Bsky:App/CustomFeed/';
 
 import {pool} from '../db/prcEnv.connection.mjs';
 
@@ -13,13 +14,31 @@ import { CookieJar } from 'tough-cookie';
 import got from 'got';
 const cookieJar = new CookieJar();
 
-
 /** util **/
 
+import emitter from '../event-emitter.mjs';
+import './customFeedLogic-handler.mjs';
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 
 /** Service **/
+
+export async function upsertCustomFeedLogic () {
+    console.log(`[WIKI-CUSTOM-FEED-LOGIC-UPSERT] Start`);
+    await wikiLogin();
+    console.log(`[WIKI-CUSTOM-FEED-LOGIC-UPSERT] Logged in`);
+    const allPages = await listPagesInNamespace(WIKI_NAMESPACENUM);
+    for (const page of allPages || []) {
+        if(!page.title.startsWith(`${WIKI_CUSTOM_FEED_LOGIC_PAGE_PREFIX}`)) {
+            continue;
+        }
+        const pageContent = await getWikiPageText(page);
+        if(pageContent?.pageLinesArray?.length) {
+            emitter.emit('customFeedLogic', { pageContent });
+        } // END pageContent?.pageLinesArray?.length
+        await delay(1000);
+    } // END for allpages
+}
 
 export async function upsertQuerySearchTerms () {
     console.log(`[WIKI-SEARCH-QUERY-UPSERT] Start`);
@@ -44,12 +63,23 @@ export async function upsertQuerySearchTerms () {
                     //   IN p_data JSON,
                     //   IN p_sfw INT
                     // )
-                    const sql = 'call upsert_backfill_search_query(?,?,?)';
-                    const params = [`${line}`, JSON.stringify({ title, revid }), sfwScore];
-                    try {
-                        await pool.query(sql, params);
-                    } catch (err) {
-                        console.error(`[err-WIKI-SEARCH-QUERY-UPSERT] ${err}`, err);
+                    if(`${line}`.startsWith('¤')){
+                        const q = `${line}`.slice(1);
+                        const sql = 'DELETE FROM backfill_search_query WHERE query = ?';
+                        const params = [q];
+                        try {
+                            await pool.query(sql, params);
+                        } catch (err) {
+                            console.error(`[err-WIKI-SEARCH-QUERY-UPSERT] ${err}`, err);
+                        }
+                    } else {
+                        const sql = 'call upsert_backfill_search_query(?,?,?)';
+                        const params = [`${line}`, JSON.stringify({ title, revid }), sfwScore];
+                        try {
+                            await pool.query(sql, params);
+                        } catch (err) {
+                            console.error(`[err-WIKI-SEARCH-QUERY-UPSERT] ${err}`, err);
+                        }
                     }
                 }
             }

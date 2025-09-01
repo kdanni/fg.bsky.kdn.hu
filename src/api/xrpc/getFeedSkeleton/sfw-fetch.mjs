@@ -12,6 +12,7 @@ import {shortname as moH} from '../../../algo/magyarorszag-hashtag.mjs';
 const shortNamesSFW = {}
 shortNamesSFW[bpH] = 7;
 shortNamesSFW[moH] = 7;
+shortNamesSFW['lego'] = 7;
 
 async function handleRequest (req, res, next) {
   if(res.locals.cachedData || res.locals.feedData) {

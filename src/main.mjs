@@ -62,6 +62,10 @@ if (/^no[- ]operation\b/.test(commandString)) {
     listBlockedUsers();
 } else if (/^wiki[- ]?search[- ]?query?\b/i.test(commandString)) {
     upsertQuerySearchTerms();
+} else if (/^wiki[- ]?custom[- ]?feed\b/i.test(commandString)) {
+    upsertCustomFeedLogic();
+} else if (/^feedlogic\b/i.test(commandString)) {
+    applyCustomFeedLogic();
 } else if (/^display[- ]?posts?\b/i.test(commandString)) {
     displayPosts();
 } else {
@@ -224,6 +228,18 @@ async function upsertQuerySearchTerms() {
     setTimeout(() => { process.emit('exit_event');}, 1000);
 }
 
+async function upsertCustomFeedLogic() {
+    await import('./log/event-logger.mjs');
+    const emitter = (await import('./event-emitter.mjs')).default;
+    emitter.on('main', () => {/* NOP */ });
+
+    await import('./mediawiki/media-wiki-bot.mjs');
+    const { upsertCustomFeedLogic } = await import('./mediawiki/media-wiki-bot.mjs');
+
+    await upsertCustomFeedLogic();
+
+    setTimeout(() => { process.emit('exit_event');}, 1000);
+}
 
 /** Installer */
 
@@ -382,6 +398,15 @@ async function listBlockedUsers() {
     for (const user of blockedUsers || []) {
         console.log(`[listBlockedUsers] User: ${user.did} - ${user.handle} - ${user.displayName}`);
     }
+
+    process.emit('exit_event');
+}
+
+
+async function applyCustomFeedLogic() {
+    await import('./custom-feed/apply-custom-feed-logic.mjs');
+    const { applyCustomFeedLogic } = await import('./custom-feed/apply-custom-feed-logic.mjs');
+    await applyCustomFeedLogic();
 
     process.emit('exit_event');
 }

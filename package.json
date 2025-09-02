@@ -13,6 +13,7 @@
     "republish": "node index.js republish",
     "wiki": "node index.js wiki",
     "feedlogic": "node index.js feedlogic",
+    "dbpoc": "node index.js dbpoc",
     "dev": "nodemon index.js",
     "test": "node --test --test-reporter=spec test/**/*.test.js"
   },

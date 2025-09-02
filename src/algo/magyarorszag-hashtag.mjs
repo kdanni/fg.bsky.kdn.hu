@@ -31,16 +31,23 @@ export async function runAlgo() {
             `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
             ['%#Magyar%']
         );
-        
+        const posts2 = await pool.query(
+            `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
+            ['%#🇭🇺%']
+        );
 
         // console.log('Posts:', posts[0][0]);
 
         if(posts[0] && posts[0][0]) {
+            if(posts2[0] && posts2[0][0]) {
+                posts[0][0] = [].concat(posts[0][0]).concat(posts2[0][0]);
+            }
             for (const post of posts[0][0] || []) {
                 // console.log(`[${shortname}]`, post.text);
                 // if(/^image\//.test(`${post.has_image}`)) {
                     if (/#magyarország/i.test(post.text)
                         || /#magyar\b/i.test(post.text)
+                        || /#🇭🇺\b/i.test(post.text)
                     ) {
                         DEV_ENV && console.log(`[${shortname}]`,'Filtered Post:', post);
 

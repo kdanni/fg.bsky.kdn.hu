@@ -58,6 +58,8 @@ if (/^no[- ]operation\b/.test(commandString)) {
     listFeedGenerators();
 } else if (/^run[- ]?algos?\b/i.test(commandString)) {
     runAlgos();
+} else if (/^db[- ]?poc\b/.test(commandString)) {
+    dbPOC();
 } else if (/^list[- ]?blocked[- ]?users\b/.test(commandString)) {
     listBlockedUsers();
 } else if (/^wiki[- ]?search[- ]?query?\b/i.test(commandString)) {
@@ -407,6 +409,15 @@ async function applyCustomFeedLogic() {
     await import('./custom-feed/apply-custom-feed-logic.mjs');
     const { applyCustomFeedLogic } = await import('./custom-feed/apply-custom-feed-logic.mjs');
     await applyCustomFeedLogic();
+
+    process.emit('exit_event');
+}
+
+
+async function dbPOC() {
+    await import('./db/db-poc.mjs');
+    const { runPoc } = await import('./db/db-poc.mjs');
+    await runPoc();
 
     process.emit('exit_event');
 }

@@ -8,6 +8,8 @@ async function handleCustomFeedLogic({ pageContent }) {
 
     // console.dir(pageContent, { depth: null });
 
+    let doDelete = false;
+
     const {title, revid, pageLinesArray} = pageContent;
     if (!title || !revid || !pageLinesArray || pageLinesArray.length === 0) {
         console.warn(`[WIKI-CUSTOM-FEED-LOGIC-HANDLER] Missing required pageContent properties`);
@@ -49,9 +51,12 @@ async function handleCustomFeedLogic({ pageContent }) {
             } else if (line.startsWith('§@')) {
                 let authorDid = line.slice(2).trim();
                 authorDidArray.push(authorDid);
+            } else if (line.startsWith('§§DELETE')) {
+                doDelete = true;
+                break;
             }
         } else {
-            console.log(`[WIKI-CUSTOM-FEED-LOGIC-HANDLER] Found filter line: ${line}`);
+            // console.log(`[WIKI-CUSTOM-FEED-LOGIC-HANDLER] Found filter line: ${line}`);
             if(line.startsWith('¤')) {
                 let filter = line.slice(1).trim();                
                 negativeFilter.push(filter);                
@@ -59,6 +64,12 @@ async function handleCustomFeedLogic({ pageContent }) {
                 positiveFilter.push(line.trim());
             }
         }
+    }
+    if(doDelete) {
+        const sql = 'DELETE FROM custom_feed_logic WHERE feed_name = ?';
+        const params = [feedShortname];
+        await pool.query(sql, params);
+        return;
     }
 
     const data = {

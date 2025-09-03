@@ -24,7 +24,7 @@ BEGIN
     SELECT *
     FROM listed_post
     WHERE posted_at < cursor_date 
-        AND (list_name = 'My Followers' OR list_name = "Let's see")
+        AND (list_name = 'My Followers' OR list_name = "Let's see" OR list_name = '🏳️‍🌈')
     -- AND (has_image = 'image/' OR image_only = false OR image_only IS NULL)
     ORDER BY posted_at DESC
     LIMIT p_limit;

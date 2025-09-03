@@ -12,6 +12,7 @@ export const TAGS = [
     '#train',
     '#trains',
     '#tramline',
+    '#tramdepot',
     '#locomotive',
     '#locomotives',
     '#railwaystation',

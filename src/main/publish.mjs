@@ -34,6 +34,7 @@ import { FEEDGEN_CONFIG as treelandwater } from '../algo/treescape-landscape-wat
 import { FEEDGEN_CONFIG as nsfw_scored } from '../feed-config/nsfw-scored.mjs';
 import { FEEDGEN_CONFIG as artwork } from '../feed-config/artwork.mjs';
 import { FEEDGEN_CONFIG as lego } from '../feed-config/lego.mjs';
+import { FEEDGEN_CONFIG as myFL } from '../feed-config/my-follower-list.mjs';
 
 
 async function doPublishCommand(feedConfig, command) {
@@ -147,6 +148,9 @@ export async function doPublish(commandString) {
     }
     if(lego.commandlineRegex.test(feedName)) {
         await doPublishCommand(lego, command);
+    }
+    if(myFL.commandlineRegex.test(feedName)) {
+        await doPublishCommand(myFL, command);
     }
     process.emit('exit_event');
 }

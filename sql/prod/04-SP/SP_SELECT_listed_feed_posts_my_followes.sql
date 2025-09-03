@@ -1,7 +1,7 @@
 
-DROP PROCEDURE IF EXISTS SP_SELECT_listed_feed_posts;
+DROP PROCEDURE IF EXISTS SP_SELECT_listed_feed_posts_my_followers;
 
-CREATE PROCEDURE SP_SELECT_listed_feed_posts ( 
+CREATE PROCEDURE SP_SELECT_listed_feed_posts_my_followers ( 
     cursor_date datetime,
     p_limit INT,
     p_sfw INT,
@@ -23,8 +23,8 @@ BEGIN
 
     SELECT *
     FROM listed_post
-    WHERE posted_at < cursor_date AND list_name <> 'NSFW' AND list_name <> 'Not Listed' 
-        AND list_name <> 'My Followers' AND list_name <> "Let's see"
+    WHERE posted_at < cursor_date 
+        AND (list_name = 'My Followers' OR list_name = "Let's see")
     -- AND (has_image = 'image/' OR image_only = false OR image_only IS NULL)
     ORDER BY posted_at DESC
     LIMIT p_limit;

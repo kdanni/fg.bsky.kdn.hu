@@ -14,6 +14,13 @@ export async function upsertPost(item, p_sfw = 10) {
     let safeForWorkScore = getSafeForWorkScore(item);
     safeForWorkScore = Math.min(safeForWorkScore, p_sfw);
     
+    // bluesky post indexed / posted at time in UTC
+    // item?.post?.indexedAt||null
+    let posted_at_UTC = new Date(item?.post?.indexedAt||(new Date()).toLocaleTimeString('en-US', {timeZone: 'UTC'}));
+    // convert to CET
+    // Convert UTC to Europe/Budapest time (handles DST)
+    let posted_at_CET = new Date(posted_at_UTC.toLocaleString('en-US', { timeZone: 'Europe/Budapest' }));
+
     /**
      * SP dont save replies. (reply if: replyParent or replyRoot is not null)
      */
@@ -41,7 +48,7 @@ export async function upsertPost(item, p_sfw = 10) {
         JSON.stringify(item?.post?.record?.labels||null),
         has_image||null,
         safeForWorkScore,
-        item?.post?.indexedAt||null,
+        posted_at_CET,
     ];
     pool.execute(sql, params);
 

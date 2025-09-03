@@ -251,7 +251,6 @@ const FANTASY_ARTWORK_TAGS_REGEX = new RegExp(
   'i'
 );
 
-
 const PET_HASHTAG = [
   '#cat\\b',
   '#cats\\b',
@@ -259,15 +258,41 @@ const PET_HASHTAG = [
   '#dogs\\b',
   '#caturday',
   '#catsofbluesky\\b',
+  '#catsky\\b',
   '#dogsofbluesky\\b',
+  '#dogsky\\b',
   '#petsofbluesky\\b',
+  '#petsky\\b',
   '#puppy\\b',
   '#kitten\\b',
   '#catlove\\b',
   '#catlife\\b',
+  '#dogfriends\\b',
+  '#doglovers\\b',
+  '#petstagram\\b',
+  '#petphotography\\b'
 ]
 
 const PET_HASHTAGS_REGEX = new RegExp(`(${PET_HASHTAG.join('|')})`, 'i');
+
+const POL_HASHTAG = [
+  '#maga',
+  '#trump',
+  '#republican',
+  '#conservative',
+  '#democrat',
+  '#liberal',
+  '#leftist',
+  '#progressive',
+  '#orbán',
+  '#OrbánViktor',
+  '#fidesz',
+  '#Hatvanpuszta',
+  '#MészárosLőrinc',
+  '#hadházyákos',
+]
+
+const POL_HASHTAGS_REGEX = new RegExp(`(${POL_HASHTAG.join('|')})`, 'i');
 
 export function isArtwork(item, mime) {
   if (!item?.post?.record?.text) {
@@ -281,6 +306,7 @@ export function isArtwork(item, mime) {
   let isAiArtwork = AI_ARTWORK_TAGS_REGEX.test(item.post.record.text);
   let isFantasyArtwork = FANTASY_ARTWORK_TAGS_REGEX.test(item.post.record.text);
   let isPetPost = PET_HASHTAGS_REGEX.test(item.post.record.text);
+  let isPolPost = POL_HASHTAGS_REGEX.test(item.post.record.text);
   let retString = '';
   if(mime) {
     retString = `${mime}`;
@@ -296,6 +322,9 @@ export function isArtwork(item, mime) {
   }
   if (isPetPost) {
     retString += '::PET';
+  }
+  if (isPolPost) {
+    retString += '::POL';
   }
   return retString.trim();
 }

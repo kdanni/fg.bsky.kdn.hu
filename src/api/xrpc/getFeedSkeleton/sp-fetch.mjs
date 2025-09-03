@@ -11,6 +11,8 @@ import { shortname as fav } from '../../../algo/favorites.mjs';
 import { shortname as nsfw} from '../../../algo/nsfw.mjs';
 import { shortname as nsfw_feed} from '../../../feed-config/nsfw-scored.mjs';
 import { shortname as myFL} from '../../../feed-config/my-follower-list.mjs';
+import { shortname as art} from '../../../feed-config/artwork.mjs';
+import { shortname as petFL} from '../../../feed-config/followed_or_listed_PET.mjs';
 
 
 const shortnameSPs = {};
@@ -21,6 +23,8 @@ shortnameSPs[snF] = 'SP_SELECT_followd_feed_posts';
 shortnameSPs[nsfw] = 'SP_SELECT_nsfw_listed_posts';
 shortnameSPs[nsfw_feed] = 'sp_SELECT_nsfw_feed_posts_by_cursor';
 shortnameSPs[myFL] = 'SP_SELECT_listed_feed_posts_my_followers';
+shortnameSPs[petFL] = 'SP_SELECT_followed_or_listed_feed_posts_PET';
+shortnameSPs[art] = 'sp_SELECT_artwork_feed_posts_by_cursor';
 
 async function fetchFeedData(shortname, cursorDate) {
   const sql = `call ${shortnameSPs[shortname]}(?,?,?,?)`;

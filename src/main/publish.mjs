@@ -35,6 +35,7 @@ import { FEEDGEN_CONFIG as nsfw_scored } from '../feed-config/nsfw-scored.mjs';
 import { FEEDGEN_CONFIG as artwork } from '../feed-config/artwork.mjs';
 import { FEEDGEN_CONFIG as lego } from '../feed-config/lego.mjs';
 import { FEEDGEN_CONFIG as myFL } from '../feed-config/my-follower-list.mjs';
+import { FEEDGEN_CONFIG as petFL } from '../feed-config/followed_or_listed_PET.mjs';
 
 
 async function doPublishCommand(feedConfig, command) {
@@ -151,6 +152,9 @@ export async function doPublish(commandString) {
     }
     if(myFL.commandlineRegex.test(feedName)) {
         await doPublishCommand(myFL, command);
+    }
+    if(petFL.commandlineRegex.test(feedName)) {
+        await doPublishCommand(petFL, command);
     }
     process.emit('exit_event');
 }

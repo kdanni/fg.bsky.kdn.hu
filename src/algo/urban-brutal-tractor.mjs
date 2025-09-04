@@ -1,4 +1,4 @@
-import { initFeedCache } from './cache/init-cache.mjs';
+import { initFeedCache } from '../redis/init-cache.mjs';
 
 import { shortname as nu } from './not-urban-ex.mjs';
 import { shortname as tr } from './tractor-hashtag.mjs';

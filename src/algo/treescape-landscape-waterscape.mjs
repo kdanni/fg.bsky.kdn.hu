@@ -1,4 +1,4 @@
-import { initFeedCache } from './cache/init-cache.mjs';
+import { initFeedCache } from '../redis/init-cache.mjs';
 
 import { shortname as ls } from './landscape.mjs';
 import { shortname as ts } from './treescape.mjs';

@@ -1,15 +1,15 @@
-import { constructCacheKey } from '../../api/xrpc/getFeedSkeleton/util/000.mjs';
-import { getInitialFeedData } from '../../api/xrpc/getFeedSkeleton/util/fetchFeedData.mjs';
-import { getInitialFeedData as getInitialFeedDataSP } from '../../api/xrpc/getFeedSkeleton/sp-fetch.mjs';
-import { isRedisConnected, redisSet } from '../../redis/redis-io-connection.mjs';
+import { constructCacheKey } from '../api/xrpc/getFeedSkeleton/util/000.mjs';
+import { getInitialFeedData } from '../api/xrpc/getFeedSkeleton/util/fetchFeedData.mjs';
+import { getInitialFeedData as getInitialFeedDataSP } from '../api/xrpc/getFeedSkeleton/sp-fetch.mjs';
+import { isRedisConnected, redisSet } from './redis-io-connection.mjs';
 
 
-import { shortname as shortnameFavorites} from '../favorites.mjs';
-import { shortname as shortnameNSFW} from '../nsfw.mjs';
-import { shortname as shortnameF } from '../followed.mjs';
-import { shortname as shortnameL } from '../listed.mjs';
-import { shortname as shortnameFL } from '../followed_or_listed.mjs';
-import { shortname as shortnameMyfL } from '../../feed-config/my-follower-list.mjs';
+import { shortname as shortnameFavorites} from '../feed-config/favorites.mjs';
+import { shortname as shortnameNSFW} from '../feed-config/nsfw.mjs';
+import { shortname as shortnameF } from '../feed-config/followed.mjs';
+import { shortname as shortnameL } from '../feed-config/listed.mjs';
+import { shortname as shortnameFL } from '../feed-config/followed_or_listed.mjs';
+import { shortname as shortnameMyfL } from '../feed-config/my-follower-list.mjs';
 
 
 export async function initFeedCache(shortname, shortnameArray, sfw = 2) {

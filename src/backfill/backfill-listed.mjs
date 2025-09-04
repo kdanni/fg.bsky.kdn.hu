@@ -5,7 +5,7 @@ import { runAlgo } from '../algo/listed.mjs';
 
 import { listSfwScore } from '../post-process/util.mjs'; 
 
-import { initListedFeedCache, initFollowedOrListedFeedCache } from '../algo/cache/init-cache.mjs';
+import { initListedFeedCache, initFollowedOrListedFeedCache } from '../redis/init-cache.mjs';
 
 
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';

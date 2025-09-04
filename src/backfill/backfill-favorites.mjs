@@ -24,7 +24,7 @@ import { pool } from './connection/connection.mjs';
 
 const DEFAULT_FAVORITES_ACTOR_VALUE = 'FEEDGEN_PUBLISHER';
 
-import { initFavoritesFeedCache } from '../algo/cache/init-cache.mjs';
+import { initFavoritesFeedCache } from '../redis/init-cache.mjs';
 
 export async function backfillFavoritesRunner() {
     await backfillFavorites(BACKFILL_ACTOR);

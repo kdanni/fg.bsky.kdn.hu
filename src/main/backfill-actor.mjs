@@ -2,7 +2,7 @@ import { backfillPublisher as backfillFeedPublishersPosts } from '../backfill/ba
 import { backfillFollowed } from '../backfill/backfill-followed.mjs';
 import { backfillListed } from '../backfill/backfill-listed.mjs';
 
-import {initFeedCache, initFeedNSFW} from '../algo/cache/init-cache.mjs';
+import {initFeedCache, initFeedNSFW} from '../redis/init-cache.mjs';
 import { shortname as FL } from '../algo/followed_or_listed.mjs';
 import { shortname as F } from '../algo/followed.mjs';
 import { shortname as L } from '../algo/listed.mjs';

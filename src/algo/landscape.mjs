@@ -1,5 +1,5 @@
 import { pool } from './connection/connection.mjs';
-import { initFeedCache } from './cache/init-cache.mjs';
+import { initFeedCache } from '../redis/init-cache.mjs';
 import { getSafeForWorkScore } from '../post-process/util.mjs';
 
 export const shortname = 'landscape';

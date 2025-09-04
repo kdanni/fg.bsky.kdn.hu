@@ -1,6 +1,6 @@
 import { shortname as bud } from './kdanni-Bud.mjs';
 import { shortname as oobud } from './kdanni-out-of-Bud.mjs';
-import { initFeedCache } from './cache/init-cache.mjs';
+import { initFeedCache } from '../redis/init-cache.mjs';
 
 export const shortname = 'kd-Bud-OutofBud';
 export const shortnameArray = [bud, oobud];

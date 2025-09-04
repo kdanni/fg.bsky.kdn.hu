@@ -1,4 +1,5 @@
 import {pool} from '../db/prcEnv.connection.mjs';
+import { initFeedCache } from '../redis/init-cache.mjs';
 
 export async function applyCustomFeedLogic() {
     try {
@@ -22,7 +23,7 @@ export async function applyCustomFeedLogic() {
 async function applyFeedLogic(feedLogicConfig) {
     console.dir(feedLogicConfig, {depth: null});
 
-    const { feed_name, sfw, mediaRegex, data } = feedLogicConfig;
+    const { feed_name, sfw, sfwLimit, mediaRegex, data } = feedLogicConfig;
     const { authorDidArray, negativeFilter, positiveFilter } = data;
 
     if(positiveFilter?.length < 1) {
@@ -73,4 +74,5 @@ async function applyFeedLogic(feedLogicConfig) {
         await pool.query(sql, params);
         await new Promise(resolve => setTimeout(resolve, 10));
     }
+    await initFeedCache(feed_name, null, sfwLimit);
 }

@@ -3,7 +3,7 @@ import got from 'got';
 import { backfillActor } from './backfill-actor.mjs';
 import { runAlgo } from '../algo/followed.mjs';
 
-import { initFollowedFeedCache, initFollowedOrListedFeedCache } from '../algo/cache/init-cache.mjs';
+import { initFollowedFeedCache, initFollowedOrListedFeedCache } from '../redis/init-cache.mjs';
 
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 const LIMIT = process.env.AUTHOR_FEED_LIMIT || 50;

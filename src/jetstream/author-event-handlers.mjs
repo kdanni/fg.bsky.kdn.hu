@@ -5,7 +5,7 @@ import { getLists, getListedUsers } from '../backfill/backfill-listed.mjs'
 import { upsertPost } from '../post-process/upsert-post.mjs';
 import { listSfwScore } from '../post-process/util.mjs';
 
-import { initFollowedFeedCache, initFollowedOrListedFeedCache, initListedFeedCache, initFeedNSFW } from '../algo/cache/init-cache.mjs';
+import { initFollowedFeedCache, initFollowedOrListedFeedCache, initListedFeedCache, initFeedNSFW } from '../redis/init-cache.mjs';
 import { runAlgo as algoF } from '../algo/followed.mjs';
 import { runAlgo as algoL } from '../algo/listed.mjs';
 

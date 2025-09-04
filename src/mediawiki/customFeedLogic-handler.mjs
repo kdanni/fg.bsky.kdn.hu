@@ -28,10 +28,11 @@ async function handleCustomFeedLogic({ pageContent }) {
 
     console.log(`[WIKI-CUSTOM-FEED-LOGIC-HANDLER] Feed Shortname: ${feedShortname}`);
 
-    let imageRegexString = null;
+    let imageRegexString = '.*';
     let authorDidArray = [];
     let positiveFilter = [];
     let negativeFilter = [];
+    let doubleNegativeFilter = [];
     let sfwLimit = 2;
     let sfwScore = 10;
 
@@ -57,7 +58,10 @@ async function handleCustomFeedLogic({ pageContent }) {
             }
         } else {
             // console.log(`[WIKI-CUSTOM-FEED-LOGIC-HANDLER] Found filter line: ${line}`);
-            if(line.startsWith('¤')) {
+            if(line.startsWith('¤¤')) {
+                let filter = line.slice(2).trim();
+                doubleNegativeFilter.push(filter);
+            } else if(line.startsWith('¤')) {
                 let filter = line.slice(1).trim();                
                 negativeFilter.push(filter);                
             } else {
@@ -80,6 +84,7 @@ async function handleCustomFeedLogic({ pageContent }) {
         authorDidArray,
         positiveFilter,
         negativeFilter,
+        doubleNegativeFilter,
         sfwLimit,
         sfwScore
     };

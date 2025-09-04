@@ -21,6 +21,5 @@ DROP PROCEDURE IF EXISTS SP_SELECT_custom_feed_logic;
 CREATE PROCEDURE SP_SELECT_custom_feed_logic ()
 BEGIN
    SELECT * FROM custom_feed_logic
-      WHERE feed_name = 'lego'
    ;
 END;

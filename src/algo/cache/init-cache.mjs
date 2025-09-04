@@ -9,6 +9,7 @@ import { shortname as shortnameNSFW} from '../nsfw.mjs';
 import { shortname as shortnameF } from '../followed.mjs';
 import { shortname as shortnameL } from '../listed.mjs';
 import { shortname as shortnameFL } from '../followed_or_listed.mjs';
+import { shortname as shortnameMyfL } from '../../feed-config/my-follower-list.mjs';
 
 
 export async function initFeedCache(shortname, shortnameArray, sfw = 2) {
@@ -41,7 +42,7 @@ export async function initFollowedFeedCache() {
 }
 
 export async function initListedFeedCache() {
-    return initCacheBySP(shortnameL);
+    return Promise.all([initCacheBySP(shortnameL), initCacheBySP(shortnameMyfL)]);
 }
 
 export async function initFollowedOrListedFeedCache() {

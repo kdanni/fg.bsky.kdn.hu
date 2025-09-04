@@ -1,5 +1,5 @@
-import { shortname as bud } from './kdanni-Bud.mjs';
-import { shortname as oobud } from './kdanni-out-of-Bud.mjs';
+import { shortname as bud } from '../author-feed/kdanni-Bud.mjs';
+import { shortname as oobud } from '../author-feed/kdanni-out-of-Bud.mjs';
 
 export const shortname = 'kd-Bud-OutofBud';
 export const shortnameArray = [bud, oobud];

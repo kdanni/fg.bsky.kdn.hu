@@ -1,6 +1,6 @@
-import { shortname as ls } from './landscape.mjs';
-import { shortname as ts } from './treescape.mjs';
-import { shortname as ws } from './waterscape.mjs';
+import { shortname as ls } from '../search-feed/landscape.mjs';
+import { shortname as ts } from '../search-feed/treescape.mjs';
+import { shortname as ws } from '../search-feed/waterscape.mjs';
 
 export const shortname = 'treelandwater';
 export const shortnameArray = [ls, ts, ws];

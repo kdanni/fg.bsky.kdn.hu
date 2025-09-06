@@ -106,6 +106,13 @@ export async function backfillFavorites(actor = BACKFILL_ACTOR) {
                         DEV_ENV && console.log(`[backfill favorites] ${actorValue}_reply`, item?.post?.uri, item?.post?.record?.text, item?.post?.indexedAt);
                     }
 
+                        // bluesky post indexed / posted at time in UTC
+                        // item?.post?.indexedAt||null
+                        let posted_at_UTC = new Date(item?.post?.indexedAt||(new Date()).toLocaleTimeString('en-US', {timeZone: 'UTC'}));
+                        // convert to CET
+                        // Convert UTC to Europe/Budapest time (handles DST)
+                        let posted_at_CET = new Date(posted_at_UTC.toLocaleString('en-US', { timeZone: 'Europe/Budapest' }));
+
                     // CREATE PROCEDURE upsert_favorites_post (
                     // IN p_url VARCHAR(200),
                     // IN p_has_image VARCHAR(64),
@@ -120,7 +127,7 @@ export async function backfillFavorites(actor = BACKFILL_ACTOR) {
                         has_image||null,
                         safeForWorkScore||-1,
                         actorValue||null,
-                        item?.post?.indexedAt||null
+                        posted_at_CET||null
                     ];
 
                     await pool.execute(sql, params);

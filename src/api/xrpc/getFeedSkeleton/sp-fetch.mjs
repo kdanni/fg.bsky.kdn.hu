@@ -21,7 +21,7 @@ async function handleRequest(req, res, next) {
   if(!(shortname in shortnameSPs)) {
     return next();
   }
-  console.log(`[${shortname}] ${JSON.stringify(req.locals)} ${JSON.stringify(res.locals)}`);
+  console.log(`[SP fetch] [${shortname}] ${JSON.stringify(req.locals)} ${JSON.stringify(res.locals)}`);
 
   let cursorDate = req.locals.cursorDate;
 

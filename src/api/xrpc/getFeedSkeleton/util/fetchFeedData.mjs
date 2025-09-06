@@ -1,6 +1,9 @@
 import { pool } from './connection.mjs';
 import crypto from 'crypto';
 
+const DEV_ENV = process.env.ENV === 'DEV';
+const DEBUG = process.env.DEBUG === 'true' || false;
+
 export async function fetchFeedData(shortname, cursorDate, limit = 30, sfw = 2) {
   let sql = `call ${'sp_SELECT_feed_posts_by_name'}(?,?,?,?)`;
   if (Array.isArray(shortname)) {
@@ -14,7 +17,8 @@ export async function fetchFeedData(shortname, cursorDate, limit = 30, sfw = 2) 
 
 export async function fetchFeedDataBySql(sql, params, cursorDate) {
   const rows = await pool.query(sql, params);
-
+  DEBUG && console.log(`[fetchFeedDataBySql] [SQL] ${sql} | ${JSON.stringify(params)}`);
+  DEBUG && console.dir(rows[0] , {depth: 2});
   const resultUrls = [];
   let resultCursor = undefined;
   let cDate = cursorDate ? new Date(cursorDate) : new Date();
@@ -27,13 +31,15 @@ export async function fetchFeedDataBySql(sql, params, cursorDate) {
       }
     }
   }
+  DEBUG && console.log(`[fetchFeedDataBySql] cDate: ${cDate}`);
   if (resultCursor) {
     const c = await pool.query('SELECT cid, posted_at FROM bsky_post WHERE url = ?', [resultCursor]);
+    DEBUG && console.dir(c[0], {depth: 2});
     if (c && c[0] && c[0][0]) {
-      resultCursor = `${c[0][0].posted_at}::${c[0][0].cid}`;
+      resultCursor = `${new Date(c[0][0].posted_at).toISOString()}::${c[0][0].cid}`;
     } else {
       const hashedCursor = crypto.createHash('sha256').update(resultCursor).digest('hex');
-      resultCursor = `${cDate}::${hashedCursor}`;
+      resultCursor = `${cDate.toISOString()}::${hashedCursor}`;
     }
   }
   return {

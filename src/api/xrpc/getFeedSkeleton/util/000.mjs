@@ -1,5 +1,8 @@
 const FEEDGEN_PUBLISHER_DID = process.env.FEEDGEN_PUBLISHER_DID;
 
+const DEV_ENV = process.env.ENV === 'DEV';
+const DEBUG = process.env.DEBUG === 'true' || false;
+
 async function handleRequest (req, res, next) {
     req.locals = req.locals || {};
     res.locals = res.locals || {};
@@ -24,10 +27,10 @@ async function handleRequest (req, res, next) {
     if(cursor) {
         // console.log(`[${shortname}] cursor`, cursor);
         const [timestamp, cid] = cursor.split('::');
-        // console.log(`[${shortname}] timestamp`, timestamp);
         if (timestamp) {
             cursorDate = new Date(timestamp);
         }
+        DEBUG && console.log(`[000] timestamp`, timestamp, cursorDate, cursor);
     } else {
         initialCursor = true;
     }

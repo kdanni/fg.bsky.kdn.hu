@@ -40,20 +40,6 @@ if (/^no[- ]operation\b/.test(commandString)) {
     backfillFavorites();
 }  else if (/^algo[- ]?followed\b/.test(commandString)) {
     algoFollowed();
-} else if (/^kdanni[- ]?bud\b/i.test(commandString)) {
-    kdanniBud();
-} else if (/^kdanni[- ]?photo\b/i.test(commandString)) {
-    kdanniPhoto();
-} else if (/^hashtag[- ]?bud\b/i.test(commandString)) {
-    hashtagBud();
-} else if (/^hashtag[- ]?tractor\b/i.test(commandString)) {
-    hashtagTractor();
-} else if (/^hashtag[- ]?brutalism\b/i.test(commandString)) {
-    hashtagBrutalism();
-} else if (/^not[- ]?urban[- ]?ex\b/i.test(commandString)) {
-    notUrbanEx();
-} else if (/^mus(eum)?[- ]ej/i.test(commandString)) {
-    musEj();
 } else if (/^list[- ]?Feed[- ]?Generators?\b/i.test(commandString)) {
     listFeedGenerators();
 } else if (/^run[- ]?algos?\b/i.test(commandString)) {
@@ -252,6 +238,14 @@ async function dbinstall() {
 
 /** DEV Commands */
 
+async function applyCustomFeedLogic() {
+    await import('./custom-feed/apply-custom-feed-logic.mjs');
+    const { applyCustomFeedLogic } = await import('./custom-feed/apply-custom-feed-logic.mjs');
+    await applyCustomFeedLogic();
+
+    process.emit('exit_event');
+}
+
 async function runAlgos() {
     
     const { backfillSearchAlgoRunner } = await import('./backfill/backfill-search.mjs');
@@ -307,63 +301,6 @@ async function backfillKdanni() {
     process.emit('exit_event');
 }
 
-async function kdanniPhoto() {
-    await import('./algo/kdanni-Photo.mjs');
-    const { runAlgo } = await import('./algo/kdanni-Photo.mjs');
-    await runAlgo();
-
-    process.emit('exit_event');
-}
-
-async function kdanniBud() {
-    await import('./algo/kdanni-Bud.mjs');
-    const { runAlgo } = await import('./algo/kdanni-Bud.mjs');
-    await runAlgo();
-
-    process.emit('exit_event');
-}
-
-async function hashtagBud() {
-    await import('./algo/budapest-hashtag.mjs');
-    const { runAlgo } = await import('./algo/budapest-hashtag.mjs');
-    await runAlgo();
-
-    process.emit('exit_event');
-}
-
-async function hashtagTractor() {
-    await import('./algo/tractor-hashtag.mjs');
-    const { runAlgo } = await import('./algo/tractor-hashtag.mjs');
-    await runAlgo();
-
-    process.emit('exit_event');
-}
-
-async function hashtagBrutalism() {
-    await import('./algo/brutalism-hashtag.mjs');
-    const { runAlgo } = await import('./algo/brutalism-hashtag.mjs');
-    await runAlgo(); 
-    process.emit('exit_event');
-}
-
-async function notUrbanEx() {
-    await import('./algo/not-urban-ex.mjs');
-    const { runAlgo } = await import('./algo/not-urban-ex.mjs');
-    await runAlgo();
-
-    process.emit('exit_event');
-}
-
-
-async function musEj() {
-    await import('./algo/kdanni-MusEj.mjs');
-    const { runAlgo } = await import('./algo/kdanni-MusEj.mjs');
-    await runAlgo();
-
-    process.emit('exit_event');
-}
-
-
 async function listFeedGenerators(){
     await import('./bsky-social/repo.listRecords.mjs');
     const { listFeedGenerator } = await import('./bsky-social/repo.listRecords.mjs');
@@ -403,16 +340,6 @@ async function listBlockedUsers() {
 
     process.emit('exit_event');
 }
-
-
-async function applyCustomFeedLogic() {
-    await import('./custom-feed/apply-custom-feed-logic.mjs');
-    const { applyCustomFeedLogic } = await import('./custom-feed/apply-custom-feed-logic.mjs');
-    await applyCustomFeedLogic();
-
-    process.emit('exit_event');
-}
-
 
 async function dbPOC() {
     await import('./db/db-poc.mjs');

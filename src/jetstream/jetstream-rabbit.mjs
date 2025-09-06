@@ -10,6 +10,7 @@ async function jetstreamPostCreated(record) {
             if(
                 record.langs.includes('hu') ||
                 record.langs.includes('en') ||
+                record.langs.includes('en-US') ||
                 record.langs.includes('ja') ||
                 record.langs.includes('de') ||
                 record.langs.includes('es') ||

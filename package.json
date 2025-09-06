@@ -8,6 +8,7 @@
     "start": "node index.js",
     "dbinstall": "node index.js dbinstall",
     "backfill": "node index.js backfill",
+    "jetstream": "node index.js jetstream",
     "publish": "node index.js publish",
     "unpublish": "node index.js unpublish",
     "republish": "node index.js republish",

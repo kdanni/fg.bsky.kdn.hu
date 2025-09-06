@@ -59,4 +59,5 @@ ws.on('error', (err) => {
 
 ws.on('close', () => {
   console.log('Connection to firehose closed');
+  setTimeout(() => { process.emit('exit_event_1') }, 5000);
 });

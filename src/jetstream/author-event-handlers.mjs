@@ -121,6 +121,8 @@ async function handleEvent(event) {
             await initFollowedOrListedFeedCache();
         } else if (event.listName === 'NSFW') {
             await initFeedNSFW();
+        } else if (event.listName.startsWith('!')) {
+            //NOP
         } else {
             await algoL(item.post.author.did, event.listName);
             await initListedFeedCache(event.listName);

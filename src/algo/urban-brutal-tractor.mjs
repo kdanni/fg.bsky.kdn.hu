@@ -7,7 +7,7 @@ import { shortname as sm } from './socialist-modernism.mjs';
 import { shortname as rw } from './railway.mjs';
 
 export const shortname = 'brutalurbantractor';
-export const shortnameArray = [nu, tr, br, sm, rw];
+export const shortnameArray = [nu, tr, br, sm, rw, 'urbex'];
 
 export const FEEDGEN_CONFIG = {
   publisherDid: `${process.env.FEEDGEN_PUBLISHER_DID}`,

@@ -11,7 +11,7 @@ ExecStart=/usr/bin/npm start backfill
 Restart=on-failure
 Restart=always
 RestartSec=300
-RuntimeMaxSec=600
+RuntimeMaxSec=6000
 
 [Install]
 WantedBy=multi-user.target

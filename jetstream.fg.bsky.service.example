@@ -1,0 +1,18 @@
+[Unit]
+Description=Blue Sky Custom Feed Generator data collecting. Jetstream, FirehoseSubscription, restart after every 4 hours, updating followers list on startup.
+After=network.target
+
+[Service]
+Type=simple
+User=bsky
+Environment="NODE_OPTIONS=--max-old-space-size=1024"
+WorkingDirectory=/opt/fg.bsky.kdn.hu
+ExecStart=/usr/bin/npm start jetstream
+Restart=on-failure
+Restart=always
+RestartSec=10
+# 4 hours in secs 4 * 60 * 60
+RuntimeMaxSec=14400
+
+[Install]
+WantedBy=multi-user.target

@@ -50,7 +50,7 @@ async function applyFeedLogic(feedLogicConfig) {
     const iReg = new RegExp(`${mediaRegex || '.*'}`, 'i');
     const posts = {};
     for(const pos of positiveFilter) {
-        const sqlWhere = `${pos}`.replace('\\\\b', '');
+        const sqlWhere = `${pos}`.replace(/\\b/g, '').replace(/\.\*/g, '%');
         DEV_ENV && console.log(`[${feed_name}] Searching for posts with positive filter: ${pos} ${sqlWhere}`);
         const posts1 = await pool.query(
             `call ${'sp_SELECT_recent_posts_by_text'}(?)`,
@@ -58,7 +58,8 @@ async function applyFeedLogic(feedLogicConfig) {
         );
         if (posts1[0] && posts1[0][0]) {
             for(const post of posts1[0][0]) {   
-                if(!new RegExp(`${pos}`, 'i').test(post.text)) {
+                DEBUG && console.log(`[${feed_name}] ${post.has_image} |`, post.text);
+                if(!new RegExp(`${pos}`, 'i').test(post.text)) {                    
                     continue;
                 }
                 if(iReg.test(post.has_image || 'null')) {
@@ -81,7 +82,7 @@ async function applyFeedLogic(feedLogicConfig) {
         const post = posts[postUrl];
         // Apply the feed logic to the post
 
-        DEBUG && console.log(`[${feed_name}] Processing Post:`, JSON.stringify(post));
+        // DEBUG && console.log(`[${feed_name}] Processing Post:`, JSON.stringify(post));
 
         const sql = `call ${'sp_UPSERT_feed_post'}(?,?,?,?,?)`;
         const params = [

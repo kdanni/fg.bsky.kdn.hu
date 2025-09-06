@@ -3,39 +3,45 @@ import { unpublisFeed } from '../bsky-social/unpublis-feed.mjs';
 import { updateFeed } from '../bsky-social/update-feed-repo-object.mjs';
 
 
-import {FEEDGEN_CONFIG as followed} from '../algo/followed.mjs';
-import {FEEDGEN_CONFIG as listed} from '../algo/listed.mjs';
-import {FEEDGEN_CONFIG as favorites } from '../algo/favorites.mjs';
-import {FEEDGEN_CONFIG as f_l} from '../algo/followed_or_listed.mjs';
-import {FEEDGEN_CONFIG as kdBud} from '../algo/kdanni-Bud.mjs';
-import {FEEDGEN_CONFIG as kdPhoto} from '../algo/kdanni-Photo.mjs';
-import {FEEDGEN_CONFIG as budHash} from '../algo/budapest-hashtag.mjs';
-import {FEEDGEN_CONFIG as kdOutofBud} from '../algo/kdanni-out-of-Bud.mjs';
-import {FEEDGEN_CONFIG as kdBudOutofBud} from '../algo/kdanni-Bud-Out-of-Bud.mjs';
-import {FEEDGEN_CONFIG as magyaroHash} from '../algo/magyarorszag-hashtag.mjs';
-import {FEEDGEN_CONFIG as cf} from '../algo/kdanni-CustomFeed.mjs';
-import {FEEDGEN_CONFIG as tractor} from '../algo/tractor-hashtag.mjs';
-import {FEEDGEN_CONFIG as notUrbanEx } from '../algo/not-urban-ex.mjs';
-import {FEEDGEN_CONFIG as musEj } from '../algo/kdanni-MusEj.mjs';
-import {FEEDGEN_CONFIG as nsfw } from '../algo/nsfw.mjs';
-import { FEEDGEN_CONFIG as brutalism } from '../algo/brutalism-hashtag.mjs';
-import { FEEDGEN_CONFIG as UBT } from '../algo/urban-brutal-tractor.mjs';
-import { FEEDGEN_CONFIG as SM } from '../algo/socialist-modernism.mjs';
-import { FEEDGEN_CONFIG as FOOD } from '../algo/food-images.mjs';
-import { FEEDGEN_CONFIG as LANDSCAPE } from '../algo/landscape.mjs';
-import { FEEDGEN_CONFIG as TREESCAPE } from '../algo/treescape.mjs';
-import { FEEDGEN_CONFIG as budapestAll } from '../algo/budapest-all.mjs';
-import { FEEDGEN_CONFIG as budapestMeetings } from '../algo/budapest-meetings.mjs';
-import { FEEDGEN_CONFIG as budapestJobs } from '../algo/budapest-jobsearch.mjs';
-import { FEEDGEN_CONFIG as railway } from '../algo/railway.mjs';
-import { FEEDGEN_CONFIG as waterscape } from '../algo/waterscape.mjs';
-import { FEEDGEN_CONFIG as treelandwater } from '../algo/treescape-landscape-waterscape.mjs';
+import { FEEDGEN_CONFIG as artwork } from '../feed-config/sp-feed/artwork.mjs';
+import { FEEDGEN_CONFIG as favorites } from '../feed-config/sp-feed/favorites.mjs';
+import { FEEDGEN_CONFIG as petFL } from '../feed-config/sp-feed/followed_or_listed_PET.mjs';
+import { FEEDGEN_CONFIG as f_l } from '../feed-config/sp-feed/followed_or_listed.mjs';
+import { FEEDGEN_CONFIG as followed } from '../feed-config/sp-feed/followed.mjs';
+import { FEEDGEN_CONFIG as listed } from '../feed-config/sp-feed/listed.mjs';
+import { FEEDGEN_CONFIG as myFL } from '../feed-config/sp-feed/my-follower-list.mjs';
+import { FEEDGEN_CONFIG as nsfw_scored } from '../feed-config/sp-feed/nsfw-scored.mjs';
+import { FEEDGEN_CONFIG as nsfw } from '../feed-config/sp-feed/nsfw.mjs';
 
-import { FEEDGEN_CONFIG as nsfw_scored } from '../feed-config/nsfw-scored.mjs';
-import { FEEDGEN_CONFIG as artwork } from '../feed-config/artwork.mjs';
-import { FEEDGEN_CONFIG as lego } from '../feed-config/lego.mjs';
-import { FEEDGEN_CONFIG as myFL } from '../feed-config/my-follower-list.mjs';
-import { FEEDGEN_CONFIG as petFL } from '../feed-config/followed_or_listed_PET.mjs';
+import { FEEDGEN_CONFIG as kdBud } from '../feed-config/author-feed/kdanni-Bud.mjs';
+import { FEEDGEN_CONFIG as cf } from '../feed-config/author-feed/kdanni-CustomFeed.mjs';
+import { FEEDGEN_CONFIG as musEj } from '../feed-config/author-feed/kdanni-MusEj.mjs';
+import { FEEDGEN_CONFIG as kdOutofBud } from '../feed-config/author-feed/kdanni-out-of-Bud.mjs';
+import { FEEDGEN_CONFIG as kdPhoto } from '../feed-config/author-feed/kdanni-Photo.mjs';
+
+
+import { FEEDGEN_CONFIG as kdBudOutofBud } from '../feed-config/feed-of-feeds/kdanni-Bud-Out-of-Bud.mjs';
+import { FEEDGEN_CONFIG as UBT } from '../feed-config/feed-of-feeds/urban-brutal-tractor.mjs';
+import { FEEDGEN_CONFIG as treelandwater } from '../feed-config/feed-of-feeds/treescape-landscape-waterscape.mjs';
+
+
+import { FEEDGEN_CONFIG as brutalism } from '../feed-config/search-feed/brutalism-hashtag.mjs';
+import { FEEDGEN_CONFIG as budapestAll } from '../feed-config/search-feed/budapest-all.mjs';
+import { FEEDGEN_CONFIG as budHash } from '../feed-config/search-feed/budapest-hashtag.mjs';
+import { FEEDGEN_CONFIG as budapestJobs } from '../feed-config/search-feed/budapest-jobsearch.mjs';
+import { FEEDGEN_CONFIG as budapestMeetings } from '../feed-config/search-feed/budapest-meetings.mjs';
+import { FEEDGEN_CONFIG as FOOD } from '../feed-config/search-feed/food-images.mjs';
+import { FEEDGEN_CONFIG as LANDSCAPE } from '../feed-config/search-feed/landscape.mjs';
+import { FEEDGEN_CONFIG as lego } from '../feed-config/search-feed/lego.mjs';
+import { FEEDGEN_CONFIG as magyaroHash } from '../feed-config/search-feed/magyarorszag-hashtag.mjs';
+import { FEEDGEN_CONFIG as notUrbanEx } from '../feed-config/search-feed/not-urban-ex.mjs';
+import { FEEDGEN_CONFIG as railway } from '../feed-config/search-feed/railway.mjs';
+import { FEEDGEN_CONFIG as SM } from '../feed-config/search-feed/socialist-modernism.mjs';
+import { FEEDGEN_CONFIG as tractor } from '../feed-config/search-feed/tractor-hashtag.mjs';
+import { FEEDGEN_CONFIG as TREESCAPE } from '../feed-config/search-feed/treescape.mjs';
+import { FEEDGEN_CONFIG as urbex } from '../feed-config/search-feed/urbex.mjs';
+import { FEEDGEN_CONFIG as waterscape } from '../feed-config/search-feed/waterscape.mjs';
+
 
 
 async function doPublishCommand(feedConfig, command) {
@@ -155,6 +161,9 @@ export async function doPublish(commandString) {
     }
     if(petFL.commandlineRegex.test(feedName)) {
         await doPublishCommand(petFL, command);
+    }
+    if(urbex.commandlineRegex.test(feedName)) {
+        await doPublishCommand(urbex, command);
     }
     process.emit('exit_event');
 }

@@ -1,4 +1,4 @@
-import { backfillSearchRunner, backfillSearchAlgoRunner } from '../backfill/backfill-search.mjs'
+import { backfillSearchRunner, backfillSearchAlgoRunner } from '../backfill/backfill-search.mjs';
 
 export async function main() {
 

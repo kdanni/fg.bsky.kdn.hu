@@ -7,6 +7,8 @@ import { listSfwScore } from '../post-process/util.mjs';
 
 import { initListedFeedCache, initFollowedOrListedFeedCache } from '../redis/init-cache.mjs';
 
+import { artistListedDictionary, aiListedDictionary, nsfwListedDictionary } from '../post-process/post-post-tagging.mjs';
+
 
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
 
@@ -14,33 +16,59 @@ const BACKFILL_ACTOR = process.env.BACKFILL_AUTHOR_HANDLE || process.env.FEEDGEN
 
 const DEV_ENV = process.env.ENV === 'DEV';
 
-export async function backfillListed() {
+export async function backfillListed(dry) {
     console.log(`[backfillListed] Starting backfilling lists.`);
     try {
         const listUrls = await getLists(BACKFILL_ACTOR);
 
         DEV_ENV && console.log(`[backfillListed] Found ${listUrls.length} lists for actor: ${BACKFILL_ACTOR}`, listUrls);
 
+        const listedUserArrayArray = [];
+
         for (const list of listUrls || []) {
-            DEV_ENV && console.log(`[backfillListed] List: ${list.uri} - ${list.name}`);
-
-            let safeForWorkScore = listSfwScore(list.name);
-
+            DEV_ENV && console.log(`[backfillListed] List: ${list.uri} - ${list.name}`);            
+            
             const listUsers = await getListedUsers(list.uri);
 
             DEV_ENV && console.log(`[backfillListed] Found ${listUsers.length} users in list: ${list.uri}`, listUsers);
-
+            
+            listedUserArrayArray.push({listUsers, list});
+            
             for (const user of listUsers || []) {
-                DEV_ENV && console.log(`[backfillListed] User: ${user.did} - ${user.handle} - ${user.displayName}`);
-                if( !`${list.name}`.startsWith('!') ) {
-                    await backfillActor(user.did, safeForWorkScore);
-                    await runAlgo(user.did, list.name);
-                }                
+                if( !`${list.name}`.startsWith('!') ) {                    
+                    if(`${list.name}`.startsWith('NSFW')) {
+                        nsfwListedDictionary[`${user.did}`] = true;
+                    }                    
+                } else {
+                    if(`${list.name}`.startsWith('!artist')) {
+                        artistListedDictionary[`${user.did}`] = true;
+                    }
+                    if(`${list.name}`.startsWith('!ai')) {
+                        aiListedDictionary[`${user.did}`] = true;
+                    }
+                    if(`${list.name}`.startsWith('!nsfw')) {
+                        nsfwListedDictionary[`${user.did}`] = true;
+                    }
+                }
+            }            
+        }
+        if(dry !== 'dry') {
+            for (const listUsersArray of listedUserArrayArray || []) {
+                const {listUsers, list} = listUsersArray;
+                for (const user of listUsers || []) {
+                    let safeForWorkScore = listSfwScore(list.name);
+                    DEV_ENV && console.log(`[backfillListed] User: ${user.did} - ${user.handle} - ${user.displayName}`);
+                    if( !`${list.name}`.startsWith('!') ) {                    
+                        await backfillActor(user.did, safeForWorkScore);
+                        await runAlgo(user.did, list.name);
+                    } else {
+                        // NOOP
+                    }
+                }
             }
-        }       
-
-        await initListedFeedCache();
-        await initFollowedOrListedFeedCache();
+            await initListedFeedCache();
+            await initFollowedOrListedFeedCache();
+        }
     } catch (error) {
         console.error(`[backfillListed] Error: ${error.message}`);
     }

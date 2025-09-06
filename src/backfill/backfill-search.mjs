@@ -6,6 +6,8 @@ import { upsertQuerySearchTerms } from '../mediawiki/media-wiki-bot.mjs';
 import { pool } from './connection/connection.mjs';
 import { upsertPost } from '../post-process/upsert-post.mjs';
 
+import {updateArtistsMimeTag, updateAiMimeTag } from '../post-process/post-post-tagging.mjs';
+
 const SKIP_AUTHORS_ARRAY = [];
 const SKIP_KEYWORDS_ARRAY = [
     '#nft\\b',
@@ -52,6 +54,9 @@ export async function backfillSearchAlgoRunner () {
     console.log('[backfillSearch] Running algos');
     try {
         await applyCustomFeedLogic();
+
+        await updateArtistsMimeTag();
+        await updateAiMimeTag();
     } catch (e) {
         console.error('[backfillSearch] Algo Error', e);
     }

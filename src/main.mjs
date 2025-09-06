@@ -40,6 +40,8 @@ if (/^no[- ]operation\b/.test(commandString)) {
     backfillFavorites();
 }  else if (/^algo[- ]?followed\b/.test(commandString)) {
     algoFollowed();
+} else if (/^post[- ]?tagging\b/.test(commandString)) {
+    postTagging();
 } else if (/^list[- ]?Feed[- ]?Generators?\b/i.test(commandString)) {
     listFeedGenerators();
 } else if (/^run[- ]?algos?\b/i.test(commandString)) {
@@ -321,6 +323,20 @@ async function displayPosts() {
     // console.log(match, minusDays, cursor);
 
     await displayPostsInDb(cursor);
+
+    process.emit('exit_event');
+}
+
+async function postTagging() {
+    await import('./backfill/backfill-listed.mjs');
+    const { backfillListed } = await import('./backfill/backfill-listed.mjs');
+    await import('./post-process/post-post-tagging.mjs');
+    const { updateArtistsMimeTag, updateAiMimeTag } = await import('./post-process/post-post-tagging.mjs');
+
+    await backfillListed('dry');
+
+    await updateArtistsMimeTag();
+    await updateAiMimeTag();
 
     process.emit('exit_event');
 }

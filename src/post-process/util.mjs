@@ -1,3 +1,5 @@
+import { aiListedDictionary, artistListedDictionary, nsfwListedDictionary } from './post-post-tagging.mjs';
+
 const DEV_ENV = process.env.ENV === 'DEV';
 const DEBUG = process.env.DEBUG === 'true' || false;
 
@@ -71,6 +73,12 @@ const MILD_HASHTAGS_REGEX = new RegExp(
 
 export function getSafeForWorkScore(item, mildScore = 5) {
   let safeForWorkScore = 10;
+  const did = item?.post?.author?.did;
+  if(did) {
+    if(nsfwListedDictionary[did]) {
+      return 0;
+    }
+  }
   if (!item?.post?.uri) {
     if(item.url && (item.text || item.labels)) {
       // console.dir(item, {depth: null});
@@ -308,6 +316,15 @@ export function isArtwork(item, mime) {
   let isPetPost = PET_HASHTAGS_REGEX.test(item.post.record.text);
   let isPolPost = POL_HASHTAGS_REGEX.test(item.post.record.text);
   let retString = '';
+  const did = item?.post?.author?.did;
+  if(did) {
+    if(artistListedDictionary[did]) {
+      isArtwork = true;
+    }
+    if(aiListedDictionary[did]) {
+      isAiArtwork = true;
+    }
+  }
   if(mime) {
     retString = `${mime}`;
   }

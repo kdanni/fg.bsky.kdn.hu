@@ -119,6 +119,11 @@ async function backfill() {
     await import('./log/event-logger.mjs');
     const emitter = (await import('./event-emitter.mjs')).default;
     emitter.on('main', () => {/* NOP */ });
+    
+    await import('./backfill/backfill-listed.mjs');
+    const { initListedUsers } = await import('./backfill/backfill-listed.mjs');
+
+    await initListedUsers();
 
     /**
      * Main data collection logic.
@@ -329,11 +334,11 @@ async function displayPosts() {
 
 async function postTagging() {
     await import('./backfill/backfill-listed.mjs');
-    const { backfillListed } = await import('./backfill/backfill-listed.mjs');
+    const { initListedUsers } = await import('./backfill/backfill-listed.mjs');
     await import('./post-process/post-post-tagging.mjs');
     const { updateArtistsMimeTag, updateAiMimeTag } = await import('./post-process/post-post-tagging.mjs');
 
-    await backfillListed('dry');
+    await initListedUsers();
 
     await updateArtistsMimeTag();
     await updateAiMimeTag();

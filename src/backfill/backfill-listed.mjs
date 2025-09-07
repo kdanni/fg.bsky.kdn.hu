@@ -16,15 +16,13 @@ const BACKFILL_ACTOR = process.env.BACKFILL_AUTHOR_HANDLE || process.env.FEEDGEN
 
 const DEV_ENV = process.env.ENV === 'DEV';
 
-export async function backfillListed(dry) {
-    console.log(`[backfillListed] Starting backfilling lists.`);
+export const listedUserArrayArray = [];
+
+export async function initListedUsers() {
+    console.log(`[backfillListed] Starting init lists.`);
+
     try {
         const listUrls = await getLists(BACKFILL_ACTOR);
-
-        DEV_ENV && console.log(`[backfillListed] Found ${listUrls.length} lists for actor: ${BACKFILL_ACTOR}`, listUrls);
-
-        const listedUserArrayArray = [];
-
         for (const list of listUrls || []) {
             DEV_ENV && console.log(`[backfillListed] List: ${list.uri} - ${list.name}`);            
             
@@ -52,23 +50,30 @@ export async function backfillListed(dry) {
                 }
             }            
         }
-        if(dry !== 'dry') {
-            for (const listUsersArray of listedUserArrayArray || []) {
-                const {listUsers, list} = listUsersArray;
-                for (const user of listUsers || []) {
-                    let safeForWorkScore = listSfwScore(list.name);
-                    DEV_ENV && console.log(`[backfillListed] User: ${user.did} - ${user.handle} - ${user.displayName}`);
-                    if( !`${list.name}`.startsWith('!') ) {                    
-                        await backfillActor(user.did, safeForWorkScore);
-                        await runAlgo(user.did, list.name);
-                    } else {
-                        // NOOP
-                    }
+    } catch (error) {
+        console.error(`[backfillListed] Error: ${error.message}`);
+    }
+}
+
+export async function backfillListed() {
+    console.log(`[backfillListed] Starting backfilling lists.`);
+    try {
+        DEV_ENV && console.log(`[backfillListed] Found ${listUrls.length} lists for actor: ${BACKFILL_ACTOR}`, listUrls);       
+        for (const listUsersArray of listedUserArrayArray || []) {
+            const {listUsers, list} = listUsersArray;
+            for (const user of listUsers || []) {
+                let safeForWorkScore = listSfwScore(list.name);
+                DEV_ENV && console.log(`[backfillListed] User: ${user.did} - ${user.handle} - ${user.displayName}`);
+                if( !`${list.name}`.startsWith('!') ) {                    
+                    await backfillActor(user.did, safeForWorkScore);
+                    await runAlgo(user.did, list.name);
+                } else {
+                    // NOOP
                 }
             }
-            await initListedFeedCache();
-            await initFollowedOrListedFeedCache();
         }
+        await initListedFeedCache();
+        await initFollowedOrListedFeedCache();    
     } catch (error) {
         console.error(`[backfillListed] Error: ${error.message}`);
     }

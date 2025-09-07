@@ -7,6 +7,7 @@ import { pool } from './connection/connection.mjs';
 import { upsertPost } from '../post-process/upsert-post.mjs';
 
 import {updateArtistsMimeTag, updateAiMimeTag } from '../post-process/post-post-tagging.mjs';
+import { upsertCustomFeedLogic } from '../mediawiki/media-wiki-bot.mjs';
 
 const SKIP_AUTHORS_ARRAY = [];
 const SKIP_KEYWORDS_ARRAY = [
@@ -32,7 +33,11 @@ const SEARCH_APP_HANDLE = process.env.SEARCH_APP_HANDLE ;
 const SEARCH_APP_PASSWORD = process.env.SEARCH_APP_PASSWORD;
 
 export async function backfillSearchRunner () {
-    await upsertQuerySearchTerms();
+    try {
+        await upsertQuerySearchTerms();
+    } catch (error) {
+        console.error(`[backfillSearch] backfillSearchRunner() upsertQuerySearchTerms ERROR ${error}`)
+    }
     const querySearchTerms = await pool.execute('call SP_SELECT_backfill_search_queries()');
     if(querySearchTerms[0] && querySearchTerms[0][0]?.length) {
         BACKFILL_SEARCH_QUERIES.push(...querySearchTerms[0][0]);
@@ -53,6 +58,12 @@ import {applyCustomFeedLogic} from '../custom-feed/apply-custom-feed-logic.mjs';
 export async function backfillSearchAlgoRunner () {
     console.log('[backfillSearch] Running algos');
     try {
+        try {
+            await upsertCustomFeedLogic();
+        } catch (error) {
+            console.error(`[backfillSearch] backfillSearchAlgoRunner() upsertCustomFeedLogic ERROR ${error}`)
+        }
+
         await applyCustomFeedLogic();
 
         await updateArtistsMimeTag();

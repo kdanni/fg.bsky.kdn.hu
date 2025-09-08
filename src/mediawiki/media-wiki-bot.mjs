@@ -176,7 +176,15 @@ async function wikiLogin() {
                     lgpassword: WIKI_BOT_PASS,
                     lgtoken: token,
                     format: 'json'
-                }, cookieJar
+                }, cookieJar, 
+                // Exception log config, using got hook
+                hooks: {
+                    beforeRetry: [
+                        (options, error) => {
+                            console.error(`[backfillPublisher] Request failed. Retrying... ${error.message}`);
+                        },
+                    ],
+                }
             }
         );
         let { body } = gotLoginResult;
@@ -184,6 +192,11 @@ async function wikiLogin() {
         if (body?.login?.result === 'Success') {
             return 0;
         } //END Success
+        // Already logged in:
+        if (body?.login?.result === 'Aborted' && /Cannot log in when using MediaWiki.+Session.+BotPasswordSessionProvider sessions/.test(body?.login?.reason)) {
+            return 0;
+        }
+        console.dir(body, {depth: null});
     }
 
     throw 'Wiki Login failed!';

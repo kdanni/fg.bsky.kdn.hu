@@ -78,6 +78,14 @@ async function main() {
     await import('./main/main.mjs');
 }
 
+async function backfill() {
+    await import('./main/main-backfill.mjs');
+}
+
+async function jetstream() {
+    await import('./main/main-jetstream.mjs');
+}
+
 
 async function backfillActor() {
     await import('./log/event-logger.mjs');
@@ -115,40 +123,6 @@ async function backfillFavorites() {
     setTimeout(() => { process.emit('exit_event');}, 1000);
 }
 
-async function backfill() {
-    await import('./log/event-logger.mjs');
-    const emitter = (await import('./event-emitter.mjs')).default;
-    emitter.on('main', () => {/* NOP */ });
-    
-    await import('./backfill/backfill-listed.mjs');
-    const { initListedUsers } = await import('./backfill/backfill-listed.mjs');
-
-    await initListedUsers();
-
-    /**
-     * Main data collection logic.
-     * Get data from BlueSky and store it in the database.
-     * Then algos select posts for the custom feeds.
-     * 
-     * After run the app will terminates.
-     */
-    const actor = await import('./main/backfill-actor.mjs');
-    const search = await import('./main/backfill-search.mjs');
-    const favorites = await import('./main/backfill-favorites.mjs');
-
-    try {
-        await Promise.all([
-            actor.main(),
-            search.main(),
-            favorites.main(),
-        ]);
-    } catch (error) {
-        console.error('[main] Backfill Error:', error);
-    }
-
-    setTimeout(() => { process.emit('exit_event');}, 1000);
-}
-
 async function publish(commandString) {
     await import('./log/event-logger.mjs');
     const emitter = (await import('./event-emitter.mjs')).default;
@@ -180,19 +154,6 @@ async function republish(commandString) {
     const { republish } = await import('./main/publish.mjs');
     
     await republish(commandString);
-}
-
-async function jetstream() {
-    await import('./log/event-logger.mjs');
-    const emitter = (await import('./event-emitter.mjs')).default;
-    emitter.on('main', () => {/* NOP */ });
-
-    await import('./jetstream/jetstream-rabbit.mjs');
-    const { subscribeFollowed, subscribeListed } = await import('./jetstream/author-event-handlers.mjs');
-    await import('./jetstream/jetstream.mjs');
-
-    await subscribeFollowed();
-    await subscribeListed();
 }
 
 async function refill() {
@@ -229,6 +190,12 @@ async function upsertCustomFeedLogic() {
     emitter.on('main', () => {/* NOP */ });
 
     await import('./mediawiki/media-wiki-bot.mjs');
+
+    const { upsertQuerySearchTerms } = await import('./mediawiki/media-wiki-bot.mjs');
+
+    await upsertQuerySearchTerms();
+
+
     const { upsertCustomFeedLogic } = await import('./mediawiki/media-wiki-bot.mjs');
 
     await upsertCustomFeedLogic();

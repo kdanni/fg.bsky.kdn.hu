@@ -41,7 +41,9 @@ import { FEEDGEN_CONFIG as tractor } from '../feed-config/search-feed/tractor-ha
 import { FEEDGEN_CONFIG as TREESCAPE } from '../feed-config/search-feed/treescape.mjs';
 import { FEEDGEN_CONFIG as urbex } from '../feed-config/search-feed/urbex.mjs';
 import { FEEDGEN_CONFIG as waterscape } from '../feed-config/search-feed/waterscape.mjs';
-
+import { FEEDGEN_CONFIG as urbanAll } from '../feed-config/search-feed/urban-all.mjs';
+import { FEEDGEN_CONFIG as urbexAll } from '../feed-config/search-feed/urbex-all.mjs';
+import { FEEDGEN_CONFIG as railwayAll } from '../feed-config/search-feed/railway-all.mjs';
 
 
 async function doPublishCommand(feedConfig, command) {
@@ -164,6 +166,15 @@ export async function doPublish(commandString) {
     }
     if(urbex.commandlineRegex.test(feedName)) {
         await doPublishCommand(urbex, command);
+    }
+    if(urbanAll.commandlineRegex.test(feedName)) {
+        await doPublishCommand(urbanAll, command);
+    }
+    if(urbexAll.commandlineRegex.test(feedName)) {
+        await doPublishCommand(urbexAll, command);
+    }
+    if(railwayAll.commandlineRegex.test(feedName)) {
+        await doPublishCommand(railwayAll, command);
     }
     process.emit('exit_event');
 }

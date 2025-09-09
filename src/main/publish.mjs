@@ -46,6 +46,7 @@ import { FEEDGEN_CONFIG as urbexAll } from '../feed-config/search-feed/urbex-all
 import { FEEDGEN_CONFIG as railwayAll } from '../feed-config/search-feed/railway-all.mjs';
 import { FEEDGEN_CONFIG as sunset } from '../feed-config/search-feed/sunset-sunrise.mjs';
 import { FEEDGEN_CONFIG as snowscape } from '../feed-config/search-feed/snowscape.mjs';
+import { FEEDGEN_CONFIG as graffiti } from '../feed-config/search-feed/graffiti.mjs';
 
 
 async function doPublishCommand(feedConfig, command) {
@@ -183,6 +184,9 @@ export async function doPublish(commandString) {
     }
     if(snowscape.commandlineRegex.test(feedName)) {
         await doPublishCommand(snowscape, command);
+    }
+    if(graffiti.commandlineRegex.test(feedName)) {
+        await doPublishCommand(graffiti, command);
     }
     process.emit('exit_event');
 }

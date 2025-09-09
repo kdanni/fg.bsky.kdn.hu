@@ -5,8 +5,6 @@ export const TAGS = [
     '#landscapephotography',
     '#ruralphotography',
     '#abandoned',
-    '#sunset',
-    '#sunrise',
     '#haybale',
     '#haybales',
     '#haystack',

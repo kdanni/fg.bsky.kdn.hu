@@ -3,9 +3,10 @@ import { shortname as tr } from '../search-feed/tractor-hashtag.mjs';
 import { shortname as br } from '../search-feed/brutalism-hashtag.mjs';
 import { shortname as sm } from '../search-feed/socialist-modernism.mjs';
 import { shortname as rw } from '../search-feed/railway.mjs';
+import { shortname as ub } from '../search-feed/urbex.mjs';
 
 export const shortname = 'brutalurbantractor';
-export const shortnameArray = [nu, tr, br, sm, rw];
+export const shortnameArray = [nu, tr, br, sm, rw, ub];
 
 export const FEEDGEN_CONFIG = {
   publisherDid: `${process.env.FEEDGEN_PUBLISHER_DID}`,

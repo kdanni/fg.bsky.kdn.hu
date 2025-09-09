@@ -44,6 +44,7 @@ import { FEEDGEN_CONFIG as waterscape } from '../feed-config/search-feed/watersc
 import { FEEDGEN_CONFIG as urbanAll } from '../feed-config/search-feed/urban-all.mjs';
 import { FEEDGEN_CONFIG as urbexAll } from '../feed-config/search-feed/urbex-all.mjs';
 import { FEEDGEN_CONFIG as railwayAll } from '../feed-config/search-feed/railway-all.mjs';
+import { FEEDGEN_CONFIG as sunset } from '../feed-config/search-feed/sunset-sunrise.mjs';
 
 
 async function doPublishCommand(feedConfig, command) {
@@ -175,6 +176,9 @@ export async function doPublish(commandString) {
     }
     if(railwayAll.commandlineRegex.test(feedName)) {
         await doPublishCommand(railwayAll, command);
+    }
+    if(sunset.commandlineRegex.test(feedName)) {
+        await doPublishCommand(sunset, command);
     }
     process.emit('exit_event');
 }

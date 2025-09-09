@@ -88,6 +88,10 @@ async function jetstream() {
 
 
 async function backfillActor() {
+    const initListedUsers = (await import('../backfill/backfill-listed.mjs')).initListedUsers;
+
+    await initListedUsers();
+
     await import('./log/event-logger.mjs');
     const emitter = (await import('./event-emitter.mjs')).default;
     emitter.on('main', () => {/* NOP */ });
@@ -100,6 +104,10 @@ async function backfillActor() {
 }
 
 async function backfillSearch() {
+    const initListedUsers = (await import('../backfill/backfill-listed.mjs')).initListedUsers;
+
+    await initListedUsers();
+
     await import('./log/event-logger.mjs');
     const emitter = (await import('./event-emitter.mjs')).default;
     emitter.on('main', () => {/* NOP */ });
@@ -112,6 +120,10 @@ async function backfillSearch() {
 }
 
 async function backfillFavorites() {
+    const initListedUsers = (await import('../backfill/backfill-listed.mjs')).initListedUsers;
+
+    await initListedUsers();
+
     await import('./log/event-logger.mjs');
     const emitter = (await import('./event-emitter.mjs')).default;
     emitter.on('main', () => {/* NOP */ });
@@ -157,6 +169,10 @@ async function republish(commandString) {
 }
 
 async function refill() {
+    const initListedUsers = (await import('../backfill/backfill-listed.mjs')).initListedUsers;
+
+    await initListedUsers();
+
     await import('./log/event-logger.mjs');
     const emitter = (await import('./event-emitter.mjs')).default;
     emitter.on('main', () => {/* NOP */ });
@@ -213,6 +229,10 @@ async function dbinstall() {
 /** DEV Commands */
 
 async function applyCustomFeedLogic() {
+    const initListedUsers = (await import('../backfill/backfill-listed.mjs')).initListedUsers;
+
+    await initListedUsers();
+
     await import('./custom-feed/apply-custom-feed-logic.mjs');
     const { applyCustomFeedLogic } = await import('./custom-feed/apply-custom-feed-logic.mjs');
     await applyCustomFeedLogic();
@@ -221,6 +241,9 @@ async function applyCustomFeedLogic() {
 }
 
 async function runAlgos() {
+    const initListedUsers = (await import('../backfill/backfill-listed.mjs')).initListedUsers;
+
+    await initListedUsers();
     
     const { backfillSearchAlgoRunner } = await import('./backfill/backfill-search.mjs');
 
@@ -231,6 +254,10 @@ async function runAlgos() {
 
 
 async function backfillSearchRunner() {
+    const initListedUsers = (await import('../backfill/backfill-listed.mjs')).initListedUsers;
+
+    await initListedUsers();
+
     await import('./backfill/backfill-search.mjs');
     const { backfillSearchRunner } = await import('./backfill/backfill-search.mjs');
     
@@ -240,6 +267,10 @@ async function backfillSearchRunner() {
 }
 
 async function backfillFollowed() {
+    const initListedUsers = (await import('../backfill/backfill-listed.mjs')).initListedUsers;
+
+    await initListedUsers();
+
     await import('./backfill/backfill-followed.mjs');
     const { backfillFollowed } = await import('./backfill/backfill-followed.mjs');
     await backfillFollowed();
@@ -249,6 +280,10 @@ async function backfillFollowed() {
 
 
 async function algoFollowed() {
+    const initListedUsers = (await import('../backfill/backfill-listed.mjs')).initListedUsers;
+
+    await initListedUsers();
+
     await import('./algo/followed.mjs');
     const { runAlgo } = await import('./algo/followed.mjs');
     await runAlgo();
@@ -257,6 +292,10 @@ async function algoFollowed() {
 }
 
 async function backfillListed() {
+    const initListedUsers = (await import('../backfill/backfill-listed.mjs')).initListedUsers;
+
+    await initListedUsers();
+    
     await import('./backfill/backfill-listed.mjs');
     const { backfillListed } = await import('./backfill/backfill-listed.mjs');
     await backfillListed();

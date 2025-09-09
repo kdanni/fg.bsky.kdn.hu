@@ -4,8 +4,10 @@ import { shortname as ws } from '../search-feed/waterscape.mjs';
 import { shortname as ss } from '../search-feed/sunset-sunrise.mjs';
 import { shortname as sn } from '../search-feed/snowscape.mjs';
 
+const NOT_PUBLISHED_FEED_NAME = '.shadowTreelandwater'; 
+
 export const shortname = 'treelandwater';
-export const shortnameArray = [ls, ts, ws, ss, sn];
+export const shortnameArray = [ls, ts, ws, ss, sn, NOT_PUBLISHED_FEED_NAME];
 
 export const FEEDGEN_CONFIG = {
   publisherDid: `${process.env.FEEDGEN_PUBLISHER_DID}`,

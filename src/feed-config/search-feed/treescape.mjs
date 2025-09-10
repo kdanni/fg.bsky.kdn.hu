@@ -12,6 +12,7 @@ export const TAGS = [
     '#palm',
     '#palmtree',
     '#palmtrees',
+    '#park',
 ]
 
 export const FEEDGEN_CONFIG = {

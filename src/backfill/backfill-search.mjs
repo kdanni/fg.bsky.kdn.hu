@@ -32,6 +32,8 @@ const DEBUG = process.env.DEBUG === 'true' || false;
 const SEARCH_APP_HANDLE = process.env.SEARCH_APP_HANDLE ;
 const SEARCH_APP_PASSWORD = process.env.SEARCH_APP_PASSWORD;
 
+const FIRST_SEARCH_QUERY = process.env.SEARCH_BACKFILL_FIRST_SEARCH_QUERY;
+
 export async function backfillSearchRunner () {
     try {
         await upsertQuerySearchTerms();
@@ -42,8 +44,17 @@ export async function backfillSearchRunner () {
     if(querySearchTerms[0] && querySearchTerms[0][0]?.length) {
         BACKFILL_SEARCH_QUERIES.push(...querySearchTerms[0][0]);
     }
+    let foundFirst = FIRST_SEARCH_QUERY ? false : true;
     for(const q of BACKFILL_SEARCH_QUERIES || []) {
         try {
+            if(!foundFirst) {
+                if(q.query === FIRST_SEARCH_QUERY) {
+                    foundFirst = true;
+                } else {
+                    console.log(`[backfillSearch] Skipping query: ${q.query}`);
+                    continue;
+                }
+            }
             // console.log(`[backfillSearch] Running backfillSearch for query: ${JSON.stringify(q)}`);
             await backfillSearch(`${q.query}`, q.sfw);
             await new Promise((resolve) => { setTimeout( resolve , 1000 );});

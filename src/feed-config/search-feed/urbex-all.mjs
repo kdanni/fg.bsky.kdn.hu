@@ -23,7 +23,7 @@ export const FEEDGEN_CONFIG = {
     {
       uri: `at://${process.env.FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`,
       id: `${shortname}`,
-      displayName: 'urbex ruirex posts',
+      displayName: '#Urbex #Rurex posts',
       description: `Not image only. Hashtag included: ${TAGS.join(' ')}`,
       avatarFile: 'avatars/urbex.jpg',
     },

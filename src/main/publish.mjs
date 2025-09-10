@@ -23,6 +23,7 @@ import { FEEDGEN_CONFIG as kdPhoto } from '../feed-config/author-feed/kdanni-Pho
 import { FEEDGEN_CONFIG as kdBudOutofBud } from '../feed-config/feed-of-feeds/kdanni-Bud-Out-of-Bud.mjs';
 import { FEEDGEN_CONFIG as UBT } from '../feed-config/feed-of-feeds/urban-brutal-tractor.mjs';
 import { FEEDGEN_CONFIG as treelandwater } from '../feed-config/feed-of-feeds/treescape-landscape-waterscape.mjs';
+import { FEEDGEN_CONFIG as ffOf } from '../feed-config/feed-of-feeds/food-feed-of-feeds.mjs';
 
 
 import { FEEDGEN_CONFIG as brutalism } from '../feed-config/search-feed/brutalism-hashtag.mjs';
@@ -187,6 +188,9 @@ export async function doPublish(commandString) {
     }
     if(graffiti.commandlineRegex.test(feedName)) {
         await doPublishCommand(graffiti, command);
+    }
+    if(ffOf.commandlineRegex.test(feedName)) {
+        await doPublishCommand(ffOf, command);
     }
     process.emit('exit_event');
 }

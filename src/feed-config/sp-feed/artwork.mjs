@@ -6,8 +6,8 @@ export const FEEDGEN_CONFIG = {
     {
       uri: `at://${process.env.FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`,
       id: `${shortname}`,
-      displayName: 'Artwork images',
-      description: 'A feed of artwork images. ',
+      displayName: 'Artwork from CustomFeeds',
+      description: 'A feed of artwork images merged together from my custom feeds.',
       avatarFile: 'avatars/kdn-art.jpg',
     },
   ],

@@ -53,6 +53,9 @@ const NSFW_HASHTAGS_REGEX = new RegExp(
 const MILD_HASHTAGS = [
   '#nudity',
   '#nudist',
+  '#nudism',
+  '#naturist',
+  '#naturism',
   '#nude\\b',
   '#nudeart',
   '#nudeartphotography',

@@ -1,4 +1,4 @@
-import { aiListedDictionary, artistListedDictionary, nsfwListedDictionary } from './post-post-tagging.mjs';
+import { aiListedDictionary, artistListedDictionary, nsfwListedDictionary, musicListedDictionary } from './post-post-tagging.mjs';
 
 const DEV_ENV = process.env.ENV === 'DEV';
 const DEBUG = process.env.DEBUG === 'true' || false;
@@ -221,6 +221,7 @@ const ARTWORK_TAGS = [
   '#[^ ]+terrain',
   '#[^ ]+diorama',
   '#icmphotography',
+  '#infrared',
 ];
 
 const ARTWORK_TAGS_REGEX = new RegExp(
@@ -261,6 +262,47 @@ const FANTASY_ARTWORK_TAGS_REGEX = new RegExp(
   `(${FANTASY_ARTWORK_TAGS.join('|')})`,
   'i'
 );
+
+const MUSIC_TAGS = [
+  '#music',
+  '#[^ ]+music',
+  '#musician',
+  '#singer',
+  '#songwriter',
+  '#band',
+  '#album',
+  '#concert',
+  '#liveperformance',
+  '#audiophile',
+  '#musiclover',
+  '#jazz',
+  '#rocknroll',
+  '#hiphop',
+  '#ebm\\b',
+  '#postpunk',
+  '#DJ',
+];
+
+const MUSIC_TAGS_REGEX = new RegExp(
+  `(${MUSIC_TAGS.join('|')})`,
+  'i'
+);
+
+const STREAMING_HASHTAGS = [
+  '#twitch',
+  '#youtube',
+  '#mixer',
+  '#trovo',
+  '#kick',
+  '#streamer',
+  '#livestream',
+  '#gamingstream',
+  '#justchatting',
+  '#IRLstream',
+  '#vtuber',
+];
+
+const STREAMING_HASHTAGS_REGEX = new RegExp(`(${STREAMING_HASHTAGS.join('|')})`, 'i');
 
 const PET_HASHTAG = [
   '#cat\\b',
@@ -318,6 +360,8 @@ export function isArtwork(item, mime) {
   let isFantasyArtwork = FANTASY_ARTWORK_TAGS_REGEX.test(item.post.record.text);
   let isPetPost = PET_HASHTAGS_REGEX.test(item.post.record.text);
   let isPolPost = POL_HASHTAGS_REGEX.test(item.post.record.text);
+  let isMusicPost = MUSIC_TAGS_REGEX.test(item.post.record.text);
+  let isStreamingPost = STREAMING_HASHTAGS_REGEX.test(item.post.record.text);
   let retString = '';
   const did = item?.post?.author?.did;
   if(did) {
@@ -326,6 +370,9 @@ export function isArtwork(item, mime) {
     }
     if(aiListedDictionary[did]) {
       isAiArtwork = true;
+    }
+    if(musicListedDictionary[did]) {
+      isMusicPost = true;
     }
   }
   if(mime) {
@@ -345,6 +392,12 @@ export function isArtwork(item, mime) {
   }
   if (isPolPost) {
     retString += '::POL';
+  }
+  if (isMusicPost) {
+    retString += '::MUSIC';
+  }
+  if (isStreamingPost) {
+    retString += '::STREAM';
   }
   return retString.trim();
 }

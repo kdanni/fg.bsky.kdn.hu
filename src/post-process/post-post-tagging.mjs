@@ -5,6 +5,7 @@ const DEBUG = process.env.DEBUG === 'true' || false;
 
 export const artistListedDictionary = {};
 export const aiListedDictionary = {};
+export const musicListedDictionary = {};
 export const nsfwListedDictionary = {};
 
 

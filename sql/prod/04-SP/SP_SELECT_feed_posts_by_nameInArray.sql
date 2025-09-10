@@ -45,6 +45,8 @@ BEGIN
          ((has_image NOT LIKE '%::ARTWORK%' 
                 AND has_image NOT LIKE '%::AIART%'
                 AND has_image NOT LIKE '%::FANTASY%'
+                AND has_image NOT LIKE '%::MUSIC%'
+                AND has_image NOT LIKE '%::STREAM%'
             ) OR has_image IS NULL)
     ) AS sub
     WHERE feed_name IN (

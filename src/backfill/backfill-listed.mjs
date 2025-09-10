@@ -7,7 +7,7 @@ import { listSfwScore } from '../post-process/util.mjs';
 
 import { initListedFeedCache, initFollowedOrListedFeedCache } from '../redis/init-cache.mjs';
 
-import { artistListedDictionary, aiListedDictionary, nsfwListedDictionary } from '../post-process/post-post-tagging.mjs';
+import { artistListedDictionary, aiListedDictionary, nsfwListedDictionary, musicListedDictionary } from '../post-process/post-post-tagging.mjs';
 
 
 const BSKY_PUBLIC_API_ROOT = process.env.BSKY_PUBLIC_API_ROOT || 'https://public.api.bsky.app';
@@ -46,6 +46,9 @@ export async function initListedUsers() {
                     }
                     if(`${list.name}`.startsWith('!nsfw')) {
                         nsfwListedDictionary[`${user.did}`] = true;
+                    }
+                    if(`${list.name}`.startsWith('!music')) {
+                        musicListedDictionary[`${user.did}`] = true;
                     }
                 }
             }            

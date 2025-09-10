@@ -34,6 +34,7 @@ BEGIN
     FROM feed_post p
     WHERE p.posted_at < cursor_date
         AND p.has_image LIKE '%::ARTWORK%'
+        AND p.sfw > 2
     ORDER BY p.posted_at DESC
     LIMIT p_limit;
 

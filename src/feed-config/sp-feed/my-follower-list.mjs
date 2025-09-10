@@ -6,12 +6,12 @@ export const FEEDGEN_CONFIG = {
     {
       uri: `at://${process.env.FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`,
       id: `${shortname}`,
-      displayName: 'My Follower & Let\'s see',
-      description: 'Posts by users on my list. No replies.',
+      displayName: '@kdanni.hu - VIP list 🔥',
+      description: 'Posts by users on my "My Follower" & "Let\'s see" lists. No replies.',
       avatarFile: 'avatars/kdn.jpg',
     },
   ],
   shortname,
-  commandlineRegex: /((kd_)?myfollowers?)$/i,
+  commandlineRegex: /((kd_)?myfollowers?|(kd_)?viplist)$/i,
   TARGET_AUTHOR_DID: `${process.env.KDANNI_DID || process.env.FEEDGEN_PUBLISHER_DID}`,
 }

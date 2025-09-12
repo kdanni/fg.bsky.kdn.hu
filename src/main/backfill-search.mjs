@@ -32,6 +32,10 @@ export async function main() {
             await backfillSearchPooled(SEARCH_APP_CREDENTIALS_POOL);
             
             console.log('[backfill-search-main] Backfilling by search done.');
+
+            console.log('[backfill-search-main] Running algos');
+            await backfillSearchAlgoRunner();
+            console.log('[backfill-search-main] Running algos done');
         } catch (e) {
             console.error('[backfill-search-main] Backfill Error', e);
         }

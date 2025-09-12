@@ -9,8 +9,8 @@ import { upsertPost } from '../post-process/upsert-post.mjs';
 import {updateArtistsMimeTag, updateAiMimeTag } from '../post-process/post-post-tagging.mjs';
 import { upsertCustomFeedLogic } from '../mediawiki/media-wiki-bot.mjs';
 
-const SKIP_AUTHORS_ARRAY = [];
-const SKIP_KEYWORDS_ARRAY = [
+export const SKIP_AUTHORS_ARRAY = [];
+export const SKIP_KEYWORDS_ARRAY = [
     '#nft\\b',
     '#nfts\\b',
     '#nfttool',
@@ -85,7 +85,7 @@ export async function backfillSearchAlgoRunner () {
     console.log('[backfillSearch] Running algos done');
 }
 
-export async function backfillSearch(backfillSearchQuery, sfw = 10) {
+export async function backfillSearch(backfillSearchQuery, sfw = 10, handle=SEARCH_APP_HANDLE, passwd=SEARCH_APP_PASSWORD) {
     try {
 
         console.log(`[backfillSearch] Searching posts by query: ${backfillSearchQuery} sfw: ${sfw}`);
@@ -103,7 +103,7 @@ export async function backfillSearch(backfillSearchQuery, sfw = 10) {
         //     console.error(`[backfillSearch] [err-BACKFILL-SEARCH-QUERY-UPSERT] ${err}`, err);
         // }
 
-        const auth = await getAuthToken(SEARCH_APP_HANDLE, SEARCH_APP_PASSWORD);
+        const auth = await getAuthToken(handle, passwd);
         if (!auth || !auth.accessJwt) {
             throw new Error('No access token retrieved');
         }
@@ -188,7 +188,7 @@ export async function backfillSearch(backfillSearchQuery, sfw = 10) {
 
             await new Promise((resolve) => { setTimeout( resolve , 1000 );});
         } // End of while loop
-        console.log(`[backfillSearch] Finished backfilling.`);
+        console.log(`[backfillSearch] Finished backfilling. query: ${backfillSearchQuery} sfw: ${sfw}`);
     } catch (error) {
         console.error('[backfillSearch] Error:', error);
         await new Promise((resolve) => { setTimeout( resolve , 4000 );});

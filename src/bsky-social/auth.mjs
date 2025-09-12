@@ -6,7 +6,15 @@ const BSKY_SOCIAL_ROOT = process.env.BSKY_SOCIAL_ROOT || 'https://bsky.social';
 const DEV_ENV = process.env.ENV === 'DEV';
 const DEBUG = process.env.DEBUG === 'true' || false;
 
+const AUTH_TOKEN_CACHE = {};
+
+
 export async function getAuthToken(handle, appPassword) {
+    if(AUTH_TOKEN_CACHE[handle]) {
+        DEV_ENV && console.log(`[getAuthToken] Using cached token for handle: ${handle}`);
+        return AUTH_TOKEN_CACHE[handle];
+    }
+    DEV_ENV && console.log(`[getAuthToken] Getting new token for handle: ${handle}`);
     try {
         const url = `${BSKY_SOCIAL_ROOT}/xrpc/com.atproto.server.createSession`;
         const response = await got.post(url, {
@@ -27,11 +35,12 @@ export async function getAuthToken(handle, appPassword) {
             }
             DEV_ENV && console.log(`[getAuthToken] Token found for handle: ${handle}`);
             DEBUG && console.dir(response, { depth: null });
-            return {
+            AUTH_TOKEN_CACHE[handle] = {
                 accessJwt: response.accessJwt,
                 refreshJwt: response.refreshJwt,
                 did: response.did,
             };
+            return AUTH_TOKEN_CACHE[handle];
         }
 
     } catch (error) {

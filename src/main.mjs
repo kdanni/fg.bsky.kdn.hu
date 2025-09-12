@@ -33,7 +33,7 @@ if (/^no[- ]operation\b/.test(commandString)) {
 } else if (/^backfill[- ]?actor\b/.test(commandString)) {
     backfillActor();
 } else if (/^backfill[- ]?search$/.test(commandString)) {
-    backfillSearchRunner();
+    backfillSearch();
 } else if (/^backfill[- ]?search\b/.test(commandString)) {
     backfillSearch();
 } else if (/^backfill[- ]?favorites?\b/.test(commandString)) {
@@ -88,50 +88,20 @@ async function jetstream() {
 
 
 async function backfillActor() {
-    const initListedUsers = (await import('./backfill/backfill-listed.mjs')).initListedUsers;
-
-    await initListedUsers();
-
-    await import('./log/event-logger.mjs');
-    const emitter = (await import('./event-emitter.mjs')).default;
-    emitter.on('main', () => {/* NOP */ });
-
     const actor = await import('./main/backfill-actor.mjs');
-    
     await actor.main();
-    
     setTimeout(() => { process.emit('exit_event');}, 1000);
 }
 
 async function backfillSearch() {
-    const initListedUsers = (await import('./backfill/backfill-listed.mjs')).initListedUsers;
-
-    await initListedUsers();
-
-    await import('./log/event-logger.mjs');
-    const emitter = (await import('./event-emitter.mjs')).default;
-    emitter.on('main', () => {/* NOP */ });
-    
     const search = await import('./main/backfill-search.mjs');
-
     await search.main();
-
     setTimeout(() => { process.emit('exit_event');}, 1000);
 }
 
 async function backfillFavorites() {
-    const initListedUsers = (await import('./backfill/backfill-listed.mjs')).initListedUsers;
-
-    await initListedUsers();
-
-    await import('./log/event-logger.mjs');
-    const emitter = (await import('./event-emitter.mjs')).default;
-    emitter.on('main', () => {/* NOP */ });
-
     const favorites = await import('./main/backfill-favorites.mjs');
-
     await favorites.main();
-
     setTimeout(() => { process.emit('exit_event');}, 1000);
 }
 
@@ -248,20 +218,6 @@ async function runAlgos() {
     const { backfillSearchAlgoRunner } = await import('./backfill/backfill-search.mjs');
 
     await backfillSearchAlgoRunner();
-
-    process.emit('exit_event');
-}
-
-
-async function backfillSearchRunner() {
-    const initListedUsers = (await import('./backfill/backfill-listed.mjs')).initListedUsers;
-
-    await initListedUsers();
-
-    await import('./backfill/backfill-search.mjs');
-    const { backfillSearchRunner } = await import('./backfill/backfill-search.mjs');
-    
-    await backfillSearchRunner();
 
     process.emit('exit_event');
 }

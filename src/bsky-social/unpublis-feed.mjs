@@ -17,7 +17,7 @@ const FEEDGEN_PUBLISHER_DID = process.env.FEEDGEN_PUBLISHER_DID;
 const FEEDGEN_HOSTNAME = process.env.FEEDGEN_HOSTNAME;
 
 
-export async function unpublisFeed(feedGenConfig){
+export async function unpublishFeed(feedGenConfig){
     try {
         console.log('[UnpublishFeed] Starting...')
 

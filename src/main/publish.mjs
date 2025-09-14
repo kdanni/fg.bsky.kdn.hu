@@ -1,5 +1,5 @@
-import { publisFeed } from '../bsky-social/publish-feed.mjs';
-import { unpublisFeed } from '../bsky-social/unpublis-feed.mjs';
+import { publishFeed } from '../bsky-social/publish-feed.mjs';
+import { unpublishFeed } from '../bsky-social/unpublis-feed.mjs';
 import { updateFeed } from '../bsky-social/update-feed-repo-object.mjs';
 
 
@@ -24,6 +24,8 @@ import { FEEDGEN_CONFIG as kdBudOutofBud } from '../feed-config/feed-of-feeds/kd
 import { FEEDGEN_CONFIG as UBT } from '../feed-config/feed-of-feeds/urban-brutal-tractor.mjs';
 import { FEEDGEN_CONFIG as treelandwater } from '../feed-config/feed-of-feeds/treescape-landscape-waterscape.mjs';
 import { FEEDGEN_CONFIG as ffOf } from '../feed-config/feed-of-feeds/food-feed-of-feeds.mjs';
+import { FEEDGEN_CONFIG as hfOf } from '../feed-config/feed-of-feeds/hun-feed-of-feeds.mjs';
+import { FEEDGEN_CONFIG as usfOf } from '../feed-config/feed-of-feeds/urbex-streetart.mjs';
 
 
 import { FEEDGEN_CONFIG as brutalism } from '../feed-config/search-feed/brutalism-hashtag.mjs';
@@ -48,14 +50,16 @@ import { FEEDGEN_CONFIG as railwayAll } from '../feed-config/search-feed/railway
 import { FEEDGEN_CONFIG as sunset } from '../feed-config/search-feed/sunset-sunrise.mjs';
 import { FEEDGEN_CONFIG as snowscape } from '../feed-config/search-feed/snowscape.mjs';
 import { FEEDGEN_CONFIG as graffiti } from '../feed-config/search-feed/graffiti.mjs';
+import { FEEDGEN_CONFIG as város } from '../feed-config/search-feed/hun-city-all.mjs';
+import { FEEDGEN_CONFIG as hunsky } from '../feed-config/search-feed/hunsky.mjs';
 
 
 async function doPublishCommand(feedConfig, command) {
     if(command === 'publish') {
-        await publisFeed(feedConfig);
+        await publishFeed(feedConfig);
     }
     if(command === 'unpublish') {
-        await unpublisFeed(feedConfig);
+        await unpublishFeed(feedConfig);
     }
     if(command === 'republish') {
         await updateFeed(feedConfig);
@@ -191,6 +195,18 @@ export async function doPublish(commandString) {
     }
     if(ffOf.commandlineRegex.test(feedName)) {
         await doPublishCommand(ffOf, command);
+    }
+    if(város.commandlineRegex.test(feedName)) {
+        await doPublishCommand(város, command);
+    }
+    if(hunsky.commandlineRegex.test(feedName)) {
+        await doPublishCommand(hunsky, command);
+    }
+    if(usfOf.commandlineRegex.test(feedName)) {
+        await doPublishCommand(usfOf, command);
+    }
+    if(hfOf.commandlineRegex.test(feedName)) {
+        await doPublishCommand(hfOf, command);
     }
     process.emit('exit_event');
 }

@@ -1,4 +1,5 @@
 const FEEDGEN_PUBLISHER_DID = process.env.FEEDGEN_PUBLISHER_DID;
+const NSFW_FEEDGEN_PUBLISHER_DID = process.env.NSFW_FEEDGEN_PUBLISHER_DID;
 
 const DEV_ENV = process.env.ENV === 'DEV';
 const DEBUG = process.env.DEBUG === 'true' || false;
@@ -11,12 +12,23 @@ async function handleRequest (req, res, next) {
         return next();
     }
     let regex = new RegExp(`^at://${FEEDGEN_PUBLISHER_DID}/app\.bsky\.feed\.generator/`, 'i');
-    if(!regex.test(feed)) {
-        res.status(400).json({
-            error: 'Invalid feed URI',
-            message: `Feed URI must start with at://FEEDGEN_PUBLISHER_DID/app.bsky.feed.generator/`
-        });
-        return;
+    if(!regex.test(feed)) {        
+        if(NSFW_FEEDGEN_PUBLISHER_DID) {
+            let regexNsfW = new RegExp(`^at://${NSFW_FEEDGEN_PUBLISHER_DID}/app\.bsky\.feed\.generator/`, 'i');
+            if(!regexNsfW.test(feed)) {
+                res.status(400).json({
+                    error: 'Invalid feed URI',
+                    message: `Feed URI must start with at://FEEDGEN_PUBLISHER_DID/app.bsky.feed.generator/`
+                });            
+                return;
+            }
+        } else {
+            res.status(400).json({
+                error: 'Invalid feed URI',
+                message: `Feed URI must start with at://FEEDGEN_PUBLISHER_DID/app.bsky.feed.generator/`
+            });            
+            return;
+        }
     }
 
     let initialCursor = false;

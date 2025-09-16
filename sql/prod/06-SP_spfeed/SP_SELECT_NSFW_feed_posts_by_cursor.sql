@@ -34,6 +34,11 @@ BEGIN
     FROM feed_post p
     WHERE p.posted_at < cursor_date
         AND p.sfw <= 5
+        AND 
+         ((has_image NOT LIKE '%::ARTWORK%' 
+                AND has_image NOT LIKE '%::AIART%'
+                AND has_image NOT LIKE '%::FANTASY%'
+            ) OR has_image IS NULL)
     ORDER BY p.posted_at DESC
     LIMIT p_limit;
 

@@ -53,6 +53,8 @@ import { FEEDGEN_CONFIG as graffiti } from '../feed-config/search-feed/graffiti.
 import { FEEDGEN_CONFIG as város } from '../feed-config/search-feed/hun-city-all.mjs';
 import { FEEDGEN_CONFIG as hunsky } from '../feed-config/search-feed/hunsky.mjs';
 
+import { FEEDGEN_CONFIG as shibari } from '../feed-config/nsfw-feed/nsfw-shibari.mjs';
+
 
 async function doPublishCommand(feedConfig, command) {
     if(command === 'publish') {
@@ -207,6 +209,9 @@ export async function doPublish(commandString) {
     }
     if(hfOf.commandlineRegex.test(feedName)) {
         await doPublishCommand(hfOf, command);
+    }
+    if(shibari.commandlineRegex.test(feedName)) {
+        await doPublishCommand(shibari, command);
     }
     process.emit('exit_event');
 }

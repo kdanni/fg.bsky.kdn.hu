@@ -32,7 +32,7 @@ export async function publishFeed(feedGenConfig){
         const agent = new AtpAgent({ service });
         await agent.login({ identifier: handle, password});
 
-        const feedsInRepo = await listFeedGenerator(agent) || [];
+        const feedsInRepo = await listFeedGenerator(agent, feedGenConfig) || [];
 
         for(const feed of feedGenConfig.feeds || []) {
             const feedGenDid = `did:web:${FEEDGEN_HOSTNAME}`;
@@ -41,6 +41,8 @@ export async function publishFeed(feedGenConfig){
             const description = feed.description;
             const avatarFile = feed.avatarFile || null;
 
+            console.log('[PublishFeed] handle', handle);
+            console.log('[PublishFeed] passwd', password);
             console.log('[PublishFeed] feedGenDid', feedGenDid);
             console.log('[PublishFeed] recordName', recordName);
             console.log('[PublishFeed] displayName', displayName);

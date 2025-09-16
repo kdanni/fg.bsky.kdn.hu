@@ -25,6 +25,11 @@ BEGIN
     FROM VIEW_nsfw_listed_or_feed
     WHERE posted_at < cursor_date
     -- AND (has_image = 'image/' OR has_image = 'feed_post' OR image_only = false OR image_only IS NULL)
+    AND 
+         ((has_image NOT LIKE '%::ARTWORK%' 
+                AND has_image NOT LIKE '%::AIART%'
+                AND has_image NOT LIKE '%::FANTASY%'
+            ) OR has_image IS NULL)
     ORDER BY posted_at DESC
     LIMIT p_limit;
 

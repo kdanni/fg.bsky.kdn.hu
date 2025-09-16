@@ -1,11 +1,13 @@
 export const shortname = 'nsfw-Listed';
 // import { initFeedNSFW } from './cache/init-cache.mjs';
 
+const FEEDGEN_PUBLISHER_DID = process.env.NSFW_FEEDGEN_PUBLISHER_DID || process.env.FEEDGEN_PUBLISHER_DID
+
 export const FEEDGEN_CONFIG = {
-  publisherDid: `${process.env.FEEDGEN_PUBLISHER_DID}`,
+  publisherDid: `${FEEDGEN_PUBLISHER_DID}`,
   feeds: [
     {
-      uri: `at://${process.env.FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`,
+      uri: `at://${FEEDGEN_PUBLISHER_DID}/app.bsky.feed.generator/${shortname}`,
       id: `${shortname}`,
       displayName: 'NSFW Listed 🔞',
       description: 'I assume you working in a conservative environment.',
@@ -14,4 +16,8 @@ export const FEEDGEN_CONFIG = {
   ],
   shortname,
   commandlineRegex: /nsfw$/i,
+  nsfw:true,
+  publisherDid:FEEDGEN_PUBLISHER_DID,
+  bskyHandle: process.env.NSFW_REGISTRATION_APP_HANDLE || process.env.REGISTRATION_APP_HANDLE,
+  bskyAppPassword:  process.env.NSFW_REGISTRATION_APP_PASSWORD ||  process.env.REGISTRATION_APP_PASSWORD,
 }

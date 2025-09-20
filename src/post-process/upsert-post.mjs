@@ -1,9 +1,9 @@
 import { getMimeStringOrNull, getLanguageOrEn, getSafeForWorkScore, isArtwork } from './util.mjs';
 import { pool } from './connection/connection.mjs';
 
+import qe from '../quote-process/quoted-event-emitter.mjs';
 
-export async function upsertPost(item, p_sfw = 10) {
-
+export async function upsertPostProcess(item, p_sfw = 10) {
     let has_image = getMimeStringOrNull(item?.post?.record?.embed);
     has_image = isArtwork(item, has_image);
     let langs = getLanguageOrEn(item?.post?.record);
@@ -21,21 +21,6 @@ export async function upsertPost(item, p_sfw = 10) {
     // Convert UTC to Europe/Budapest time (handles DST)
     let posted_at_CET = new Date(posted_at_UTC.toLocaleString('en-US', { timeZone: 'Europe/Budapest' }));
 
-    /**
-     * SP dont save replies. (reply if: replyParent or replyRoot is not null)
-     */
-    const sql = `call ${'sp_UPSERT_bsky_post'}(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    // url VARCHAR(255),
-    // cid VARCHAR(255),
-    // author_did VARCHAR(255),
-    // reply_to_cid VARCHAR(255),
-    // text TEXT,
-    // facets JSON,
-    // embeds JSON,
-    // labels JSON,
-    // has_image VARCHAR(64),
-    // sfw INT,
-    // posted_at datetime,
     const params = [
         item?.post?.uri||null,
         item?.post?.cid||null,
@@ -50,7 +35,24 @@ export async function upsertPost(item, p_sfw = 10) {
         safeForWorkScore,
         posted_at_CET,
     ];
-    pool.execute(sql, params);
+    
+    return { params , safeForWorkScore, has_image, embed: item?.post?.record?.embed};
+}
 
-    return safeForWorkScore;
+export async function upsertPost(item, p_sfw = 10) {
+
+    const post = await upsertPostProcess(item, p_sfw);    
+    
+    if(post.has_image === 'quotedPost') {
+        qe.emit('quotedPost', post.embed?.record?.uri);
+    }
+    
+    /**
+     * SP dont save replies. (reply if: replyParent or replyRoot is not null)
+     */
+    const sql = `call ${'sp_UPSERT_bsky_post'}(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    
+    await pool.execute(sql, post.params);
+
+    return post.safeForWorkScore;
 }

@@ -164,9 +164,12 @@ export function getMimeStringOrNull(embed) {
     return embed.images?.some(
       (img) => img.image?.mimeType?.startsWith('image/')
     ) ? 'image/' : '?';
-  }
+  }  
   if (embed.$type === 'app.bsky.embed.recordWithMedia') {
     return getMimeStringOrNull(embed.media);
+  }
+  if (embed.$type === 'app.bsky.embed.record') {
+    return 'quotedPost';
   }
   return 'embed?';
 }

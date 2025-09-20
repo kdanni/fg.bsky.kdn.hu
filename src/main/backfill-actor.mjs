@@ -2,6 +2,8 @@ import '../log/event-logger.mjs';
 import emitter from '../event-emitter.mjs';
 emitter.on('main', () => {/* NOP */ });
 
+import '../quote-process/queted-post-handler.mjs';
+
 import { initListedUsers } from '../backfill/backfill-listed.mjs';
 
 import { backfillPublisher as backfillFeedPublishersPosts } from '../backfill/backfill-publisher.mjs';

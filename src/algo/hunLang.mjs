@@ -8,7 +8,7 @@ export async function runAlgo() {
     } catch (error) {
         console.error(`[algo-HunLang] `, 'Error in runAlgo:', error);
     }
-    console.log(`[algo-HunLang] Finished algo for ${authorDid}`);
+    console.log(`[algo-HunLang] Finished algo.`);
     // await initFeedCache(shortname);
     // console.log(`[${shortname}] Cache initialized`);
 }

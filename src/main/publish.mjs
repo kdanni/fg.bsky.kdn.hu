@@ -52,6 +52,8 @@ import { FEEDGEN_CONFIG as snowscape } from '../feed-config/search-feed/snowscap
 import { FEEDGEN_CONFIG as graffiti } from '../feed-config/search-feed/graffiti.mjs';
 import { FEEDGEN_CONFIG as város } from '../feed-config/search-feed/hun-city-all.mjs';
 import { FEEDGEN_CONFIG as hunsky } from '../feed-config/search-feed/hunsky.mjs';
+import { FEEDGEN_CONFIG as hunLanAll } from '../feed-config/search-feed/hunLangAll.mjs';
+import { FEEDGEN_CONFIG as fungi } from '../feed-config/search-feed/fungi-images.mjs';
 
 import { FEEDGEN_CONFIG as shibari } from '../feed-config/nsfw-feed/nsfw-shibari.mjs';
 
@@ -212,6 +214,12 @@ export async function doPublish(commandString) {
     }
     if(shibari.commandlineRegex.test(feedName)) {
         await doPublishCommand(shibari, command);
+    }
+    if(fungi.commandlineRegex.test(feedName)) {
+        await doPublishCommand(fungi, command);
+    }    
+    if(hunLanAll.commandlineRegex.test(feedName)) {
+        await doPublishCommand(hunLanAll, command);
     }
     process.emit('exit_event');
 }

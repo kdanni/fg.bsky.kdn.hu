@@ -39,6 +39,9 @@ BEGIN
                 AND has_image NOT LIKE '%::AIART%'
                 AND has_image NOT LIKE '%::FANTASY%'
             ) OR has_image IS NULL)
+        AND (
+            feed_name NOT LIKE 'hunLang%'
+        )
     ORDER BY p.posted_at DESC
     LIMIT p_limit;
 

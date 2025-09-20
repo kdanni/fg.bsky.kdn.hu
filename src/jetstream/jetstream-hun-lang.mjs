@@ -3,6 +3,8 @@ import emitter from "./jetstream-event-emitter.mjs";
 import { upsertPost } from '../post-process/upsert-post.mjs';
 import { runAlgo } from '../algo/hunLang.mjs';
 
+const DEV_ENV = process.env.ENV === 'DEV';
+const DEBUG = process.env.DEBUG === 'true' || false;
 
 emitter.on('jetstream.post.created', jetstreamPostCreated);
 

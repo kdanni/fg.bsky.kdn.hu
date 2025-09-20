@@ -1,5 +1,6 @@
 import { shortname as ls } from '../search-feed/landscape.mjs';
 import { shortname as ts } from '../search-feed/treescape.mjs';
+import { shortname as f } from '../search-feed/fungi-images.mjs';
 import { shortname as ws } from '../search-feed/waterscape.mjs';
 import { shortname as ss } from '../search-feed/sunset-sunrise.mjs';
 import { shortname as sn } from '../search-feed/snowscape.mjs';
@@ -7,7 +8,7 @@ import { shortname as sn } from '../search-feed/snowscape.mjs';
 const NOT_PUBLISHED_FEED_NAME = '.shadowTreelandwater'; 
 
 export const shortname = 'treelandwater';
-export const shortnameArray = [ls, ts, ws, ss, sn, NOT_PUBLISHED_FEED_NAME];
+export const shortnameArray = [ls, ts, f, ws, ss, sn, NOT_PUBLISHED_FEED_NAME];
 
 export const FEEDGEN_CONFIG = {
   publisherDid: `${process.env.FEEDGEN_PUBLISHER_DID}`,

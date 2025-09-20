@@ -1,4 +1,4 @@
-export const shortname = 'hunSkyHash';
+export const shortname = 'hunLangAll';
 
 export const FEEDGEN_CONFIG = {
   publisherDid: `${process.env.FEEDGEN_PUBLISHER_DID}`,

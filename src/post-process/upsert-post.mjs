@@ -4,9 +4,12 @@ import { pool } from './connection/connection.mjs';
 import qe from '../quote-process/quoted-event-emitter.mjs';
 
 export async function upsertPostProcess(item, p_sfw = 10) {
-    let has_image = getMimeStringOrNull(item?.post?.record?.embed);
+    item.post.url = item.post.url || item.post.uri;
+    let has_image = getMimeStringOrNull(item.post.record?.embed);
     has_image = isArtwork(item, has_image);
-    let langs = getLanguageOrEn(item?.post?.record);
+    let langs = getLanguageOrEn(item.post.record);
+
+    let uriMatch = /at:\/\/(did:plc:[^/]+)\/app.bsky.feed.post\/([^/]+)/.exec(item.post.uri) || [item.post.uri,item.post.author?.did,null];
 
     let replyParent = item?.post?.record?.reply?.parent?.uri || null;
     let replyRoot = item?.post?.record?.reply?.root?.uri || null;
@@ -24,7 +27,7 @@ export async function upsertPostProcess(item, p_sfw = 10) {
     const params = [
         item?.post?.uri||null,
         item?.post?.cid||null,
-        item?.post?.author?.did||null,
+        item?.post?.author?.did||uriMatch[1]||null,
         replyParent || replyRoot || null,
         item?.post?.record?.text||'',
         langs || 'en',

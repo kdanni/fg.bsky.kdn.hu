@@ -12,6 +12,8 @@ import { backfillListed } from '../backfill/backfill-listed.mjs';
 
 import {initFeedNSFW } from '../redis/init-cache.mjs';
 
+import { runAlgo as hunLangAlgo } from '../algo/hunLang.mjs';
+
 // import { applyCustomFeedLogic } from '../custom-feed/apply-custom-feed-logic.mjs';
 
 
@@ -27,6 +29,7 @@ export async function main() {
         await backfillListed();
         // await applyCustomFeedLogic();
 
+        await hunLangAlgo();
         await initFeedNSFW();
     
         console.log('[backfill-actor-main] Backfilling done');

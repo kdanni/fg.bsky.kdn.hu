@@ -4,6 +4,7 @@ emitter.on('main', () => {/* NOP */ });
 
 import '../quote-process/queted-post-handler.mjs';
 
+import { initListedUsers } from '../backfill/backfill-listed.mjs';
 
 import '../jetstream/jetstream-rabbit.mjs';
 import '../jetstream/jetstream-hun-lang.mjs';
@@ -11,6 +12,8 @@ import { subscribeFollowed, subscribeListed } from '../jetstream/author-event-ha
 import '../jetstream/jetstream.mjs';
 
 async function main () {
+
+    await initListedUsers();
 
     await subscribeFollowed();
     await subscribeListed();

@@ -9,6 +9,7 @@
     "dbinstall": "node index.js dbinstall",
     "backfill": "node index.js backfill",
     "jetstream": "node index.js jetstream",
+    "js-bf-nsfw": "node index.js js-bf-nsfw",
     "publish": "node index.js publish",
     "unpublish": "node index.js unpublish",
     "republish": "node index.js republish",

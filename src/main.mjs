@@ -24,6 +24,8 @@ if (/^no[- ]operation\b/.test(commandString)) {
     refill();
 } else if (/jetstream/.test(commandString)) {
     jetstream();
+} else if (/js-bf-nsfw/.test(commandString)) {
+    js_bf_nsfw();
 } else if (/^backfill[- ]?kdanni\b/.test(commandString)) {
     backfillKdanni();
 } else if (/^backfill[- ]?followed\b/.test(commandString)) {
@@ -84,6 +86,11 @@ async function backfill() {
 
 async function jetstream() {
     await import('./main/main-jetstream.mjs');
+}
+
+
+async function js_bf_nsfw() {
+    await import('./main/main-jetstream-backfill-nsfw.mjs');
 }
 
 

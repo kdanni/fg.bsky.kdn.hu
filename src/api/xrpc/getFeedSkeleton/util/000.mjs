@@ -7,6 +7,7 @@ const DEBUG = process.env.DEBUG === 'true' || false;
 async function handleRequest (req, res, next) {
     req.locals = req.locals || {};
     res.locals = res.locals || {};
+    DEBUG && console.log('[XPRC getFeedSkeleton] debug', req.originalUrl, req.query, req.cookies, req.body);
     const feed = req.query['feed'];
     if(!feed) {
         return next();

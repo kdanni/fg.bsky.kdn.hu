@@ -11,6 +11,10 @@ import { shortname as shortnameL } from '../feed-config/sp-feed/listed.mjs';
 import { shortname as shortnameFL } from '../feed-config/sp-feed/followed_or_listed.mjs';
 import { shortname as shortnameMyfL } from '../feed-config/sp-feed/my-follower-list.mjs';
 
+import { shortname as hunLangAll } from '../feed-config/search-feed/hunLangAll.mjs';
+
+
+
 
 export async function initFeedCache(shortname, shortnameArray, sfw = 2) {
     if(!shortname){
@@ -26,6 +30,10 @@ export async function initFeedCache(shortname, shortnameArray, sfw = 2) {
         await redisSet(cacheKey, JSON.stringify(initialFeedData), ['EX', 3000]);
         console.log(`[initCache] Cached initial feed data for ${cacheKey}`);
     }
+}
+
+export async function initFeedHUNlangALL() {
+    return initFeedCache(hunLangAll);
 }
 
 export async function initFeedNSFW() {

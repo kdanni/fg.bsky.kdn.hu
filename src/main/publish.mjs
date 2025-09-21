@@ -56,6 +56,7 @@ import { FEEDGEN_CONFIG as hunLanAll } from '../feed-config/search-feed/hunLangA
 import { FEEDGEN_CONFIG as fungi } from '../feed-config/search-feed/fungi-images.mjs';
 
 import { FEEDGEN_CONFIG as shibari } from '../feed-config/nsfw-feed/nsfw-shibari.mjs';
+import { FEEDGEN_CONFIG as nsfwHunLang } from '../feed-config/sp-feed/nsfw-hun-lang.mjs';
 
 
 async function doPublishCommand(feedConfig, command) {
@@ -220,6 +221,9 @@ export async function doPublish(commandString) {
     }    
     if(hunLanAll.commandlineRegex.test(feedName)) {
         await doPublishCommand(hunLanAll, command);
+    }
+    if(nsfwHunLang.commandlineRegex.test(feedName)) {
+        await doPublishCommand(nsfwHunLang, command);
     }
     process.emit('exit_event');
 }

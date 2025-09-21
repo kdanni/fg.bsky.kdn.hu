@@ -4,6 +4,7 @@ import { shortname as snFL } from './sp-feed/followed_or_listed.mjs';
 import { shortname as fav } from './sp-feed/favorites.mjs';
 import { shortname as nsfw} from './sp-feed/nsfw.mjs';
 import { shortname as nsfw_feed} from './sp-feed/nsfw-scored.mjs';
+import { shortname as nsfwHunLang} from './sp-feed/nsfw-hun-lang.mjs';
 import { shortname as myFL} from './sp-feed/my-follower-list.mjs';
 import { shortname as art} from './sp-feed/artwork.mjs';
 import { shortname as petFL} from './sp-feed/followed_or_listed_PET.mjs';
@@ -19,5 +20,7 @@ spFeedMap[nsfw_feed] = 'sp_SELECT_nsfw_feed_posts_by_cursor';
 spFeedMap[myFL] = 'SP_SELECT_listed_feed_posts_my_followers';
 spFeedMap[petFL] = 'SP_SELECT_followed_or_listed_feed_posts_PET';
 spFeedMap[art] = 'sp_SELECT_artwork_feed_posts_by_cursor';
+spFeedMap[nsfwHunLang] = 'sp_SELECT_nsfw_HUNLang_posts_by_cursor';
+
 
 export default spFeedMap;

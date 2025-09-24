@@ -4,6 +4,7 @@ import { shortname as snUrban, shortnameArray as snaUrban } from './feed-of-feed
 import { shortname as ffOf, shortnameArray as ffOfA } from './feed-of-feeds/food-feed-of-feeds.mjs';
 import { shortname as hfOf, shortnameArray as hfOfA } from './feed-of-feeds/hun-feed-of-feeds.mjs';
 import { shortname as usfOf, shortnameArray as usfOfA } from './feed-of-feeds/urbex-streetart.mjs';
+import { shortname as hunecon, shortnameArray as huneconA } from './feed-of-feeds/hunEconSky-feed-of-feeds.mjs';
 
 const shortnameArrayMap = {};
 
@@ -13,5 +14,6 @@ shortnameArrayMap[snUrban] = snaUrban;
 shortnameArrayMap[ffOf] = ffOfA;
 shortnameArrayMap[hfOf] = hfOfA;
 shortnameArrayMap[usfOf] = usfOfA;
+shortnameArrayMap[hunecon] = huneconA;
 
 export default shortnameArrayMap;

@@ -26,6 +26,7 @@ import { FEEDGEN_CONFIG as treelandwater } from '../feed-config/feed-of-feeds/tr
 import { FEEDGEN_CONFIG as ffOf } from '../feed-config/feed-of-feeds/food-feed-of-feeds.mjs';
 import { FEEDGEN_CONFIG as hfOf } from '../feed-config/feed-of-feeds/hun-feed-of-feeds.mjs';
 import { FEEDGEN_CONFIG as usfOf } from '../feed-config/feed-of-feeds/urbex-streetart.mjs';
+import { FEEDGEN_CONFIG as hunecon } from '../feed-config/feed-of-feeds/hunEconSky-feed-of-feeds.mjs';
 
 
 import { FEEDGEN_CONFIG as brutalism } from '../feed-config/search-feed/brutalism-hashtag.mjs';
@@ -54,6 +55,11 @@ import { FEEDGEN_CONFIG as város } from '../feed-config/search-feed/hun-city-al
 import { FEEDGEN_CONFIG as hunsky } from '../feed-config/search-feed/hunsky.mjs';
 import { FEEDGEN_CONFIG as hunLanAll } from '../feed-config/search-feed/hunLangAll.mjs';
 import { FEEDGEN_CONFIG as fungi } from '../feed-config/search-feed/fungi-images.mjs';
+
+import { FEEDGEN_CONFIG as kozgaz } from '../feed-config/search-feed/kozgaz.mjs';
+import { FEEDGEN_CONFIG as szamvitel } from '../feed-config/search-feed/szamvitel.mjs';
+import { FEEDGEN_CONFIG as adotan } from '../feed-config/search-feed/adotanFeed.mjs';
+import { FEEDGEN_CONFIG as penzugyek } from '../feed-config/search-feed/penzugyekFeed.mjs';
 
 import { FEEDGEN_CONFIG as shibari } from '../feed-config/nsfw-feed/nsfw-shibari.mjs';
 import { FEEDGEN_CONFIG as nsfwHunLang } from '../feed-config/sp-feed/nsfw-hun-lang.mjs';
@@ -224,6 +230,21 @@ export async function doPublish(commandString) {
     }
     if(nsfwHunLang.commandlineRegex.test(feedName)) {
         await doPublishCommand(nsfwHunLang, command);
+    }
+    if(kozgaz.commandlineRegex.test(feedName)) {
+        await doPublishCommand(kozgaz, command);
+    }
+    if(szamvitel.commandlineRegex.test(feedName)) {
+        await doPublishCommand(szamvitel, command);
+    }
+    if(adotan.commandlineRegex.test(feedName)) {
+        await doPublishCommand(adotan, command);
+    }
+    if(penzugyek.commandlineRegex.test(feedName)) {
+        await doPublishCommand(penzugyek, command);
+    }
+    if(hunecon.commandlineRegex.test(feedName)) {
+        await doPublishCommand(hunecon, command);
     }
     process.emit('exit_event');
 }

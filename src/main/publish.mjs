@@ -27,6 +27,7 @@ import { FEEDGEN_CONFIG as ffOf } from '../feed-config/feed-of-feeds/food-feed-o
 import { FEEDGEN_CONFIG as hfOf } from '../feed-config/feed-of-feeds/hun-feed-of-feeds.mjs';
 import { FEEDGEN_CONFIG as usfOf } from '../feed-config/feed-of-feeds/urbex-streetart.mjs';
 import { FEEDGEN_CONFIG as hunecon } from '../feed-config/feed-of-feeds/hunEconSky-feed-of-feeds.mjs';
+import { FEEDGEN_CONFIG as streetphotographyJapan } from '../feed-config/feed-of-feeds/streetphotographyJapan.mjs';
 
 
 import { FEEDGEN_CONFIG as brutalism } from '../feed-config/search-feed/brutalism-hashtag.mjs';
@@ -55,6 +56,8 @@ import { FEEDGEN_CONFIG as város } from '../feed-config/search-feed/hun-city-al
 import { FEEDGEN_CONFIG as hunsky } from '../feed-config/search-feed/hunsky.mjs';
 import { FEEDGEN_CONFIG as hunLanAll } from '../feed-config/search-feed/hunLangAll.mjs';
 import { FEEDGEN_CONFIG as fungi } from '../feed-config/search-feed/fungi-images.mjs';
+import { FEEDGEN_CONFIG as sanpo } from '../feed-config/search-feed/sanpoHash.mjs';
+import { FEEDGEN_CONFIG as rodjiura } from '../feed-config/search-feed/rodjiuraHash.mjs';
 
 import { FEEDGEN_CONFIG as kozgaz } from '../feed-config/search-feed/kozgaz.mjs';
 import { FEEDGEN_CONFIG as szamvitel } from '../feed-config/search-feed/szamvitel.mjs';
@@ -245,6 +248,15 @@ export async function doPublish(commandString) {
     }
     if(hunecon.commandlineRegex.test(feedName)) {
         await doPublishCommand(hunecon, command);
+    }
+    if(sanpo.commandlineRegex.test(feedName)) {
+        await doPublishCommand(sanpo, command);
+    }
+    if(rodjiura.commandlineRegex.test(feedName)) {
+        await doPublishCommand(rodjiura, command);
+    }
+    if(streetphotographyJapan.commandlineRegex.test(feedName)) {
+        await doPublishCommand(streetphotographyJapan, command);
     }
     process.emit('exit_event');
 }

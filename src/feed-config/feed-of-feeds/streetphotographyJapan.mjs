@@ -3,7 +3,7 @@ import { shortname as rodjiura } from '../search-feed/rodjiuraHash.mjs';
 
 const NOT_PUBLISHED_FEED_NAME = '.streetphotographyJapan'; 
 
-export const shortname = 'streetphotographyJapan';
+export const shortname = 'FstreetphotographyJapan';
 export const shortnameArray = [sanpo, rodjiura, NOT_PUBLISHED_FEED_NAME];
 
 export const FEEDGEN_CONFIG = {

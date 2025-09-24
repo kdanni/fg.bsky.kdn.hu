@@ -9,6 +9,9 @@ export async function upsertPostProcess(item, p_sfw = 10) {
     has_image = isArtwork(item, has_image);
     let langs = getLanguageOrEn(item.post.record);
 
+    let embed = item?.post?.record?.embed || {};
+    embed['author_object'] = item?.post?.author;
+
     let uriMatch = /at:\/\/(did:plc:[^/]+)\/app.bsky.feed.post\/([^/]+)/.exec(item.post.uri) || [item.post.uri,item.post.author?.did,null];
 
     let replyParent = item?.post?.record?.reply?.parent?.uri || null;
@@ -32,7 +35,7 @@ export async function upsertPostProcess(item, p_sfw = 10) {
         item?.post?.record?.text||'',
         langs || 'en',
         JSON.stringify(item?.post?.record?.facets||null),
-        JSON.stringify(item?.post?.record?.embed||null),
+        JSON.stringify(embed),
         JSON.stringify(item?.post?.record?.labels||null),
         has_image||null,
         safeForWorkScore,

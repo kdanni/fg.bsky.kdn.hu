@@ -1,5 +1,4 @@
 import { pool } from './connection/connection.mjs';
-import { shortname, FEEDGEN_CONFIG } from '../feed-config/sp-feed/followed.mjs';
 
 const TARGET_AUTHOR_DID = process.env.KDANNI_DID || process.env.FEEDGEN_PUBLISHER_DID;
 // const DEV_ENV = process.env.ENV === 'DEV';
@@ -18,5 +17,3 @@ export async function runAlgo(authorDid) {
     // await initFeedCache(shortname);
     // console.log(`[${shortname}] Cache initialized`);
 }
-
-export { shortname, FEEDGEN_CONFIG };

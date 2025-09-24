@@ -1,7 +1,7 @@
 
-DROP PROCEDURE IF EXISTS SP_SELECT_followd_feed_posts;
+DROP PROCEDURE IF EXISTS SP_SELECT_followd_feed_posts_NotImage;
 
-CREATE PROCEDURE SP_SELECT_followd_feed_posts ( 
+CREATE PROCEDURE SP_SELECT_followd_feed_posts_NotImage ( 
     cursor_date datetime,
     p_limit INT,
     p_sfw INT,
@@ -25,7 +25,7 @@ BEGIN
     SELECT *
     FROM followed_post
     WHERE posted_at < cursor_date
-    AND has_image LIKE 'image/%'
+    AND has_image NOT LIKE 'image/%'
         AND has_image NOT LIKE '%::PET%'
         AND has_image NOT LIKE '%::POL%'
     ORDER BY posted_at DESC

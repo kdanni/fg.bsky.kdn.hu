@@ -6,7 +6,8 @@ import { isRedisConnected, redisSet } from './redis-io-connection.mjs';
 
 import { shortname as shortnameFavorites} from '../feed-config/sp-feed/favorites.mjs';
 import { shortname as shortnameNSFW} from '../feed-config/sp-feed/nsfw.mjs';
-import { shortname as shortnameF } from '../feed-config/sp-feed/followed.mjs';
+import { shortname as shortnameFI } from '../feed-config/sp-feed/followed_Images.mjs';
+import { shortname as shortnameFNI } from '../feed-config/sp-feed/followed_NotImage.mjs';
 import { shortname as shortnameL } from '../feed-config/sp-feed/listed.mjs';
 import { shortname as shortnameFL } from '../feed-config/sp-feed/followed_or_listed.mjs';
 import { shortname as shortnameMyfL } from '../feed-config/sp-feed/my-follower-list.mjs';
@@ -46,7 +47,7 @@ export async function initFavoritesFeedCache() {
 
 
 export async function initFollowedFeedCache() {
-    return initCacheBySP(shortnameF);
+    return Promise.all([ initCacheBySP(shortnameFI), initCacheBySP(shortnameFNI)]);
 }
 
 export async function initListedFeedCache() {

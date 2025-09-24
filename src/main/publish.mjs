@@ -7,7 +7,8 @@ import { FEEDGEN_CONFIG as artwork } from '../feed-config/sp-feed/artwork.mjs';
 import { FEEDGEN_CONFIG as favorites } from '../feed-config/sp-feed/favorites.mjs';
 import { FEEDGEN_CONFIG as petFL } from '../feed-config/sp-feed/followed_or_listed_PET.mjs';
 import { FEEDGEN_CONFIG as f_l } from '../feed-config/sp-feed/followed_or_listed.mjs';
-import { FEEDGEN_CONFIG as followed } from '../feed-config/sp-feed/followed.mjs';
+import { FEEDGEN_CONFIG as followed } from '../feed-config/sp-feed/followed_Images.mjs';
+import { FEEDGEN_CONFIG as followedNI } from '../feed-config/sp-feed/followed_NotImage.mjs';
 import { FEEDGEN_CONFIG as listed } from '../feed-config/sp-feed/listed.mjs';
 import { FEEDGEN_CONFIG as myFL } from '../feed-config/sp-feed/my-follower-list.mjs';
 import { FEEDGEN_CONFIG as nsfw_scored } from '../feed-config/sp-feed/nsfw-scored.mjs';
@@ -257,6 +258,9 @@ export async function doPublish(commandString) {
     }
     if(streetphotographyJapan.commandlineRegex.test(feedName)) {
         await doPublishCommand(streetphotographyJapan, command);
+    }
+    if(followedNI.commandlineRegex.test(feedName)) {
+        await doPublishCommand(followedNI, command);
     }
     process.emit('exit_event');
 }

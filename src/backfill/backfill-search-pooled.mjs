@@ -40,6 +40,10 @@ export async function backfillSearchPooled() {
     } catch (error) {
         console.error(`[backfillSearch] backfillSearchRunner() upsertQuerySearchTerms ERROR ${error}`)
     }
+    if(MINUS_DAYS < 1 || LOOP_LIMIT < 1) {
+        console.log(`[backfillSearch] MINUS_DAYS ${MINUS_DAYS} LOOP_LIMIT ${LOOP_LIMIT} - skipping`);
+        return;
+    }
     const querySearchTerms = await pool.execute('call SP_SELECT_backfill_search_queries()');
     const tmp_BACKFILL_SEARCH_QUERIES = []
     if(querySearchTerms[0] && querySearchTerms[0][0]?.length) {

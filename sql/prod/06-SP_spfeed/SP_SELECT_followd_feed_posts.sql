@@ -25,7 +25,7 @@ BEGIN
     SELECT *
     FROM followed_post
     WHERE posted_at < cursor_date
-    AND has_image LIKE 'image/%'
+    AND (has_image LIKE 'image/%' OR has_image LIKE 'video/%')
         AND has_image NOT LIKE '%::PET%'
         AND has_image NOT LIKE '%::POL%'
     ORDER BY posted_at DESC

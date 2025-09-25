@@ -40,6 +40,10 @@ export async function backfillSearchRunner () {
     } catch (error) {
         console.error(`[backfillSearch] backfillSearchRunner() upsertQuerySearchTerms ERROR ${error}`)
     }
+    if(MINUS_DAYS < 1 || LOOP_LIMIT < 1) {
+        console.log(`[backfillSearch] MINUS_DAYS ${MINUS_DAYS} LOOP_LIMIT ${LOOP_LIMIT} - skipping`);
+        return;
+    }
     const querySearchTerms = await pool.execute('call SP_SELECT_backfill_search_queries()');
     if(querySearchTerms[0] && querySearchTerms[0][0]?.length) {
         BACKFILL_SEARCH_QUERIES.push(...querySearchTerms[0][0]);
@@ -87,6 +91,10 @@ export async function backfillSearchAlgoRunner () {
 
 export async function backfillSearch(backfillSearchQuery, sfw = 10, handle=SEARCH_APP_HANDLE, passwd=SEARCH_APP_PASSWORD) {
     try {
+        if(MINUS_DAYS < 1 || LOOP_LIMIT < 1) {
+            console.log(`[backfillSearch] MINUS_DAYS ${MINUS_DAYS} LOOP_LIMIT ${LOOP_LIMIT} - skipping`);
+            return;
+        }
 
         console.log(`[backfillSearch] Searching posts by query: ${backfillSearchQuery} sfw: ${sfw}`);
 

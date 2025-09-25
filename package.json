@@ -8,6 +8,7 @@
     "start": "node index.js",
     "dbinstall": "node index.js dbinstall",
     "backfill": "node index.js backfill",
+    "historic": "HISTORIC_ALGO_RUN=true node index.js backfill search",
     "jetstream": "node index.js jetstream",
     "js-bf-nsfw": "node index.js js-bf-nsfw",
     "publish": "node index.js publish",

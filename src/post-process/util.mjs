@@ -165,6 +165,9 @@ export function getMimeStringOrNull(embed) {
       (img) => img.image?.mimeType?.startsWith('image/')
     ) ? 'image/' : '?';
   }  
+  if (embed.$type === 'app.bsky.embed.video') {
+    return embed.video['$type'] === 'blob' ? 'video/' : '?/video/';
+  }
   if (embed.$type === 'app.bsky.embed.recordWithMedia') {
     return getMimeStringOrNull(embed.media);
   }

@@ -34,4 +34,14 @@ BEGIN
         AND NOT ( JSON_EXTRACT(embeds, '$.$type') = 'app.bsky.embed.record' AND text = '' )
     ;    
 
+
+    UPDATE feed_post f
+    JOIN bsky_post p ON f.url = p.url
+    SET f.sfw = LEAST( p.sfw, f.sfw ),
+        f.has_image = p.has_image,        
+        f.updated_at = now()
+    WHERE f.feed_name LIKE 'hunLang%'
+        AND p.sfw < 6
+        AND p.updated_at > now() - INTERVAL 5 DAY;
+
 END

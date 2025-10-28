@@ -418,8 +418,11 @@ export function extraMediaTags(item, mime) {
   }
   if(`${item?.post?.record?.text}`.length < 1){
     return mime;
-  }
+  }  
   let retString = '';
+  if(mime) {
+    retString = `${mime}`;
+  }
   if((mime === null || mime === 'null') 
     && isEmptyOrFalsy(item?.post?.record?.embed)
   ) 
@@ -450,8 +453,10 @@ export function extraMediaTags(item, mime) {
       mention && (retString += '@');
       other && (retString += '§');
     }
+  } else {
+    retString = mime;
   }
-
+  return retString;
 }
 
 

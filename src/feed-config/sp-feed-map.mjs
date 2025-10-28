@@ -1,3 +1,4 @@
+import { shortname as snForme } from './sp-feed/forme.mjs';
 import { shortname as snF } from './sp-feed/followed_Images.mjs';
 import { shortname as snFNI } from './sp-feed/followed_NotImage.mjs';
 import { shortname as snL } from './sp-feed/listed.mjs';
@@ -12,6 +13,7 @@ import { shortname as petFL} from './sp-feed/followed_or_listed_PET.mjs';
 
 const spFeedMap = {};
 
+spFeedMap[snForme] = 'SP_SELECT_followd_feed_posts_forME';
 spFeedMap[fav] = 'sp_SELECT_favorites_posts_by_cursor';
 spFeedMap[snL] = 'SP_SELECT_listed_feed_posts';
 spFeedMap[snFL] = 'SP_SELECT_followed_or_listed_feed_posts';

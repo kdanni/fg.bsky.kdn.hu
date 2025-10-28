@@ -13,6 +13,7 @@ import { FEEDGEN_CONFIG as listed } from '../feed-config/sp-feed/listed.mjs';
 import { FEEDGEN_CONFIG as myFL } from '../feed-config/sp-feed/my-follower-list.mjs';
 import { FEEDGEN_CONFIG as nsfw_scored } from '../feed-config/sp-feed/nsfw-scored.mjs';
 import { FEEDGEN_CONFIG as nsfw } from '../feed-config/sp-feed/nsfw.mjs';
+import { FEEDGEN_CONFIG as forme } from '../feed-config/sp-feed/forme.mjs';
 
 import { FEEDGEN_CONFIG as kdBud } from '../feed-config/author-feed/kdanni-Bud.mjs';
 import { FEEDGEN_CONFIG as cf } from '../feed-config/author-feed/kdanni-CustomFeed.mjs';
@@ -261,6 +262,9 @@ export async function doPublish(commandString) {
     }
     if(followedNI.commandlineRegex.test(feedName)) {
         await doPublishCommand(followedNI, command);
+    }
+    if(forme.commandlineRegex.test(feedName)) {
+        await doPublishCommand(forme, command);
     }
     process.emit('exit_event');
 }

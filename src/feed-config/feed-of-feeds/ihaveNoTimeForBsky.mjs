@@ -14,13 +14,15 @@ import { shortname as rw } from '../search-feed/railway.mjs';
 import { shortname as ss } from '../search-feed/sunset-sunrise.mjs';
 import { shortname as sn } from '../search-feed/snowscape.mjs';
 // import { shortname as ff } from '../search-feed/food-images.mjs';
+import { shortname as ts } from '../search-feed/treescape.mjs';
 import { shortname as f } from '../search-feed/fungi-images.mjs';
+import { shortname as ws } from '../search-feed/waterscape.mjs';
 import { shortname as város} from '../search-feed/hun-city-all.mjs';
 
 
 
 export const shortname = 'IhaveNoTimeForBsky';
-export const shortnameArray = [nu, tr, br, sm, rw, ss, sn, f, város,
+export const shortnameArray = [nu, tr, br, sm, rw, ss, sn, f, város, ts, ws,
   NOT_PUBLISHED_FEED_NAME, urbanS, urbrexS, bpImage, foodNoTime];
 
 export const FEEDGEN_CONFIG = {

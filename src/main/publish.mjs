@@ -30,6 +30,7 @@ import { FEEDGEN_CONFIG as hfOf } from '../feed-config/feed-of-feeds/hun-feed-of
 import { FEEDGEN_CONFIG as usfOf } from '../feed-config/feed-of-feeds/urbex-streetart.mjs';
 import { FEEDGEN_CONFIG as hunecon } from '../feed-config/feed-of-feeds/hunEconSky-feed-of-feeds.mjs';
 import { FEEDGEN_CONFIG as streetphotographyJapan } from '../feed-config/feed-of-feeds/streetphotographyJapan.mjs';
+import { FEEDGEN_CONFIG as ihnt } from '../feed-config/feed-of-feeds/ihaveNoTimeForBsky.mjs';
 
 
 import { FEEDGEN_CONFIG as brutalism } from '../feed-config/search-feed/brutalism-hashtag.mjs';
@@ -265,6 +266,9 @@ export async function doPublish(commandString) {
     }
     if(forme.commandlineRegex.test(feedName)) {
         await doPublishCommand(forme, command);
+    }
+    if(ihnt.commandlineRegex.test(feedName)) {
+        await doPublishCommand(ihnt, command);
     }
     process.emit('exit_event');
 }

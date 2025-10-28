@@ -1,7 +1,9 @@
 const NOT_PUBLISHED_FEED_NAME = '.shadowNoTime'; 
-const NOT_PUBLISHED_FEED_NAME2 = '.shadowUrban'; 
-const NOT_PUBLISHED_FEED_NAME3 = '.urbexFeedOfFeeds'; 
-const NOT_PUBLISHED_FEED_NAME4 = '.budapestImg'; 
+const urbanS = '.shadowUrban'; 
+const urbrexS = '.urbexFeedOfFeeds'; 
+const bpImage = '.budapestImg'; 
+const foodNoTime = '.foodNoTime'; 
+
 
 
 import { shortname as nu } from '../search-feed/not-urban-ex.mjs';
@@ -19,7 +21,7 @@ import { shortname as város} from '../search-feed/hun-city-all.mjs';
 
 export const shortname = 'IhaveNoTimeForBsky';
 export const shortnameArray = [nu, tr, br, sm, rw, ss, sn, f, város,
-  NOT_PUBLISHED_FEED_NAME, NOT_PUBLISHED_FEED_NAME2, NOT_PUBLISHED_FEED_NAME3, NOT_PUBLISHED_FEED_NAME4];
+  NOT_PUBLISHED_FEED_NAME, urbanS, urbrexS, bpImage, foodNoTime];
 
 export const FEEDGEN_CONFIG = {
   publisherDid: `${process.env.FEEDGEN_PUBLISHER_DID}`,

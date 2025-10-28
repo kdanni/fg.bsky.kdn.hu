@@ -423,9 +423,7 @@ export function extraMediaTags(item, mime) {
   if(mime) {
     retString = `${mime}`;
   }
-  if((mime === null || mime === 'null') 
-    && isEmptyOrFalsy(item?.post?.record?.embed)
-  ) 
+  if(isEmptyOrFalsy(item?.post?.record?.embed)) 
   { 
     if(isEmptyOrFalsy(item?.post?.record?.facets) || item?.post?.record?.facets === 'null') {
       retString = '¤'

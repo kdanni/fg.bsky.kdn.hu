@@ -1,4 +1,4 @@
-import { getMimeStringOrNull, getLanguageOrEn, getSafeForWorkScore, isArtwork } from './util.mjs';
+import { getMimeStringOrNull, getLanguageOrEn, getSafeForWorkScore, isArtwork, extraMediaTags } from './util.mjs';
 import { pool } from './connection/connection.mjs';
 
 import qe from '../quote-process/quoted-event-emitter.mjs';
@@ -7,6 +7,7 @@ export async function upsertPostProcess(item, p_sfw = 10) {
     item.post.url = item.post.url || item.post.uri;
     let has_image = getMimeStringOrNull(item.post.record?.embed);
     has_image = isArtwork(item, has_image);
+    has_image = extraMediaTags(item, has_image);
     let langs = getLanguageOrEn(item.post.record);
 
     let embed = item?.post?.record?.embed || {};

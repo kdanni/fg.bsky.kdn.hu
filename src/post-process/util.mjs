@@ -408,6 +408,53 @@ export function isArtwork(item, mime) {
   return retString.trim();
 }
 
+export function extraMediaTags(item, mime) {
+  if (!item?.post?.record?.text) {
+    if(item?.record?.text) {
+      item = {post:item};
+    } else {
+      return false;
+    }
+  }
+  if(`${item?.post?.record?.text}`.length < 1){
+    return mime;
+  }
+  let retString = '';
+  if((mime === null || mime === 'null') 
+    && isEmptyOrFalsy(item?.post?.record?.embed)
+  ) 
+  { 
+    if(isEmptyOrFalsy(item?.post?.record?.facets) || item?.post?.record?.facets === 'null') {
+      retString = '¤'
+    } else {
+      retString = '¤'
+      let tag = false;
+      let mention = false;
+      let other = false;
+      if(Array.isArray(item?.post?.record?.facets)) {
+        for(let f of item?.post?.record?.facets || []) {
+          for(let ff of f?.features || []) {
+            if(ff['$type'] === 'app.bsky.richtext.facet#tag') {
+              tag = true;
+            } else
+            if(ff['$type'] === 'app.bsky.richtext.facet#mention') {
+              mention = true;
+            } else
+            if(ff['$type']) {
+              other = true;
+            }
+          }
+        }
+      }
+      tag && (retString += '#');
+      mention && (retString += '@');
+      other && (retString += '§');
+    }
+  }
+
+}
+
+
 export function getLanguageOrEn(record) {
   if (!record || !record.langs) {
     return 'en';
@@ -424,4 +471,18 @@ export function getLanguageOrEn(record) {
     return langs[0];
   }
   return 'en'; // Default to English if no languages are specified
+}
+
+
+function isEmptyOrFalsy(value) {
+  return (
+    value === null ||
+    value === undefined ||
+    (typeof value === 'string' && value.trim() === '') ||
+    (Array.isArray(value) && value.length === 0) ||
+    (typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === 0)
+  );
+}
+function isEmptyObject(obj) {
+  return obj && typeof obj === 'object' && !Array.isArray(obj) && Object.keys(obj).length === 0;
 }

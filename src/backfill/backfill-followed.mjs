@@ -2,6 +2,7 @@ import got from 'got';
 
 import { backfillActor } from './backfill-actor.mjs';
 import { runAlgo } from '../algo/followed.mjs';
+import { runAlgo as algoForme } from '../algo/forme.mjs';
 
 import { initFollowedFeedCache, initFollowedOrListedFeedCache } from '../redis/init-cache.mjs';
 
@@ -62,7 +63,8 @@ export async function backfillFollowed() {
                 break;
             }
         } // End of while loop
-
+        
+        await algoForme();
         await initFollowedFeedCache();
         await initFollowedOrListedFeedCache();
     } catch (error) {

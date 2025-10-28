@@ -40,6 +40,8 @@ if (/^no[- ]operation\b/.test(commandString)) {
     backfillSearch();
 } else if (/^backfill[- ]?favorites?\b/.test(commandString)) {
     backfillFavorites();
+}  else if (/^algo[- ]?aforme\b/.test(commandString)) {
+    algoAforme();
 }  else if (/^algo[- ]?followed\b/.test(commandString)) {
     algoFollowed();
 } else if (/^post[- ]?tagging\b/.test(commandString)) {
@@ -251,6 +253,16 @@ async function algoFollowed() {
     const { runAlgo } = await import('./algo/followed.mjs');
     await runAlgo();
 
+    process.emit('exit_event');
+}
+
+async function algoAforme() {
+    await import('./mediawiki/authorAlgoLogic-handler.mjs');
+    const upsertAuthorAlgoLogic = (await import('./mediawiki/media-wiki-bot.mjs')).upsertAuthorAlgoLogic;
+
+    await upsertAuthorAlgoLogic();
+
+    await new Promise(resolve => setTimeout(resolve, 4000));
     process.emit('exit_event');
 }
 

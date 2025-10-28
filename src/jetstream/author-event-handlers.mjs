@@ -8,6 +8,7 @@ import { listSfwScore } from '../post-process/util.mjs';
 import { initFollowedFeedCache, initFollowedOrListedFeedCache, initListedFeedCache, initFeedNSFW } from '../redis/init-cache.mjs';
 import { runAlgo as algoF } from '../algo/followed.mjs';
 import { runAlgo as algoL } from '../algo/listed.mjs';
+import { runAlgo as algoForme } from '../algo/forme.mjs';
 
 import got from 'got';
 
@@ -125,6 +126,7 @@ async function handleEvent(event) {
             //NOP
         } else {
             await algoL(item.post.author.did, event.listName);
+            await algoForme();
             await initListedFeedCache(event.listName);
             await initFollowedOrListedFeedCache();
         }

@@ -5,6 +5,7 @@ const WIKI_BOT_PASS = process.env.WIKI_BOT_PASS
 const WIKI_NAMESPACENUM = process.env.WIKI_NAMESPACENUM;
 const WIKI_SEARCH_QUERY_PAGE_PREFIX = process.env.WIKI_SEARCH_QUERY_PAGE_PREFIX || 'Bsky:App/SearchQuery/';
 const WIKI_CUSTOM_FEED_LOGIC_PAGE_PREFIX = process.env.WIKI_CUSTOM_FEED_LOGIC_PAGE_PREFIX || 'Bsky:App/CustomFeed/';
+const WIKI_AUTHOR_ALGO_LOGIC_PAGE_PREFIX = process.env.WIKI_AUTHOR_ALGO_LOGIC_PAGE_PREFIX || 'Bsky:App/Actor/';
 
 import {pool} from '../db/prcEnv.connection.mjs';
 
@@ -18,10 +19,29 @@ const cookieJar = new CookieJar();
 
 import emitter from '../event-emitter.mjs';
 import './customFeedLogic-handler.mjs';
+import './authorAlgoLogic-handler.mjs';
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 
 /** Service **/
+
+export async function upsertAuthorAlgoLogic () {
+    console.log(`[WIKI-AUTHOR-ALGO-LOGIC-UPSERT] Start`);
+    await wikiLogin();
+    console.log(`[WIKI-AUTHOR-ALGO-LOGIC-UPSERT] Logged in`);
+    const allPages = await listPagesInNamespace(WIKI_NAMESPACENUM);
+    for (const page of allPages || []) {
+        if(!page.title.startsWith(`${WIKI_AUTHOR_ALGO_LOGIC_PAGE_PREFIX}`)) {
+            continue;
+        }
+        const pageContent = await getWikiPageText(page);
+        if(pageContent?.pageLinesArray?.length) {
+            emitter.emit('authorAlgoLogic', { pageContent });
+        } // END pageContent?.pageLinesArray?.length
+        await delay(1000);
+    } // END for allpages
+}
+
 
 export async function upsertCustomFeedLogic () {
     console.log(`[WIKI-CUSTOM-FEED-LOGIC-UPSERT] Start`);

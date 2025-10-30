@@ -25,9 +25,6 @@ BEGIN
     SELECT *
     FROM VIEW_forME
     WHERE posted_at < cursor_date
-    AND (has_image LIKE 'image/%' OR has_image LIKE 'video/%' OR has_image LIKE '%¤%')
-        AND has_image NOT LIKE '%::PET%'
-        AND has_image NOT LIKE '%::POL%'
     ORDER BY posted_at DESC
     LIMIT p_limit;
 

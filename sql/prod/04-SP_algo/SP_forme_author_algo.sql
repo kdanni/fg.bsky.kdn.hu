@@ -15,7 +15,7 @@ BEGIN
         @at_now,
         @at_now
     FROM feed_post p
-    WHERE feed_name LIKE '@%'
+    WHERE feed_name LIKE '@%' OR feed_name = '.kdanniForMe'
     ;
     
 

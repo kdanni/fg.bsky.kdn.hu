@@ -68,6 +68,10 @@ async function applyFeedLogic(feedLogicConfig) {
             if(HISTORIC_ALGO_RUN) {
                 params.push(cursor);
                 params.push(500); // limit
+            }            
+            if(`${feed_name}`.startsWith('@')) {
+                sql = `call ${'SP_SELECT_recent_posts_by_authorInArray'}(?)`;
+                params = [ JSON.stringify(authorDidArray) ];
             }
             DEV_ENV && console.log(`[CustomFeedLogic] [${feed_name}] Searching for posts with positive filter: ${pos} ${sqlWhere}`);
             const posts1 = await pool.query(sql, params);
@@ -100,6 +104,9 @@ async function applyFeedLogic(feedLogicConfig) {
                 }
                 if(next_cursor !== undefined && minus4Days < new Date(next_cursor)) {
                     next_cursor = undefined;
+                    cursor = undefined;
+                }
+                if(`${feed_name}`.startsWith('@')) {
                     cursor = undefined;
                 }
             }

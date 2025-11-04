@@ -1,7 +1,7 @@
 import got from 'got';
 import { getAuthToken } from '../bsky-social/auth.mjs';
 
-import { upsertQuerySearchTerms } from '../mediawiki/media-wiki-bot.mjs';
+import { upsertQuerySearchTerms, upsertAuthorAlgoLogic } from '../mediawiki/media-wiki-bot.mjs';
 
 import { pool } from './connection/connection.mjs';
 import { upsertPost } from '../post-process/upsert-post.mjs';
@@ -75,6 +75,7 @@ export async function backfillSearchAlgoRunner () {
     try {
         try {
             await upsertCustomFeedLogic();
+            await upsertAuthorAlgoLogic();
         } catch (error) {
             console.error(`[backfillSearch] backfillSearchAlgoRunner() upsertCustomFeedLogic ERROR ${error}`)
         }

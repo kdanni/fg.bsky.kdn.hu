@@ -1,4 +1,4 @@
-import { upsertQuerySearchTerms } from '../mediawiki/media-wiki-bot.mjs';
+import { upsertQuerySearchTerms, upsertAuthorAlgoLogic } from '../mediawiki/media-wiki-bot.mjs';
 
 import { pool } from './connection/connection.mjs';
 import { backfillSearch } from './backfill-search.mjs';
@@ -37,6 +37,7 @@ export async function backfillSearchPooled() {
     }
     try {
         await upsertQuerySearchTerms();
+        await upsertAuthorAlgoLogic();
     } catch (error) {
         console.error(`[backfillSearch] backfillSearchRunner() upsertQuerySearchTerms ERROR ${error}`)
     }

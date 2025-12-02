@@ -68,6 +68,7 @@ import { FEEDGEN_CONFIG as adotan } from '../feed-config/search-feed/adotanFeed.
 import { FEEDGEN_CONFIG as penzugyek } from '../feed-config/search-feed/penzugyekFeed.mjs';
 
 import { FEEDGEN_CONFIG as shibari } from '../feed-config/nsfw-feed/nsfw-shibari.mjs';
+import { FEEDGEN_CONFIG as findom } from '../feed-config/nsfw-feed/nsfw-findom.mjs';
 import { FEEDGEN_CONFIG as nsfwHunLang } from '../feed-config/sp-feed/nsfw-hun-lang.mjs';
 
 
@@ -227,6 +228,9 @@ export async function doPublish(commandString) {
     }
     if(shibari.commandlineRegex.test(feedName)) {
         await doPublishCommand(shibari, command);
+    }
+    if(findom.commandlineRegex.test(feedName)) {
+        await doPublishCommand(findom, command);
     }
     if(fungi.commandlineRegex.test(feedName)) {
         await doPublishCommand(fungi, command);

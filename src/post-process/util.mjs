@@ -244,6 +244,8 @@ const AI_ARTWORK_TAGS = [
   '#synthart\\b',
   '#midjourney\\b',
   '#dall-?e\\d?\\b',
+  '#vrmnx',
+  '#NanoBananaPro'
 ];
 
 const AI_ARTWORK_TAGS_REGEX = new RegExp(

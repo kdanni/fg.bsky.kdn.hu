@@ -15,6 +15,10 @@ import { shortname as shortnameMyfL } from '../feed-config/sp-feed/my-follower-l
 import { shortname as hunLangAll } from '../feed-config/search-feed/hunLangAll.mjs';
 
 
+import shortnameArrayMap from '../../../feed-config/feed-of-feeds-map.mjs';
+import shortNamesSFW from '../../../feed-config/sfw-feed-map.mjs';
+import shortNamesNSFW from '../../../feed-config/nsfw-feed-map.mjs';
+
 
 
 export async function initFeedCache(shortname, shortnameArray, sfw = 2) {
@@ -25,7 +29,14 @@ export async function initFeedCache(shortname, shortnameArray, sfw = 2) {
     if(shortnameArray?.length > 0) {
         feedName = shortnameArray;
     }
-    let initialFeedData = await getInitialFeedData(feedName, sfw);
+    let sfwTopParam = null;
+    if(shortname in shortNamesSFW) {
+        sfw = shortNamesSFW[shortname];
+    }
+    if(shortname in shortNamesNSFW) {
+        sfwTopParam = shortNamesNSFW[shortname];
+    }
+    let initialFeedData = await getInitialFeedData(feedName, sfw, sfwTopParam);
     if (initialFeedData && initialFeedData.feed) {
         let cacheKey = constructCacheKey(shortname);
         await redisSet(cacheKey, JSON.stringify(initialFeedData), ['EX', 3000]);

@@ -4,13 +4,13 @@ import crypto from 'crypto';
 const DEV_ENV = process.env.ENV === 'DEV';
 const DEBUG = process.env.DEBUG === 'true' || false;
 
-export async function fetchFeedData(shortname, cursorDate, limit = 30, sfw = 2) {
-  let sql = `call ${'sp_SELECT_feed_posts_by_name'}(?,?,?,?)`;
+export async function fetchFeedData(shortname, cursorDate, limit = 30, sfw = 2, sfwTopParam = 99) {
+  let sql = `call ${'sp_SELECT_feed_posts_by_name'}(?,?,?,?,?)`;
   if (Array.isArray(shortname)) {
-    sql = `call ${'sp_SELECT_feed_posts_by_nameInArray'}(?,?,?,?)`;
+    sql = `call ${'sp_SELECT_feed_posts_by_nameInArray'}(?,?,?,?,?)`;
     shortname = JSON.stringify(shortname);
   }
-  const params = [shortname, cursorDate, limit, sfw];
+  const params = [shortname, cursorDate, limit, sfw, sfwTopParam];
   
   return await fetchFeedDataBySql(sql, params, cursorDate);
 }

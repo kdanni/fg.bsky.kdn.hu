@@ -13,7 +13,8 @@ CREATE PROCEDURE sp_SELECT_feed_posts_by_nameInArray (
     p_feed_name_array JSON,
     cursor_date datetime,
     p_limit INT,
-    p_sfw INT
+    p_sfw INT,
+    sfwTopParam INT
 )
 BEGIN
     
@@ -55,6 +56,7 @@ BEGIN
     )
     AND rn = 1
     AND sfw >= p_sfw
+    AND sfw <= sfwTopParam
     AND posted_at < cursor_date
     ORDER BY posted_at DESC
     LIMIT p_limit;

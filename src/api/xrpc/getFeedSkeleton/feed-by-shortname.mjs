@@ -5,6 +5,7 @@ import { fetchFeedData } from './util/fetchFeedData.mjs';
 
 import shortnameArrayMap from '../../../feed-config/feed-of-feeds-map.mjs';
 import shortNamesSFW from '../../../feed-config/sfw-feed-map.mjs';
+import shortNamesNSFW from '../../../feed-config/nsfw-feed-map.mjs';
 
 
 async function handleRequest (req, res, next) {
@@ -26,13 +27,17 @@ async function handleRequest (req, res, next) {
     fetchFeedDataParam = shortname;
   }
   let sfwParam = null;
+  let sfwTopParam = null;
   if(shortname in shortNamesSFW) {
     sfwParam = shortNamesSFW[shortname];
+  }
+  if(shortname in shortNamesNSFW) {
+    sfwTopParam = shortNamesNSFW[shortname];
   }
 
   let cursorDate = req.locals.cursorDate;
 
-  const feedData = await fetchFeedData(fetchFeedDataParam, cursorDate, 30, sfwParam);
+  const feedData = await fetchFeedData(fetchFeedDataParam, cursorDate, 30, sfwParam, sfwTopParam);
   res.locals.feedData = feedData;
   next();
 }

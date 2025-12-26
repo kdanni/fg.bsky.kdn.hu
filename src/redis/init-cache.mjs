@@ -15,9 +15,8 @@ import { shortname as shortnameMyfL } from '../feed-config/sp-feed/my-follower-l
 import { shortname as hunLangAll } from '../feed-config/search-feed/hunLangAll.mjs';
 
 
-import shortnameArrayMap from '../../../feed-config/feed-of-feeds-map.mjs';
-import shortNamesSFW from '../../../feed-config/sfw-feed-map.mjs';
-import shortNamesNSFW from '../../../feed-config/nsfw-feed-map.mjs';
+import shortNamesSFW from '../feed-config/sfw-feed-map.mjs';
+import shortNamesNSFW from '../feed-config/nsfw-feed-map.mjs';
 
 
 

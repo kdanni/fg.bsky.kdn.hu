@@ -26,6 +26,10 @@ BEGIN
         set p_sfw = 10;
     end if;
 
+    if sfwTopParam is null then
+        set sfwTopParam = 99;
+    end if;
+
     SELECT 
         feed_name,
         url,
@@ -42,6 +46,7 @@ BEGIN
             FROM JSON_TABLE(p_feed_name_array, '$[*]' COLUMNS (value VARCHAR(54) PATH '$')) AS jt
         )
         AND sfw >= p_sfw
+        AND sfw <= sfwTopParam
         AND 
          ((has_image NOT LIKE '%::ARTWORK%' 
                 AND has_image NOT LIKE '%::AIART%'

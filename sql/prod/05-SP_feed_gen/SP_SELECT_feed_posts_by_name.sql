@@ -26,6 +26,10 @@ BEGIN
         set p_sfw = 10;
     end if;
 
+    if sfwTopParam is null then
+        set sfwTopParam = 99;
+    end if;
+
 --   feed_name VARCHAR(54) NOT NULL,
 --   url VARCHAR(200) NOT NULL,
 --   posted_at datetime DEFAULT CURRENT_TIMESTAMP,
@@ -42,7 +46,7 @@ BEGIN
     WHERE p.feed_name = p_feed_name
     AND p.posted_at < cursor_date
     AND p.sfw >= p_sfw
-    AND sfw <= sfwTopParam
+    AND p.sfw <= sfwTopParam
     -- AND p.has_image NOT LIKE '%::ARTWORK%'
     ORDER BY p.posted_at DESC
     LIMIT p_limit;

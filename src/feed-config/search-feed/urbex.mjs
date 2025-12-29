@@ -29,5 +29,5 @@ export const FEEDGEN_CONFIG = {
     },
   ],
   shortname,
-  commandlineRegex: /urbex$/i,
+  commandlineRegex: /\burbex$/i,
 }

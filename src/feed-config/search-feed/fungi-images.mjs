@@ -12,5 +12,5 @@ export const FEEDGEN_CONFIG = {
     },
   ],
   shortname,
-  commandlineRegex: /fungiImages$/i,
+  commandlineRegex: /\bfungiImages$/i,
 }

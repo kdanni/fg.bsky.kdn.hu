@@ -20,5 +20,5 @@ export const FEEDGEN_CONFIG = {
     },
   ],
   shortname,
-  commandlineRegex: /snowscape$/i,
+  commandlineRegex: /\bsnowscape$/i,
 }

@@ -15,7 +15,7 @@ export const FEEDGEN_CONFIG = {
     },
   ],
   shortname,
-  commandlineRegex: /shibari$/i,
+  commandlineRegex: /\bshibari$/i,
   nsfw:true,
   publisherDid:FEEDGEN_PUBLISHER_DID,
   bskyHandle: process.env.NSFW_REGISTRATION_APP_HANDLE || process.env.REGISTRATION_APP_HANDLE,

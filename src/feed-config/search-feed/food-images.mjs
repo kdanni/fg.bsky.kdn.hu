@@ -29,5 +29,5 @@ export const FEEDGEN_CONFIG = {
     },
   ],
   shortname,
-  commandlineRegex: /(food-images|FOOD)$/i,
+  commandlineRegex: /\b(food-images|FOOD)$/i,
 }

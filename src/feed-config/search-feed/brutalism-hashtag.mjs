@@ -12,5 +12,5 @@ export const FEEDGEN_CONFIG = {
     },
   ],
   shortname,
-  commandlineRegex: /brutalis[mt]$/i,
+  commandlineRegex: /\bbrutalis[mt]$/i,
 }

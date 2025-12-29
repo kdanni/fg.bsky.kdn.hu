@@ -12,5 +12,5 @@ export const FEEDGEN_CONFIG = {
     },
   ],
   shortname,
-  commandlineRegex: /(budapest-jobs|bud_jobs)$/i,
+  commandlineRegex: /\b(budapest-jobs|bud_jobs)$/i,
 }

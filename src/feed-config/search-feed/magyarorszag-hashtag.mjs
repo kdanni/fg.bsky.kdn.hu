@@ -12,5 +12,5 @@ export const FEEDGEN_CONFIG = {
     },
   ],
   shortname,
-  commandlineRegex: /magyaro(_hash)?$/i,
+  commandlineRegex: /\bmagyaro(_hash)?$/i,
 }

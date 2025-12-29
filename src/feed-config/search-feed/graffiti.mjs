@@ -12,5 +12,5 @@ export const FEEDGEN_CONFIG = {
     },
   ],
   shortname,
-  commandlineRegex: /graffiti$/i,
+  commandlineRegex: /\bgraffiti$/i,
 }

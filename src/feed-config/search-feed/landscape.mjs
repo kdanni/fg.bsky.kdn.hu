@@ -24,5 +24,5 @@ export const FEEDGEN_CONFIG = {
     },
   ],
   shortname,
-  commandlineRegex: /landscape$/i,
+  commandlineRegex: /\blandscape$/i,
 }

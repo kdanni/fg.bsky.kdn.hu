@@ -23,5 +23,5 @@ export const FEEDGEN_CONFIG = {
     },
   ],
   shortname,
-  commandlineRegex: /(socialistmodernism|SM)$/i,
+  commandlineRegex: /\b(socialistmodernism|SM)$/i,
 }

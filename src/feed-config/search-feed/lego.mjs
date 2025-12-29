@@ -12,5 +12,5 @@ export const FEEDGEN_CONFIG = {
     },
   ],
   shortname,
-  commandlineRegex: /lego$/i,
+  commandlineRegex: /\blego$/i,
 }

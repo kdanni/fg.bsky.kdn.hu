@@ -30,5 +30,5 @@ export const FEEDGEN_CONFIG = {
     },
   ],
   shortname,
-  commandlineRegex: /notUrbanEx$/i,
+  commandlineRegex: /\bnotUrbanEx$/i,
 }

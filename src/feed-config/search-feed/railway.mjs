@@ -36,5 +36,5 @@ export const FEEDGEN_CONFIG = {
     },
   ],
   shortname,
-  commandlineRegex: /railway$/i,
+  commandlineRegex: /\brailway$/i,
 }

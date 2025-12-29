@@ -69,6 +69,7 @@ import { FEEDGEN_CONFIG as penzugyek } from '../feed-config/search-feed/penzugye
 
 import { FEEDGEN_CONFIG as shibari } from '../feed-config/nsfw-feed/nsfw-shibari.mjs';
 import { FEEDGEN_CONFIG as ur18bex } from '../feed-config/nsfw-feed/nsfw-urbex18.mjs';
+import { FEEDGEN_CONFIG as not18urbex } from '../feed-config/nsfw-feed/nsfw-notUrban18.mjs';
 import { FEEDGEN_CONFIG as findom } from '../feed-config/nsfw-feed/nsfw-findom.mjs';
 import { FEEDGEN_CONFIG as nsfwHunLang } from '../feed-config/sp-feed/nsfw-hun-lang.mjs';
 
@@ -277,6 +278,9 @@ export async function doPublish(commandString) {
     }
     if(ur18bex.commandlineRegex.test(feedName)) {
         await doPublishCommand(ur18bex, command);
+    }    
+    if(not18urbex.commandlineRegex.test(feedName)) {
+        await doPublishCommand(not18urbex, command);
     }    
     process.emit('exit_event');
 }

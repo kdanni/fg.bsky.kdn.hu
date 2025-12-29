@@ -9,6 +9,8 @@ import { upsertPost } from '../post-process/upsert-post.mjs';
 import {updateArtistsMimeTag, updateAiMimeTag } from '../post-process/post-post-tagging.mjs';
 import { upsertCustomFeedLogic } from '../mediawiki/media-wiki-bot.mjs';
 
+import { runAlgo as notU18 } from '../algo/urban18.mjs';
+
 export const SKIP_AUTHORS_ARRAY = [];
 export const SKIP_KEYWORDS_ARRAY = [
     '#nft\\b',
@@ -84,6 +86,7 @@ export async function backfillSearchAlgoRunner () {
 
         await updateArtistsMimeTag();
         await updateAiMimeTag();
+        await notU18();
     } catch (e) {
         console.error('[backfillSearch] Algo Error', e);
     }

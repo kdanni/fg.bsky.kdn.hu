@@ -24,6 +24,15 @@ export async function initFeedCache(shortname, shortnameArray, sfw = 2) {
     if(!shortname){
         return;
     }
+    if(`${shortname}`.startsWith('@')){
+        return;
+    }
+    if(`${shortname}`.startsWith('×')){
+        return;
+    }
+    if(`${shortname}`.startsWith('did:')){
+        return;
+    }
     let feedName = shortname;
     if(shortnameArray?.length > 0) {
         feedName = shortnameArray;

@@ -420,7 +420,7 @@ export function extraMediaTags(item, mime) {
   }
   if(`${item?.post?.record?.text}`.length < 1){
     return mime;
-  }  
+  }
   let retString = '';
   if(mime) {
     retString = `${mime}`;
@@ -455,6 +455,27 @@ export function extraMediaTags(item, mime) {
     }
   } else {
     retString = mime;
+    let type = item?.post?.record?.embed['$type'];
+    if ('app.bsky.embed.external' === type) {
+      let externalUrl = post.embeds?.external?.uri;
+      if (/^[^?]+\.gif(\?.*)?$/.test(`${externalUrl}`)){
+        retString += '×gif';
+      }
+      if (/^[^?]+\.jpe?g(\?.*)?$/.test(`${externalUrl}`)){
+        retString += '×jpg';
+      }
+      if (/^[^?]+\.png(\?.*)?$/.test(`${externalUrl}`)){
+        retString += '×png';
+      }
+      if (
+        /^https:\/\/youtube\.com/.test(`${externalUrl}`) ||
+        /^https:\/\/[^.]+\.youtube\.com/.test(`${externalUrl}`) ||
+        /^https:\/\/youtu.be/.test(`${externalUrl}`) ||
+        /^https:\/\/[^.]+\.youtu.be/.test(`${externalUrl}`)
+      ){
+        retString += '×yt';
+      }
+    }
   }
   return retString;
 }

@@ -97,8 +97,18 @@ async function js_bf_nsfw() {
 
 
 async function backfillActor() {
-    const actor = await import('./main/backfill-actor.mjs');
-    await actor.main();
+    if (/^backfill[- ]?actor$/.test(commandString)) {
+        const actor = await import('./main/backfill-actor.mjs');
+        await actor.main();
+    } else {
+        const m = /^backfill[- ]?actor (.+)$/.exec(commandString) || [null, null, null];
+        if(m[1]) {
+            await import('./quote-process/queted-post-handler.mjs');
+            const actor = await import('./backfill/backfill-actor.mjs');
+            console.log(m);
+            await actor.backfillActor(`${m[1]}`);
+        }
+    }
     setTimeout(() => { process.emit('exit_event');}, 1000);
 }
 

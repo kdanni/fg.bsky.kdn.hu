@@ -62,6 +62,7 @@ import { FEEDGEN_CONFIG as fungi } from '../feed-config/search-feed/fungi-images
 import { FEEDGEN_CONFIG as sanpo } from '../feed-config/search-feed/sanpoHash.mjs';
 import { FEEDGEN_CONFIG as rodjiura } from '../feed-config/search-feed/rodjiuraHash.mjs';
 import { FEEDGEN_CONFIG as popart } from '../feed-config/search-feed/popart.mjs';
+import { FEEDGEN_CONFIG as popartImages } from '../feed-config/search-feed/popartImages.mjs';
 
 import { FEEDGEN_CONFIG as kozgaz } from '../feed-config/search-feed/kozgaz.mjs';
 import { FEEDGEN_CONFIG as szamvitel } from '../feed-config/search-feed/szamvitel.mjs';
@@ -285,6 +286,9 @@ export async function doPublish(commandString) {
     }
     if(popart.commandlineRegex.test(feedName)) {
         await doPublishCommand(popart, command);
+    }
+    if(popartImages.commandlineRegex.test(feedName)) {
+        await doPublishCommand(popartImages, command);
     }
     process.emit('exit_event');
 }

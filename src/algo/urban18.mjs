@@ -6,6 +6,7 @@ export async function runAlgo() {
     try {
         pool.execute(`call ${'SP_notUrbanEx18_algo'}()`);
         pool.execute(`call ${'SP_urbex18_algo'}()`);
+        pool.execute(`call ${'SP_popart18_algo'}()`);
     } catch (error) {
         console.error(`[algo-.notUrbanEx18] `, 'Error in runAlgo:', error);
     }

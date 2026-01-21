@@ -73,8 +73,9 @@ import { FEEDGEN_CONFIG as shibari } from '../feed-config/nsfw-feed/nsfw-shibari
 import { FEEDGEN_CONFIG as ur18bex } from '../feed-config/nsfw-feed/nsfw-urbex18.mjs';
 import { FEEDGEN_CONFIG as not18urbex } from '../feed-config/nsfw-feed/nsfw-notUrban18.mjs';
 import { FEEDGEN_CONFIG as findom } from '../feed-config/nsfw-feed/nsfw-findom.mjs';
+import { FEEDGEN_CONFIG as fineNude } from '../feed-config/nsfw-feed/nsfw-fineNude.mjs';
+import { FEEDGEN_CONFIG as popartI18 } from '../feed-config/nsfw-feed/nsfw-popartI18.mjs';
 import { FEEDGEN_CONFIG as nsfwHunLang } from '../feed-config/sp-feed/nsfw-hun-lang.mjs';
-
 
 async function doPublishCommand(feedConfig, command) {
     if(command === 'publish') {
@@ -289,6 +290,12 @@ export async function doPublish(commandString) {
     }
     if(popartImages.commandlineRegex.test(feedName)) {
         await doPublishCommand(popartImages, command);
+    }
+    if(fineNude.commandlineRegex.test(feedName)) {
+        await doPublishCommand(fineNude, command);
+    }
+    if(popartI18.commandlineRegex.test(feedName)) {
+        await doPublishCommand(popartI18, command);
     }
     process.emit('exit_event');
 }

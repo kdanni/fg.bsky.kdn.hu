@@ -3,7 +3,9 @@ import { shortname as snM } from './search-feed/magyarorszag-hashtag.mjs';
 import { shortname as snLego } from './search-feed/lego.mjs';
 import { shortname as shibari } from './nsfw-feed/nsfw-shibari.mjs';
 import { shortname as findom } from './nsfw-feed/nsfw-findom.mjs';
+import { shortname as fineNude } from './nsfw-feed/nsfw-fineNude.mjs';
 import { shortname as urbex18 } from './nsfw-feed/nsfw-urbex18.mjs';
+import { shortname as popartI18 } from './nsfw-feed/nsfw-popartI18.mjs';
 import { shortname as noturbex18 } from './nsfw-feed/nsfw-notUrban18.mjs';
 
 const sfwFeedMap = {};
@@ -13,7 +15,9 @@ sfwFeedMap[snM] = 7;
 sfwFeedMap[snLego] = 7;
 sfwFeedMap[shibari] = 0;
 sfwFeedMap[findom] = 0;
+sfwFeedMap[fineNude] = 0;
 sfwFeedMap[urbex18] = 0;
+sfwFeedMap[popartI18] = 0;
 sfwFeedMap[noturbex18] = 0;
 
 export default sfwFeedMap;

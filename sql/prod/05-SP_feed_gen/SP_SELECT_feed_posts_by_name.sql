@@ -48,6 +48,7 @@ BEGIN
     AND p.sfw >= p_sfw
     AND p.sfw <= sfwTopParam
     -- AND p.has_image NOT LIKE '%::ARTWORK%'
+    AND p.has_image NOT LIKE '%::NOP%'
     ORDER BY p.posted_at DESC
     LIMIT p_limit;
 

@@ -9,6 +9,7 @@ FROM (
         (has_image LIKE 'image/%' OR has_image LIKE 'video/%' OR has_image LIKE '%¤%')
         AND has_image NOT LIKE '%::PET%'
         AND has_image NOT LIKE '%::POL%'
+        AND has_image NOT LIKE '%::NOP%'
         AND has_image NOT LIKE '%::ARTWORK%'
         AND has_image NOT LIKE '%::AIART%'
         AND has_image NOT LIKE '%::FANTASY%'

@@ -355,6 +355,13 @@ const POL_HASHTAG = [
 
 const POL_HASHTAGS_REGEX = new RegExp(`(${POL_HASHTAG.join('|')})`, 'i');
 
+const NOP_STRING = [
+  'https?:\/\/mandiner\.hu',
+]
+
+const NOP_STRING_REGEX = new RegExp(`(${NOP_STRING.join('|')})`, 'i');
+
+
 export function isArtwork(item, mime) {
   if (!item?.post?.record?.text) {
     if(item?.record?.text) {
@@ -368,6 +375,7 @@ export function isArtwork(item, mime) {
   let isFantasyArtwork = FANTASY_ARTWORK_TAGS_REGEX.test(item.post.record.text);
   let isPetPost = PET_HASHTAGS_REGEX.test(item.post.record.text);
   let isPolPost = POL_HASHTAGS_REGEX.test(item.post.record.text);
+  let isNopPost = NOP_STRING_REGEX.test(item.post.record.text);
   let isMusicPost = MUSIC_TAGS_REGEX.test(item.post.record.text);
   let isStreamingPost = STREAMING_HASHTAGS_REGEX.test(item.post.record.text);
   let retString = '';
@@ -406,6 +414,9 @@ export function isArtwork(item, mime) {
   }
   if (isStreamingPost) {
     retString += '::STREAM';
+  }
+  if (isNopPost) {
+    retString += '::NOP';
   }
   return retString.trim();
 }

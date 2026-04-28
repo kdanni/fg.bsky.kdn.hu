@@ -249,6 +249,7 @@ const AI_ARTWORK_TAGS = [
   '#vrmnx',
   '#NanoBananaPro',  
   '#aikvarel',
+  '#ponairedek',
 ];
 
 const AI_ARTWORK_TAGS_REGEX = new RegExp(

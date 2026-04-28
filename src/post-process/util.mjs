@@ -184,6 +184,8 @@ const ARTWORK_TAGS = [
   '#watercolor',
   '#watercolour',
   '#acrylic',
+  '#akvarel',
+  '#aikvarel',
   'acrylic marker',
   'acrylic pen',
   '#sketch',
@@ -245,7 +247,8 @@ const AI_ARTWORK_TAGS = [
   '#midjourney\\b',
   '#dall-?e\\d?\\b',
   '#vrmnx',
-  '#NanoBananaPro'
+  '#NanoBananaPro',  
+  '#aikvarel',
 ];
 
 const AI_ARTWORK_TAGS_REGEX = new RegExp(

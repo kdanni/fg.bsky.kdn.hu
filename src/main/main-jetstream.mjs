@@ -7,13 +7,19 @@ import '../quote-process/queted-post-handler.mjs';
 import { initListedUsers } from '../backfill/backfill-listed.mjs';
 
 import '../jetstream/jetstream-rabbit.mjs';
-import '../jetstream/jetstream-hun-lang.mjs';
+// import '../jetstream/jetstream-hun-lang.mjs';
 import { subscribeFollowed, subscribeListed } from '../jetstream/author-event-handlers.mjs';
 import '../jetstream/jetstream.mjs';
+
+
+import { artistListedDictionary, aiListedDictionary, nsfwListedDictionary, musicListedDictionary } from '../post-process/post-post-tagging.mjs';
+
 
 async function main () {
 
     await initListedUsers();
+
+    await import('../jetstream/jetstream-hun-lang.mjs');
 
     await subscribeFollowed();
     await subscribeListed();
